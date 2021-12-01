@@ -13,6 +13,7 @@ public class HomeController {
     public String home(@SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
         return "home";
         // JIN #1.
+        // JIN #3 : 추가해버리기
         // JIN #2.
     }
 

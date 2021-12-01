@@ -90,15 +90,7 @@ public class MemberController {
         return "members/editForm";
     }
 
-    @PostMapping("/members/update")
-    public String update(@ModelAttribute EditForm form,
-                         @AuthUser Member member) {
 
-        form.setMemberId(member.getId())
-        memberService.editMember(memberId, form.getName(), form.getAvatar(), form.getStatus());
-
-        return "redirect:/";
-    }
 
 
 }

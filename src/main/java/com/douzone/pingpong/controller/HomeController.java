@@ -13,6 +13,8 @@ public class HomeController {
     public String home(@SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
 		// git TEST...
         // git TEST2 ...33333  권한READ일때
+
+        //wonnnn
         return "home";
     }
 }

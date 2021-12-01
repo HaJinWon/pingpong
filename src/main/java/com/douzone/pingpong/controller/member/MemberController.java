@@ -89,8 +89,4 @@ public class MemberController {
         model.addAttribute("form", form);
         return "members/editForm";
     }
-
-
-
-
 }

@@ -16,9 +16,15 @@ public class HomeController {
         // git TEST2 ...33333  권한READ일때
         //wonnnnn2222222222
         //wonnnn
+<<<<<<< HEAD
 =======
 
 >>>>>>> ad265011e49f3d529c3e6653035ebfc1cfea7366
+=======
+
+
+        //won222222222
+>>>>>>> won
         return "home";
         // JIN #1.
         // JIN #2.

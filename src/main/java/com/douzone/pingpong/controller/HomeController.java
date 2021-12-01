@@ -14,6 +14,7 @@ public class HomeController {
         return "home";
         // JIN #1.
         // JIN #3 : 추가해버리기
+        // JIN #4 : 추가해버리기, commit안하고 로컬저장만 하기
         // JIN #2.
     }
 

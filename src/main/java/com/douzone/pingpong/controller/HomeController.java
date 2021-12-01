@@ -14,7 +14,7 @@ public class HomeController {
     
         return "";
        //다시
-        // 메인에 푸시
+        // 메인에 푸시2
     }
 
 }

@@ -12,6 +12,7 @@ public class HomeController {
     @RequestMapping("/")
     public String home(@SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
 		// git TEST...
+        // git TEST2 ...
         return "home";
     }
 }

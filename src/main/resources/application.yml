@@ -1,9 +1,19 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/pingpong
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://34.64.241.221:3306/pingpong?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    username: pingpong
+    password: pingpong
+#### mysql - NAS
+#    url: jdbc:mysql://pingpongdz.synology.me:3306/pingpong?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+#    username: root
+#    password: gkwlsdnjs
+
+#### h2 데이터베이스
+#    url: jdbc:h2:tcp://localhost/~/pingpong
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
+
   jpa:
     hibernate:
       ddl-auto: update

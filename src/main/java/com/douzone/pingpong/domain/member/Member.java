@@ -6,6 +6,7 @@ import com.douzone.pingpong.web.JoinForm;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@ToString
 @NoArgsConstructor
 public class Member {
     @Id @GeneratedValue

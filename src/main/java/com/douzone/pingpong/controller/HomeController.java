@@ -13,7 +13,7 @@ public class HomeController {
     public String home(@SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
     
         return "";
-        //처음부터 다시
+       //다시
     }
 
 }

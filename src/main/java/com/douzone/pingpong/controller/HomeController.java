@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 public class HomeController {
     @RequestMapping("/")
     public String home(@SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
-
         return "home";
+        //주석
+        //sfbkadfopbkaopdfbkaoopkopk
     }
 }

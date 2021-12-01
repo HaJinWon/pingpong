@@ -17,6 +17,9 @@ public class HomeController {
         // JIN #2.
 
         // pull을 안당기고 수정
+        // branch 안바꾸고 수정
+        // branch 바꾸고 수정
+        // 하에서 메인으로 체크아웃 다시수정
     }
 
 }

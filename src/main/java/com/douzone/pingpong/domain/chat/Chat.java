@@ -21,7 +21,6 @@ public class Chat {
     @JoinColumn(name = "room_id")
     private Room room;                  // 대화방 정보
 
-
     private String message;
     private LocalDateTime date;
 
@@ -33,5 +32,4 @@ public class Chat {
     public enum MessageType {
         ENTER, TALK, EXIT
     }
-
 }

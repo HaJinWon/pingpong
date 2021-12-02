@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.mybatis.spring.annotation.MapperScan;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -42,12 +43,19 @@ public class Member {
     private String avatar;
 
     @Builder
-    public Member (JoinForm form) {
-        this.email = form.getEmail();
-        this.password = form.getPassword();
-        this.name = form.getName();
-        this.phone = form.getPhone();
-        this.company = form.getCompany();
-        this.date = LocalDateTime.now();
+    public Member (String email, String password, String name, String phone, String company, LocalDateTime date) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.phone = phone;
+        this.company = company;
+        this.date = date;
     }
+
+    public void updateMember(String name, MemberStatus status, String avatar) {
+        this.name = name;
+        this.status = status;
+        this.avatar = avatar;
+    }
+
 }

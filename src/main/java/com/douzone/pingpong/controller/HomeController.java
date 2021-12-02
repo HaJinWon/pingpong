@@ -12,12 +12,7 @@ public class HomeController {
     @RequestMapping("/")
     public String home(@SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
         return "home";
-        // JIN #1.
-        // JIN #2.
-
-        // pull을 안당기고 수정
     }
-
 }
 
 

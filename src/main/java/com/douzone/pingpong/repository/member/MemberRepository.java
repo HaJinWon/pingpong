@@ -1,7 +1,10 @@
 package com.douzone.pingpong.repository.member;
 
 import com.douzone.pingpong.domain.member.Member;
+import com.douzone.pingpong.domain.member.TestMember;
+import com.douzone.pingpong.mapper.TestMemberMapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -12,6 +15,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberRepository {
     private final EntityManager em;
+    private final TestMemberMapper testMemberMapper;
+//    private final SqlSession sqlSession;
 
     public void save(Member member) {
         em.persist(member);

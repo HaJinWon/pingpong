@@ -1,0 +1,4 @@
+# JIN(12.01): mybatis config binding 오류 해결
+spring:
+  jndi:
+    ignore: true

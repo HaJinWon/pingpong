@@ -2,15 +2,20 @@
 <ul>
     <form th:action="@{/chats/room}" th:object="${roomForm}" method="post">
         <div class="form-group">
-            <label th:for="titme">Title</label>
+            <label th:for="title">Title</label>
             <input type="text" th:field="*{title}" class="form-control"
                    placeholder="방 제목을 입력하세요">
         </div>
         <button type="submit" class="btn btn-primary">만들기</button>
     </form>
     {{#rooms}}
-    <li><a href="/chats/rooms/{{id}}">{{name}}</a></li>
+    <li><a href="/chats/rooms/{{id}}">{{title}}</a></li>
     {{/rooms}}
+
+    <ul th:object="${rooms}">
+       <li></li>
+
+    </ul>
 
 
 </ul>

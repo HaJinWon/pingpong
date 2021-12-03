@@ -5,6 +5,7 @@ import com.douzone.pingpong.repository.chat.RoomRepository;
 import com.douzone.pingpong.service.chat.RoomService;
 import com.douzone.pingpong.web.chat.RoomForm;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/chats")
@@ -28,6 +30,7 @@ public class RoomController {
     @GetMapping("/rooms")
     public String room(Model model) {
         List<Room> rooms = roomService.findRooms();
+        log.info("rooms::::{}",rooms);
         model.addAttribute("rooms", rooms);
         model.addAttribute("roomForm", new RoomForm());
         return "chats/roomList";

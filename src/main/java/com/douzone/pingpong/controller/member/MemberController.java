@@ -1,17 +1,13 @@
 package com.douzone.pingpong.controller.member;
 
 import com.douzone.pingpong.domain.member.Member;
-import com.douzone.pingpong.domain.member.TestMember;
-import com.douzone.pingpong.mapper.MemberMapper;
-import com.douzone.pingpong.mapper.TestMemberMapper;
-import com.douzone.pingpong.repository.member.MemberRepository;
 import com.douzone.pingpong.security.argumentresolver.Login;
 import com.douzone.pingpong.service.member.EditMemberDto;
 import com.douzone.pingpong.service.member.MemberService;
-import com.douzone.pingpong.web.JoinForm;
-import com.douzone.pingpong.web.LoginForm;
+import com.douzone.pingpong.web.member.JoinForm;
+import com.douzone.pingpong.web.member.LoginForm;
 import com.douzone.pingpong.web.SessionConstants;
-import com.douzone.pingpong.web.EditForm;
+import com.douzone.pingpong.web.member.EditForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -28,26 +24,16 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/members")
 public class MemberController {
     private final MemberService memberService;
-    /*
 
-    private final TestMemberMapper testMemberMapper;
-
-    @GetMapping("/test")
-    public String test() {
-        TestMember findMember = testMemberMapper.findById(1L);
-        return "test";
-    }*/
-
-    @GetMapping("/login")
+    @GetMapping("/members/login")
     public String loginForm(Model model) {
         model.addAttribute("loginForm", new LoginForm());
         return "members/loginForm";
     }
 
-    @PostMapping("/login")
+    @PostMapping("/members/login")
     public String login(@ModelAttribute @Validated LoginForm loginForm,
                         BindingResult bindingResult,
                         HttpServletRequest request,
@@ -68,7 +54,7 @@ public class MemberController {
         return "redirect:/";
     }
 
-    @GetMapping("/logout")
+    @GetMapping("/members/logout")
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
@@ -78,13 +64,13 @@ public class MemberController {
     }
 
     // == 회원가입 == //
-    @GetMapping("/new")
+    @GetMapping("/members/new")
     public String JoinForm(Model model) {
         model.addAttribute("joinForm", new JoinForm());
         return "members/joinForm";
     }
 
-    @PostMapping("/new")
+    @PostMapping("/members/new")
     public String join(@ModelAttribute JoinForm joinForm) {
         Member member = Member.builder()
                 .email(joinForm.getEmail())
@@ -99,7 +85,7 @@ public class MemberController {
     }
 
     // == 프로필수정 == //
-    @GetMapping("/edit")
+    @GetMapping("/members/edit")
     public String editForm(@Login Member loginMember,
                              Model model) {
         Member findMember = memberService.findMember(loginMember.getId());
@@ -113,7 +99,7 @@ public class MemberController {
         return "members/editForm";
     }
 
-    @PostMapping("/edit")
+    @PostMapping("/members/edit")
     public String edit(@Login Member loginMember,
                        @ModelAttribute EditForm editForm,
                        BindingResult bindingResult
@@ -134,5 +120,12 @@ public class MemberController {
 
         memberService.editMember(editMemberDto);
         return "redirect:/";
+    }
+
+    @GetMapping("/members")
+    public String members(Model model) {
+        List<Member> members = memberService.findMembers();
+        model.addAttribute("members", members);
+        return "members/memberList";
     }
 }

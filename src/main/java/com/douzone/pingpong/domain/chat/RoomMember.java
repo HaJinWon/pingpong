@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "chat_member")
+@Table(name = "room_member")
 @Getter
-public class ChatMember {
+public class RoomMember {
 
     @Id @GeneratedValue
     @Column(name = "chat_member_id")
@@ -24,6 +24,5 @@ public class ChatMember {
     @JoinColumn(name = "room_id")
     private Room room;
 
-    @OneToMany(mappedBy = "chatMember")
-    private List<Chat> chats = new ArrayList<>();
+
 }

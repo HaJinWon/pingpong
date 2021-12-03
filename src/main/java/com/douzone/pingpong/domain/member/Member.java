@@ -1,13 +1,13 @@
 package com.douzone.pingpong.domain.member;
 
+import com.douzone.pingpong.domain.chat.Chat;
+import com.douzone.pingpong.domain.chat.RoomMember;
 import com.douzone.pingpong.domain.post.Comment;
 import com.douzone.pingpong.domain.post.PostMember;
-import com.douzone.pingpong.web.JoinForm;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.mybatis.spring.annotation.MapperScan;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,7 +19,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 public class Member {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
 
@@ -31,6 +31,12 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<RoomMember> roomMembers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Chat> chats = new ArrayList<>();
 
     private String email;
     private String password;

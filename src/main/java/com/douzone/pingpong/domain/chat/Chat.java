@@ -1,5 +1,6 @@
 package com.douzone.pingpong.domain.chat;
 
+import com.douzone.pingpong.domain.member.Member;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,8 +15,8 @@ public class Chat {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chat_member_id")
-    private ChatMember chatMember;      //sender
+    @JoinColumn(name = "member_id")
+    private Member member;              // sender
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")

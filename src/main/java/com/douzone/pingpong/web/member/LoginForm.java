@@ -1,4 +1,4 @@
-package com.douzone.pingpong.web;
+package com.douzone.pingpong.web.member;
 
 import lombok.Getter;
 import lombok.Setter;

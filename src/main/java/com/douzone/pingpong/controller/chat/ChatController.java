@@ -1,32 +1,34 @@
 package com.douzone.pingpong.controller.chat;
 
 import com.douzone.pingpong.domain.chat.Chat;
-import com.douzone.pingpong.pubsub.RedisPublisher;
-import com.douzone.pingpong.repository.chat.ChatRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 
 
 @RequiredArgsConstructor
-@Controller
+@EnableWebSocketMessageBroker
 public class ChatController {
-    private final RedisPublisher redisPublisher;
-    private final ChatRepository chatRoomRepository;
+    private final SimpMessageSendingOperations messagingTemplate;
 
     @MessageMapping("/chat/message")
     public void message(Chat message) {
-        if (Chat.MessageType.ENTER.equals(message.getType())) {
-            chatRoomRepository.enterChatRoom(getRoomId(message));
-            message.setMessage(message.getChatMember().getId() + "님이 입장하셨습니다.");
-        }
-        redisPublisher.publish(chatRoomRepository.getTopic(getRoomId(message)),message);
-    }
-
-    private String getRoomId(Chat message) {
-        return String.valueOf(message.getRoom().getId());
+        if (Chat.MessageType.ENTER.equals(message.getType()))
+            message.setMessage(message.getMember().getName() + "님이 입장하셨습니다.");
+        messagingTemplate.convertAndSend("/sub/chats/room/" + message.getId(), message);
     }
 }
+
+
+
+
+
+
+
+
+
 
 
 /**

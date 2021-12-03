@@ -2,7 +2,6 @@ package com.douzone.pingpong.service.member;
 
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.repository.member.MemberRepository;
-import com.douzone.pingpong.web.EditForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -11,10 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-@Slf4j
 public class MemberService {
     private final MemberRepository memberRepository;
     private final EntityManager em;
@@ -48,4 +47,6 @@ public class MemberService {
         log.info("findMember ::: {}", findMember);
         findMember.updateMember(editMemberDto.getName(), editMemberDto.getStatus(), editMemberDto.getAvatar());
     }
+
+
 }

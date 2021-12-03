@@ -1,4 +1,4 @@
-package com.douzone.pingpong.controller.chat.config;
+package com.douzone.pingpong.config.chat;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

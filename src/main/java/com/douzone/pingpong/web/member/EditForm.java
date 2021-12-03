@@ -1,4 +1,4 @@
-package com.douzone.pingpong.web;
+package com.douzone.pingpong.web.member;
 
 import com.douzone.pingpong.domain.member.MemberStatus;
 import lombok.Builder;

@@ -6,7 +6,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
         # show_sql: true
@@ -17,12 +17,12 @@ spring:
     host: localhost
     port: 6379
 
- # static 파일 서버 재시작 안해도 되게끔 하는 설정
+  # static 파일 서버 재시작 안해도 되게끔 하는 설정
   devtools:
     livereload:
       enabled: true
     restart:
-      enabled: false
+      enabled: true
 
 logging.level:
   org.hibernate.SQL: debug
@@ -33,6 +33,10 @@ server:
       tracking-modes: cookie #URL로 쿠키(JSESSION)을 보내지 않겠다는 설정
 
 
+
+# mybatis
+mybatis:
+  config-location: classpath:mybatis/configuration.xml
 
 
 #mybatis:

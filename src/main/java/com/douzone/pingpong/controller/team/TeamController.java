@@ -2,6 +2,7 @@ package com.douzone.pingpong.controller.team;
 
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.domain.member.Team;
+import com.douzone.pingpong.dto.JsonResult;
 import com.douzone.pingpong.security.argumentresolver.Login;
 import com.douzone.pingpong.service.team.TeamService;
 import com.douzone.pingpong.web.team.CreateTeamForm;
@@ -9,11 +10,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -47,4 +47,28 @@ public class TeamController {
      * 3. 생성된 팀에 들어가기 (초대장 송수신)
      * 4. 팀나가기
      */
+
+    // 팀 초대
+    @PostMapping("/{teamId}/invite")
+    public String invite(@PathVariable("teamId") String teamId, Long userId){
+
+        teamService.inviteMember(teamId,userId);
+
+        return "home";
+    }
+
+    
+    @GetMapping("/api/searchUser/{username}")
+    public String findUser(@PathVariable("username") String userName){
+        List<Member> list = teamService.findUser(userName);
+        System.out.println("list.get(0).getName() = " + list.get(0).getName());
+        return "home";
+    }
+
+    @GetMapping("/team/exit/{teamId}")
+    public String teamExit(@PathVariable("teamId") String teamId, @Login Member member){
+
+        teamService.teamExit(teamId,member.getId());
+        return "";
+    }
 }

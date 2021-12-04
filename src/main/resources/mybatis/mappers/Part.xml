@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="part">
+    <select id="getPartList" resultType="part" parameterType="long">
+        <![CDATA[
+            select part_id, name, date, team_id from part
+            where team_id = #{teamId}
+		]]>
+    </select>
+
+    <insert id="addPart" parameterType="map">
+        <![CDATA[
+			insert into part values (null, #{partName},now(),#{teamId})
+		]]>
+    </insert>
+
+    <delete id="delPart" parameterType="long" >
+        <![CDATA[
+            delete from part where part_id = #{partId}
+		]]>
+    </delete>
+
+    <!-- ===================  Post =========================== -->
+    <select id="getPostList" resultType="post" parameterType="long">
+        <![CDATA[
+            select post_id, title, contents, date, part_id, member_id, file, image from post where part_id = #{partId}
+		]]>
+    </select>
+
+    <delete id="delPost" parameterType="long" >
+        <![CDATA[
+            delete from post where post_id = #{postId}
+		]]>
+    </delete>
+
+    <insert id="addPost" parameterType="post">
+        <![CDATA[
+			insert into post values (null,#{title},#{contents},now(),#{part_id},#{member_id},#{file},#{image})
+		]]>
+    </insert>
+
+    <select id="getPostById" resultType="post" parameterType="long">
+        <![CDATA[
+            select post_id, title, contents, part_id, member_id, file, image from post where post_id = #{postId}
+		]]>
+    </select>
+
+    <update id="updatePost" parameterType="part" >
+        <![CDATA[
+            update post
+            set title = #{title},
+                contents = #{contents},
+                file= #{file},
+                image= #{image}
+            where post_id = #{post_id}
+		]]>
+    </update>
+
+    <!-- ===================  comment =========================== -->
+
+    <select id="getCommentList" resultType="object" parameterType="long">
+        <![CDATA[
+            select comment_id,contents,date,member_id,post_id from comment where post_id= #{postId}
+		]]>
+    </select>
+
+</mapper>

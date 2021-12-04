@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team">
+    <!-- -->
+    <insert id="inviteMember" parameterType="map">
+        <![CDATA[
+			insert into team_member values (null,#{teamId},#{userId});
+		]]>
+    </insert>
+    <select id="findUser" resultType="member" parameterType="string">
+        <![CDATA[
+            select member_id, email, name, status, avatar, company
+            from member
+            where name like concat('%',#{userName},'%')
+		]]>
+    </select>
+
+    <delete id="exitTeam" parameterType="map">
+        <![CDATA[
+            delete from team_member where member_id = ${memberId} and team_id =#{teamId}
+		]]>
+    </delete>
+</mapper>

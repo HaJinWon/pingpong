@@ -22,9 +22,12 @@
     </delete>
 
     <!-- ===================  Post =========================== -->
-    <select id="getPostList" resultType="post" parameterType="long">
+    <select id="getPostList" resultType="map" parameterType="long">
         <![CDATA[
-            select post_id, title, contents, date, part_id, member_id, file, image from post where part_id = #{partId}
+            select a.post_id, a.title, a.contents, a.date, a.part_id, a.member_id, a.file, a.image, b.name
+            from post a, member b
+            where a.member_id = b.member_id
+            and part_id = #{partId}
 		]]>
     </select>
 

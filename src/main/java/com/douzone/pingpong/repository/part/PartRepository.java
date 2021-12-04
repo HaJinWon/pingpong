@@ -39,9 +39,9 @@ public class PartRepository {
 
     /*============================== Post ===================================================*/
 
-    public List<Post2> getPostList(Long partId) {
-
-        return sqlSession.selectList("part.getPostList",partId);
+    public List<Map<String,Object>> getPostList(Long partId) {
+        List<Map<String,Object>> list = sqlSession.selectList("part.getPostList",partId);
+        return list;
     }
 
     public void delPost(Long postId) {

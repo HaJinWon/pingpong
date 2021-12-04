@@ -33,7 +33,7 @@ public class PartService {
         partRepository.delPart(partId);
     }
     /* =================================  Post  ===========================================*/
-    public List<Post2> getPostList(Long partId) {
+    public List<Map<String,Object>> getPostList(Long partId) {
         return partRepository.getPostList(partId);
     }
 

@@ -67,7 +67,7 @@ public class PartController {
     @RequestMapping("/{partId}")
     public HashMap<String,Object> getPostList(@PathVariable("partId") Long partId){
         System.out.println("getPostList");
-        List<Post2> list = partService.getPostList(partId);
+        List<Map<String,Object>> list = partService.getPostList(partId);
         HashMap<String,Object> map = new HashMap<>();
         map.put("postList", list);
 

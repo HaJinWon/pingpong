@@ -1,23 +1,41 @@
 package com.douzone.pingpong.controller.chat;
 
 import com.douzone.pingpong.domain.chat.Chat;
+import com.douzone.pingpong.service.chat.ChatMessage;
+import com.douzone.pingpong.service.chat.ChatService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 
 
 @RequiredArgsConstructor
-@EnableWebSocketMessageBroker
+@Controller
 public class ChatController {
     private final SimpMessageSendingOperations messagingTemplate;
+    private final ChatService chatService;
+//    @MessageMapping(value = "/chats/enter")
+//    public void enter(Chat message) {
+//        message.setMessage(message.getMember().getName() + "님이 입장하셨습니다.");
+//        messagingTemplate.convertAndSend("/sub/chats/room/" + 1, message);
+//    }
 
-    @MessageMapping("/chat/message")
-    public void message(Chat message) {
-        if (Chat.MessageType.ENTER.equals(message.getType()))
-            message.setMessage(message.getMember().getName() + "님이 입장하셨습니다.");
-        messagingTemplate.convertAndSend("/sub/chats/room/" + message.getId(), message);
+//    @MessageMapping(value = "/chats/message")
+//    public void message(Chat message) {
+//        messagingTemplate.convertAndSend("/sub/chats/room/" + message.getRoom().getId(), message);
+//    }
+
+    @MessageMapping("{roomId}")
+    public void test(@DestinationVariable Long roomId, ChatMessage message) {
+        Chat chat = chatService.createChat(roomId, message.getSenderId(), message.getMessage());
+        ChatMessage chatMessage = ChatMessage.builder()
+                .roomId(roomId)
+                .senderId(chat.getMember().getId())
+                .message(chat.getMessage())
+                .sender(message.getSender())
+                .build();
+        messagingTemplate.convertAndSend("/sub/" + roomId, chatMessage);
     }
 }
 

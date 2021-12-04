@@ -11,19 +11,17 @@ import java.util.Collections;
 
 @RequiredArgsConstructor
 @Configuration
-@EnableWebSocket
+@EnableWebSocketMessageBroker
 public class WebSockConfig implements WebSocketMessageBrokerConfigurer {
-    private final WebSocketHandler webSocketHandler;
-
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/sub");
-        config.setApplicationDestinationPrefixes("/pub");
+        config.setApplicationDestinationPrefixes("/pub");         // send (prefix) / 발행 : 클라이언트
+        config.enableSimpleBroker("/sub");      // room 구독 : 대화방
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws-stomp").setAllowedOrigins("*")
+        registry.addEndpoint("/ws-stomp")
                 .withSockJS();
     }
 }

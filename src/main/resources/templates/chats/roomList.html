@@ -1,5 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrinkto-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" integrity="sha384-
+ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <!-- Custom styles for this template -->
+    <link href="/css/jumbotron-narrow.css" rel="stylesheet">
+    <title>Hello, world!</title>
+</head>
+<body>
 <h1>채팅방 목록</h1>
-<ul>
+
     <form th:action="@{/chats/room}" th:object="${roomForm}" method="post">
         <div class="form-group">
             <label th:for="title">Title</label>
@@ -8,14 +23,17 @@
         </div>
         <button type="submit" class="btn btn-primary">만들기</button>
     </form>
-    {{#rooms}}
-    <li><a href="/chats/rooms/{{id}}">{{title}}</a></li>
-    {{/rooms}}
-
-    <ul th:object="${rooms}">
-       <li></li>
-
-    </ul>
 
 
-</ul>
+<table>
+    <tbody>
+    <tr th:each="room : ${rooms}">
+        <td th:text="${room.title}"></td>
+            <td>
+                <a href="#" th:href="@{/chats/room/{id} (id=${room.id})}"
+               class="btn btn-primary" role="button">join</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>

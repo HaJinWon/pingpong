@@ -1,7 +1,10 @@
 package com.douzone.pingpong.controller.chat;
 
 import com.douzone.pingpong.domain.chat.Room;
+import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.repository.chat.RoomRepository;
+import com.douzone.pingpong.security.argumentresolver.Login;
+import com.douzone.pingpong.service.chat.ChatService;
 import com.douzone.pingpong.service.chat.RoomService;
 import com.douzone.pingpong.web.chat.RoomForm;
 import lombok.RequiredArgsConstructor;
@@ -20,12 +23,8 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class RoomController {
     private final RoomService roomService;
+    private final ChatService chatService;
 
-    // 채팅 리스트 화면
-    @GetMapping("/room")
-    public String rooms(Model model) {
-        return "chats/room";
-    }
     //  채팅 리스트 화면
     @GetMapping("/rooms")
     public String room(Model model) {
@@ -39,25 +38,33 @@ public class RoomController {
     // 채팅방 생성
     @PostMapping("/room")
     @Transactional
-    public String createRoom(@ModelAttribute RoomForm roomForm) {
-        Room room = Room.create(roomForm.getTitle());
-        roomService.createRoom(room);
-        return "chats/roomList";
+    public String createRoom(@ModelAttribute RoomForm roomForm,
+                             @Login Member loginMember) {
+//        Room room = Room.create(roomForm.getTitle());
+        roomService.createRoom(loginMember.getId(), roomForm.getTitle());
+        return "redirect:chats/rooms";
     }
 
     // 채팅방 입장 화면
-    @GetMapping("/room/enter/{roomId}")
-    public String roomDetail(Model model, @PathVariable Long roomId) {
-        model.addAttribute("roomId", roomId);
-        return "chats/roomdetail";
+    @GetMapping("/room/{roomId}")
+    public String roomDetail(Model model,
+                             @PathVariable Long roomId,
+                             @Login Member loginMember) {
+
+        Room room = roomService.findRoom(roomId);
+        model.addAttribute("loginMember", loginMember.getName());
+        model.addAttribute("loginMemberId", loginMember.getId());
+        model.addAttribute("chatList", chatService.loadChat(roomId));
+        model.addAttribute("room", room);
+        return "chats/room";
     }
 
     // 특정 채팅방 조회
-    @GetMapping("/room/{roomId}")
-    @ResponseBody
-    public Room roomInfo(@PathVariable Long roomId) {
-        return roomService.findRoom(roomId);
-    }
+//    @GetMapping("/room/{roomId}")
+//    @ResponseBody
+//    public Room roomInfo(@PathVariable Long roomId) {
+//        return roomService.findRoom(roomId);
+//    }
 
 }
 

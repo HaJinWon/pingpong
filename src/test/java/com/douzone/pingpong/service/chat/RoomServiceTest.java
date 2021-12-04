@@ -21,16 +21,5 @@ public class RoomServiceTest {
     @Autowired RoomRepository roomRepository;
     @Autowired EntityManager em;
 
-    @Test
-    public void 대화방생성() throws Exception {
-        // given
-        Room room = Room.create("xkdlxmf");
-
-        // when
-        Long roomId = roomRepository.createChatRoom(room);
-
-        // then
-        Assertions.assertThat(roomId).isEqualTo(room.getId());
-    }
 
 }

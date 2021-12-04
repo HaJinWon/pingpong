@@ -18,13 +18,15 @@ public class Post {
     @JoinColumn(name = "part_id")
     private Part part;
 
-    @OneToMany(mappedBy = "post")
-    List<PostMember> postMembers = new ArrayList<>();
 
-    private String title;
     private String contents;
     private LocalDateTime date;
 
     private String file;
     private String image;
+    private String title;
+
+//     Post_momber 테이블 삭제로 인한 주석처리 : 1204 JIN
+//    @OneToMany(mappedBy = "post")
+//    List<PostMember> postMembers = new ArrayList<>();
 }

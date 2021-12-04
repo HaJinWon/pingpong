@@ -1,18 +1,24 @@
-package com.douzone.pingpong.domain.chat;
+package com.douzone.pingpong.service.chat;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
+@NoArgsConstructor
+@Builder
+@ToString
 public class ChatMessage {
-    private String roomId;
-    private String sender;
+    private Long roomId;
+    private Long senderId;
     private String message;
+    private String sender;
 
-    @Builder
-    public ChatMessage(String roomId, String sender, String message) {
+    public ChatMessage(Long roomId, Long senderId, String message, String sender) {
         this.roomId = roomId;
-        this.sender = sender;
+        this.senderId = senderId;
         this.message = message;
+        this.sender = sender;
     }
 }

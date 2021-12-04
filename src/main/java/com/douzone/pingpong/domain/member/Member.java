@@ -3,11 +3,12 @@ package com.douzone.pingpong.domain.member;
 import com.douzone.pingpong.domain.chat.Chat;
 import com.douzone.pingpong.domain.chat.RoomMember;
 import com.douzone.pingpong.domain.post.Comment;
-import com.douzone.pingpong.domain.post.PostMember;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @Entity
 @Getter
-@ToString
+@DynamicInsert
 @NoArgsConstructor
 public class Member {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,9 +26,6 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<TeamMember> teamMembers = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private List<PostMember> postMembers = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Comment> comments = new ArrayList<>();
@@ -43,10 +41,17 @@ public class Member {
     private String name;
     private String phone;
     private String company;
+
     @Enumerated(EnumType.STRING)
     private MemberStatus status;
+
     private LocalDateTime date;
     private String avatar;
+
+    // Post_member 삭제로 인한 주석처리 : 1204 JIN
+//    @OneToMany(mappedBy = "member")
+//    private List<PostMember> postMembers = new ArrayList<>();
+
 
     @Builder
     public Member (String email, String password, String name, String phone, String company, LocalDateTime date) {

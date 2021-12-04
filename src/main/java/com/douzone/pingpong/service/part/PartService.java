@@ -1,5 +1,6 @@
 package com.douzone.pingpong.service.part;
 
+import com.douzone.pingpong.domain.post.Comment2;
 import com.douzone.pingpong.domain.post.Part;
 import com.douzone.pingpong.domain.post.Part2;
 import com.douzone.pingpong.domain.post.Post2;
@@ -53,7 +54,19 @@ public class PartService {
         partRepository.updatePost(vo);
     }
 
-    public List<Object> getCommentList(Long postId) {
+    public List<Map<String,Object>> getCommentList(Long postId) {
         return partRepository.getCommentList(postId);
+    }
+
+    public void addComment(Comment2 vo) {
+        partRepository.addComment(vo);
+    }
+
+    public void deleteComment(Long commentId) {
+        partRepository.delComment(commentId);
+    }
+
+    public List<Map<String, Object>> searchPost(String keyword, String partId, Long teamId) {
+        return partRepository.searchPost(keyword,partId,teamId);
     }
 }

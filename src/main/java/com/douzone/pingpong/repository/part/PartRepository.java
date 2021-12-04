@@ -1,5 +1,6 @@
 package com.douzone.pingpong.repository.part;
 
+import com.douzone.pingpong.domain.post.Comment2;
 import com.douzone.pingpong.domain.post.Part;
 import com.douzone.pingpong.domain.post.Part2;
 import com.douzone.pingpong.domain.post.Post2;
@@ -59,7 +60,26 @@ public class PartRepository {
         sqlSession.update("part.updatePost",vo);
     }
 
-    public List<Object> getCommentList(Long postId) {
-        return sqlSession.selectList("part.getCommentList",postId);
+    public List<Map<String,Object>> getCommentList(Long postId) {
+        List<Map<String,Object>> result = sqlSession.selectList("part.getCommentList",postId);
+        return result;
+
+    }
+
+    public void addComment(Comment2 vo) {
+        sqlSession.insert("part.addComment",vo);
+    }
+
+    public void delComment(Long commentId) {
+        sqlSession.delete("part.delComment",commentId);
+    }
+
+    public List<Map<String, Object>> searchPost(String keyword, String partId, Long teamId) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("keyword",keyword);
+        map.put("partId",partId);
+        map.put("teamId",teamId);
+
+        return sqlSession.selectList("part.searchPost",map);
     }
 }

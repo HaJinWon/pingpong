@@ -1,6 +1,7 @@
 package com.douzone.pingpong.controller.part;
 
 import com.douzone.pingpong.domain.member.Member;
+import com.douzone.pingpong.domain.post.Comment2;
 import com.douzone.pingpong.domain.post.Part;
 import com.douzone.pingpong.domain.post.Part2;
 import com.douzone.pingpong.domain.post.Post2;
@@ -79,6 +80,7 @@ public class PartController {
         partService.delPost(postId);
     }
 
+    // 게시글 작성
     @PostMapping("/{partId}/post/write")
     public String writePost(@PathVariable("partId") Long partId, @Login Member authUser,
                          String title, String contents /*, MultipartFile file, MultipartFile image*/) throws FileUploadException {
@@ -101,6 +103,7 @@ public class PartController {
 
     }
 
+    // 게시글 업데이트 페이지로 이동
     @ResponseBody
     @GetMapping("/{postId}/post/update")
     public HashMap<String, Object> movePostUpdatePage(@PathVariable("postId") Long postId){
@@ -112,10 +115,10 @@ public class PartController {
         return map;
 
     }
-
-
+    
+    //게시글 업데이트
     @PostMapping("/{postId}/post/update")
-    public String postUpdate(@PathVariable("postId") Long postId, String title, String contents
+    public String postUpdate(@PathVariable("postId") Long postId, String title, String contents, @Login Member authUser
                         /*, MultipartFile file, MultipartFile image*/){
 
         Post2 vo = new Post2();
@@ -128,19 +131,57 @@ public class PartController {
         vo.setContents(contents);
         vo.setFile(fileUrl);
         vo.setImage(imageUrl);
-        //vo.setMember_id(authUser.getId());
+        vo.setMember_id(authUser.getId());
         partService.updatePost(vo);
         return "home";
     }
+
+    // 게시글 검색 리스트 가져오기
+    @ResponseBody
+    @GetMapping("/postsearch")
+    public HashMap<String,Object> searchPost(@PathVariable("teamId") Long teamId, String keyword, String partId){
+
+
+
+        List<Map<String,Object>> list = partService.searchPost(keyword,partId,teamId);
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("searchPostList",list);
+        return map;
+    }
     /*====================================  댓글  ============================================*/
 
+    // 해당 게시글 댓글 리스트 불러오기
     @ResponseBody
     @GetMapping("/{postId}/comment")
     public HashMap<String,Object> getCommentList(@PathVariable("postId") Long postId){
-        List<Object> list = partService.getCommentList(postId);
+        List<Map<String,Object>> list = partService.getCommentList(postId);
         HashMap<String,Object> map = new HashMap<>();
         map.put("commentList",list);
 
         return map;
+    }
+
+    //새 댓글 작성
+    @PostMapping("/{postId}/comment")
+    public String addComment(@PathVariable("postId") Long postId, @Login Member authUser, String contents){
+
+        Comment2 vo = new Comment2();
+        vo.setContents(contents);
+        vo.setPost_id(postId);
+        //vo.setMember_id(1L);
+
+        vo.setMember_id(authUser.getId());
+        partService.addComment(vo);
+
+        return "home";
+    }
+
+    //댓글 삭제
+    @GetMapping("/comment/delete/{commentId}")
+    public String deleteComment(@PathVariable("commentId") Long commentId){
+
+        partService.deleteComment(commentId);
+
+        return "home";
     }
 }

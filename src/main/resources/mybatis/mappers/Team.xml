@@ -21,4 +21,12 @@
             delete from team_member where member_id = ${memberId} and team_id =#{teamId}
 		]]>
     </delete>
+
+    <select id="getTeamInfo" resultType="map" parameterType="long">
+        <![CDATA[
+            select team_id, name, date, host
+            from team
+            where team_id = #{teamId}
+		]]>
+    </select>
 </mapper>

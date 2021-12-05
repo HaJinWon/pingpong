@@ -1,13 +1,16 @@
 package com.douzone.pingpong.controller.part;
 
 import com.douzone.pingpong.domain.member.Member;
+import com.douzone.pingpong.domain.member.Team;
 import com.douzone.pingpong.domain.post.Comment2;
 import com.douzone.pingpong.domain.post.Part;
 import com.douzone.pingpong.domain.post.Part2;
 import com.douzone.pingpong.domain.post.Post2;
+import com.douzone.pingpong.domain.team.Team2;
 import com.douzone.pingpong.security.argumentresolver.Login;
 import com.douzone.pingpong.service.fileupload.FileuploadService;
 import com.douzone.pingpong.service.part.PartService;
+import com.douzone.pingpong.service.team.TeamService;
 import lombok.extern.java.Log;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,58 @@ public class PartController {
 
     @Autowired
     private FileuploadService fileuploadService;
+
+    @Autowired
+    private TeamService teamService;
+
+    @ResponseBody
+    @RequestMapping({"/{partId}/{postId}","/{partId}",""})
+    public HashMap<String,Object> teamPage(@PathVariable("teamId") Long teamId,
+                                           @PathVariable(value="partId", required = false) Long partId,
+                                           @PathVariable(value="postId", required = false) Long postId){
+        System.out.println("teamPage");
+        if(partId==null && postId==null){
+            System.out.println("/1");
+            List<Map<String, Object>> teamInfo = teamService.getTeamInfo(teamId);
+            List<Part2> partList = partService.getPartList(teamId);
+            partId = partService.getFirstPartId(teamId);
+            List<Map<String,Object>> postList = partService.getPostList(partId);
+
+            HashMap<String,Object> map = new HashMap<>();
+            map.put("teamInfo",teamInfo);
+            map.put("partList",partList);
+            map.put("postList",postList);
+
+            return map;
+
+        } else if(partId != null && postId == null){
+            System.out.println("/1/1");
+            List<Map<String, Object>> teamInfo = teamService.getTeamInfo(teamId);
+            List<Part2> partList = partService.getPartList(teamId);
+            List<Map<String,Object>> postList = partService.getPostList(partId);
+
+            HashMap<String,Object> map = new HashMap<>();
+            map.put("teamInfo",teamInfo);
+            map.put("partList",partList);
+            map.put("postList",postList);
+
+            return map;
+        } else{
+            System.out.println("/1/1/1");
+            List<Map<String, Object>> teamInfo = teamService.getTeamInfo(teamId);
+            List<Part2> partList = partService.getPartList(teamId);
+            List<Map<String,Object>> postList = partService.getPostList(partId);
+            List<Map<String,Object>> commentList = partService.getCommentList(postId);
+
+            HashMap<String,Object> map = new HashMap<>();
+            map.put("teamInfo",teamInfo);
+            map.put("partList",partList);
+            map.put("postList",postList);
+            map.put("commentList",commentList);
+
+            return map;
+        }
+    }
 
     //해당 아이디 part 조회
     @ResponseBody
@@ -62,6 +117,7 @@ public class PartController {
     }
     /*====================================  게시글  ============================================*/
 
+    /*
     // 게시글 목록 불러오기
     @ResponseBody
     @RequestMapping("/{partId}")
@@ -73,7 +129,7 @@ public class PartController {
 
         return map;
     }
-
+    */
     // 게시글 삭제
     @RequestMapping("/post/del/{postId}")
     public void delPost(@PathVariable("postId") Long postId){

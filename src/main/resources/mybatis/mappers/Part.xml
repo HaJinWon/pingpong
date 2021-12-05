@@ -20,6 +20,15 @@
             delete from part where part_id = #{partId}
 		]]>
     </delete>
+    <select id="getFirstPartId" resultType="long" parameterType="long">
+        <![CDATA[
+            select part_id
+            from part
+            where part_id = #{teamId}
+            order by part_id asc
+            limit 1
+		]]>
+    </select>
 
     <!-- ===================  Post =========================== -->
     <select id="getPostList" resultType="map" parameterType="long">

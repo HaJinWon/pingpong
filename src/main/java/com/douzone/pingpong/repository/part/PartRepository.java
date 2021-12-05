@@ -82,4 +82,8 @@ public class PartRepository {
 
         return sqlSession.selectList("part.searchPost",map);
     }
+
+    public Long getFirstPartId(Long teamId) {
+        return sqlSession.selectOne("part.getFirstPartId",teamId);
+    }
 }

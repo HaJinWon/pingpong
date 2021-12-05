@@ -3,7 +3,7 @@
 <configuration>
 
     <typeAliases>
-        <typeAlias type="com.douzone.pingpong.domain.member.Team" alias="team"/>
+        <typeAlias type="com.douzone.pingpong.domain.team.Team2" alias="team"/>
         <typeAlias type="com.douzone.pingpong.domain.member.Member" alias="member"/>
         <typeAlias type="com.douzone.pingpong.domain.post.Part2" alias="part"/>
         <typeAlias type="com.douzone.pingpong.domain.post.Post2" alias="post"/>

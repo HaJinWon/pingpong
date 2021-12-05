@@ -69,4 +69,8 @@ public class PartService {
     public List<Map<String, Object>> searchPost(String keyword, String partId, Long teamId) {
         return partRepository.searchPost(keyword,partId,teamId);
     }
+
+    public Long getFirstPartId(Long teamId) {
+        return partRepository.getFirstPartId(teamId);
+    }
 }

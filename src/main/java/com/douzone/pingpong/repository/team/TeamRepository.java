@@ -2,6 +2,7 @@ package com.douzone.pingpong.repository.team;
 
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.domain.member.Team;
+import com.douzone.pingpong.domain.team.Team2;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,10 @@ public class TeamRepository {
         map.put("teamId",teamId);
         map.put("memberId",memberId);
         sqlSession.delete("team.exitTeam",map);
+    }
+
+
+    public List<Map<String, Object>> getTeamInfo(Long teamId) {
+        return sqlSession.selectList("getTeamInfo",teamId);
     }
 }

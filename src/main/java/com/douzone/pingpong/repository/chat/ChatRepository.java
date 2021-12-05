@@ -18,10 +18,6 @@ public class ChatRepository {
     }
 
     public List<Chat> findChatsByRoomId(Long roomId) {
-//        return em.createQuery("select c from Chat c join c.room r where r.id = :roomId", Chat.class)
-//                .setParameter("roomId", roomId)
-//                .getResultList();
-
         return em.createQuery("select c from Chat c join c.room r where r.id = c.room.id and r.id = :roomId", Chat.class)
                 .setParameter("roomId", roomId)
                 .getResultList();

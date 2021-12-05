@@ -1,8 +1,10 @@
 package com.douzone.pingpong.service.chat;
 
 import com.douzone.pingpong.domain.chat.Chat;
+import com.douzone.pingpong.domain.chat.ChatDto;
 import com.douzone.pingpong.domain.chat.Room;
 import com.douzone.pingpong.domain.member.Member;
+import com.douzone.pingpong.mapper.ChatsMapper;
 import com.douzone.pingpong.repository.chat.ChatRepository;
 import com.douzone.pingpong.repository.chat.RoomRepository;
 import com.douzone.pingpong.repository.member.MemberRepository;
@@ -30,7 +32,10 @@ public class ChatService {
         return chatRepository.save(chat);
     }
 
-    public List<Chat> loadChat (Long roomId) {
-        return chatRepository.findChatsByRoomId(roomId);
+    public List<ChatDto> loadChat (Long roomId) {
+        List<Chat> chatEntities = chatRepository.findChatsByRoomId(roomId);
+        List<ChatDto> chatList = ChatsMapper.INSTANCE.toDoList(chatEntities);
+        System.out.println("chatList999999999 = " + chatList);
+        return chatList;
     }
 }

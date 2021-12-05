@@ -1,9 +1,10 @@
 package com.douzone.pingpong.controller.chat;
 
 import com.douzone.pingpong.domain.chat.Chat;
+import com.douzone.pingpong.domain.chat.ChatDto;
 import com.douzone.pingpong.domain.chat.Room;
 import com.douzone.pingpong.domain.member.Member;
-import com.douzone.pingpong.repository.chat.RoomRepository;
+import com.douzone.pingpong.mapper.ChatsMapper;
 import com.douzone.pingpong.security.argumentresolver.Login;
 import com.douzone.pingpong.service.chat.ChatService;
 import com.douzone.pingpong.service.chat.RoomService;
@@ -52,16 +53,13 @@ public class RoomController {
                              @PathVariable Long roomId,
                              @Login Member loginMember) {
 
-        List<Chat> chatList = chatService.loadChat(roomId);
+        List<ChatDto> chatList = chatService.loadChat(roomId);
+
         Room room = roomService.findRoom(roomId);
         model.addAttribute("loginMember", loginMember.getName());
         model.addAttribute("loginMemberId", loginMember.getId());
-
-        
-        model.addAttribute("chatList", chatList);
-
-
         model.addAttribute("room", room);
+        model.addAttribute("chatList", chatList);
         return "chats/room";
     }
 

@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Getter @Setter
 @NoArgsConstructor
 @DynamicInsert
-@ToString
 public class Chat {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chat_id")
@@ -71,5 +70,7 @@ public class Chat {
         this.room = room;
         room.getChats().add(this);
     }
+
+
 
 }

@@ -8,7 +8,6 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @Builder
-@ToString
 public class ChatMessage {
     private Long roomId;
     private Long senderId;

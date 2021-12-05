@@ -42,7 +42,6 @@ public class RoomController {
     @Transactional
     public String createRoom(@ModelAttribute RoomForm roomForm,
                              @Login Member loginMember) {
-//        Room room = Room.create(roomForm.getTitle());
         roomService.createRoom(loginMember.getId(), roomForm.getTitle());
         return "redirect:/rooms";
     }
@@ -52,9 +51,8 @@ public class RoomController {
     public String roomDetail(Model model,
                              @PathVariable Long roomId,
                              @Login Member loginMember) {
-
-        List<ChatDto> chatList = chatService.loadChat(roomId);
-
+//        List<ChatDto> chatList = chatService.loadChat(roomId);  챗 리스트 DTO 로반환
+        List<Chat> chatList = chatService.loadChat(roomId);
         Room room = roomService.findRoom(roomId);
         model.addAttribute("loginMember", loginMember.getName());
         model.addAttribute("loginMemberId", loginMember.getId());
@@ -62,6 +60,7 @@ public class RoomController {
         model.addAttribute("chatList", chatList);
         return "chats/room";
     }
+
 
     // 특정 채팅방 조회
 //    @GetMapping("/room/{roomId}")

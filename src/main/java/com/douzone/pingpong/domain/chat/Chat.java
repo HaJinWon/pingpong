@@ -1,6 +1,9 @@
 package com.douzone.pingpong.domain.chat;
 
 import com.douzone.pingpong.domain.member.Member;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -11,6 +14,9 @@ import java.time.LocalDateTime;
 @Getter @Setter
 @NoArgsConstructor
 @DynamicInsert
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Chat {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chat_id")
@@ -18,10 +24,12 @@ public class Chat {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
+    @JsonIgnore
     private Member member;              // sender
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
+    @JsonIgnore
     private Room room;                  // 대화방 정보
 
     private String message;

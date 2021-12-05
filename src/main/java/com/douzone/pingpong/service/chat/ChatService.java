@@ -32,10 +32,9 @@ public class ChatService {
         return chatRepository.save(chat);
     }
 
-    public List<ChatDto> loadChat (Long roomId) {
-        List<Chat> chatEntities = chatRepository.findChatsByRoomId(roomId);
-        List<ChatDto> chatList = ChatsMapper.INSTANCE.toDoList(chatEntities);
-        System.out.println("chatList999999999 = " + chatList);
+    public List<Chat> loadChat (Long roomId) {
+        List<Chat> chatList = chatRepository.findChatsByRoomId(roomId);
+//        List<ChatDto> chatList = ChatsMapper.INSTANCE.toDoList(chatEntities);로 챗리스트 DTO반환
         return chatList;
     }
 }

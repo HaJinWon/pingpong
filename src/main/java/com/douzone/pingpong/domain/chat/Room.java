@@ -1,6 +1,9 @@
 package com.douzone.pingpong.domain.chat;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +16,9 @@ import java.util.*;
 @Getter
 @NoArgsConstructor
 @DynamicInsert
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Room {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "room_id")
@@ -20,7 +26,7 @@ public class Room {
 
     @OneToMany(mappedBy = "room")
     private List<RoomMember> roomMembers = new ArrayList<>();
-
+//
     @OneToMany(mappedBy = "room")
     private List<Chat> chats = new ArrayList<>();
 

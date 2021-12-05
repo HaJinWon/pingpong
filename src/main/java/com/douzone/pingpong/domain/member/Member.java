@@ -3,7 +3,9 @@ package com.douzone.pingpong.domain.member;
 import com.douzone.pingpong.domain.chat.Chat;
 import com.douzone.pingpong.domain.chat.RoomMember;
 import com.douzone.pingpong.domain.post.Comment;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
@@ -14,9 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
 @DynamicInsert
 @NoArgsConstructor
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Member {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
@@ -30,6 +35,7 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<RoomMember> roomMembers = new ArrayList<>();
+
 
     @OneToMany(mappedBy = "member")
     private List<Chat> chats = new ArrayList<>();

@@ -31,40 +31,24 @@ ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
         var roomId = [[${room.id}]];
         var memberName = [[${loginMember}]];
         var memberId = [[${loginMemberId}]];
-        var chatList = [[${chatList}]];
+        // var chatList = [[${chatList}]];
 
         console.log(roomName + ", " + roomId + ", " + memberName + ", " + memberId);
-        console.log(typeof roomId);
-        console.log(typeof memberId);
-        console.log(typeof memberName);
 
         var sockJs = new SockJS("/ws-stomp");
-        // var sockJs = new SockJS("http://localhost:8080/ws-stomp");
-
-        //1. SockJS를 내부에 들고있는 stomp를 내어줌
         var stomp = Stomp.over(sockJs);
-        //2. connection이 맺어지면 실행
         stomp.connect({}, function (){
             console.log("STOMP Connection")
 
             //4. subscribe(path, callback)으로 메세지를 받을 수 있음
             stomp.subscribe('/sub/'+roomId, function (chatMessage) {
                 console.log("subscribing....");
-                console.log(chatList);
                 var content = JSON.parse(chatMessage.body);
 
                 var writer = content.sender;
                 var writerId = content.senderId;
                 var message = content.message;
                 var str = '';
-
-                // if(writerId === memberId){
-                //     str = "<div class='col-6'>";
-                //     str += "<div class='alert alert-secondary'>";
-                //     str += "<b>" + writer + " : " + message + "</b>";
-                //     str += "</div></div>";
-                //     $("#msgArea").append(str);
-                // }
 
                 if (writerId === memberId) {
                     printChat(writer, message)
@@ -92,11 +76,11 @@ ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
         }
 
         function loadChat(chatList) {
-            if(chatList != null) {
-                for (chat in chatList) {
-                    console.log(chat);
-                }
-            }
+            // if(chatList != null) {
+            //     for (chat in chatList) {
+            //         console.log(chat);
+            //     }
+            // }
         }
 
         $("#msg").on("keyup",function(key){

@@ -3,10 +3,8 @@ package com.douzone.pingpong.domain.member;
 import com.douzone.pingpong.domain.chat.Chat;
 import com.douzone.pingpong.domain.chat.RoomMember;
 import com.douzone.pingpong.domain.post.Comment;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -16,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
+@Getter @Setter
 @DynamicInsert
 @NoArgsConstructor
 public class Member {

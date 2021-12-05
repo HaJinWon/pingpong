@@ -1,5 +1,6 @@
 package com.douzone.pingpong.controller.chat;
 
+import com.douzone.pingpong.domain.chat.Chat;
 import com.douzone.pingpong.domain.chat.Room;
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.repository.chat.RoomRepository;
@@ -42,7 +43,7 @@ public class RoomController {
                              @Login Member loginMember) {
 //        Room room = Room.create(roomForm.getTitle());
         roomService.createRoom(loginMember.getId(), roomForm.getTitle());
-        return "redirect:chats/rooms";
+        return "redirect:/rooms";
     }
 
     // 채팅방 입장 화면
@@ -51,10 +52,15 @@ public class RoomController {
                              @PathVariable Long roomId,
                              @Login Member loginMember) {
 
+        List<Chat> chatList = chatService.loadChat(roomId);
         Room room = roomService.findRoom(roomId);
         model.addAttribute("loginMember", loginMember.getName());
         model.addAttribute("loginMemberId", loginMember.getId());
-        model.addAttribute("chatList", chatService.loadChat(roomId));
+
+        
+        model.addAttribute("chatList", chatList);
+
+
         model.addAttribute("room", room);
         return "chats/room";
     }

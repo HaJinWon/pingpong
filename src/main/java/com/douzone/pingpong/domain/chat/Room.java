@@ -1,5 +1,6 @@
 package com.douzone.pingpong.domain.chat;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

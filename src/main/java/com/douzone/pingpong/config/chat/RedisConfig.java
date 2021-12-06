@@ -15,20 +15,20 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @EnableRedisRepositories
 public class RedisConfig {
 
-//    @Value("${spring.redis.host}")
-//    private String redisHost;
-//
-//    @Value("${spring.redis.port}")
-//    private int redisPort;
+    @Value("${spring.redis.host}")
+    private String redisHost;
 
-//    @Bean
-//    public RedisConnectionFactory redisConnectionFactory() {
-//        return new LettuceConnectionFactory(redisHost, redisPort);
-//    }
+    @Value("${spring.redis.port}")
+    private int redisPort;
+
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-    return new LettuceConnectionFactory("34.64.241.221", 6379);
-}
+        return new LettuceConnectionFactory(redisHost, redisPort);
+    }
+//    @Bean
+//    public RedisConnectionFactory redisConnectionFactory() {
+//        return new LettuceConnectionFactory("34.64.241.221", 6379);
+//    }
 
     @Bean
     public RedisMessageListenerContainer redisMessageListener(RedisConnectionFactory connectionFactory) {

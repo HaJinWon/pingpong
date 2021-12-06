@@ -68,7 +68,7 @@ public class RoomController {
         return "chat/room";
     }
 
-
+    // 특정 대화방 반환
     @GetMapping("/room/{roomId}")
     @ResponseBody
     public ChatRoom roomInfo(@PathVariable String roomId) {

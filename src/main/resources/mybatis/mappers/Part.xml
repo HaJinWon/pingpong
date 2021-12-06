@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="part">
+    <select id="getPartList" resultType="part" parameterType="long">
+        <![CDATA[
+            select part_id, name, date, team_id from part
+            where team_id = #{teamId}
+		]]>
+    </select>
+
+    <insert id="addPart" parameterType="map">
+        <![CDATA[
+			insert into part values (null, #{partName},now(),#{teamId})
+		]]>
+    </insert>
+
+    <delete id="delPart" parameterType="long" >
+        <![CDATA[
+            delete from part where part_id = #{partId}
+		]]>
+    </delete>
+    <select id="getFirstPartId" resultType="long" parameterType="long">
+        <![CDATA[
+            select part_id
+            from part
+            where part_id = #{teamId}
+            order by part_id asc
+            limit 1
+		]]>
+    </select>
+
+    <!-- ===================  Post =========================== -->
+    <select id="getPostList" resultType="map" parameterType="long">
+        <![CDATA[
+            select a.post_id, a.title, a.contents, a.date, a.part_id, a.member_id, a.file, a.image, b.name
+            from post a, member b
+            where a.member_id = b.member_id
+            and part_id = #{partId}
+		]]>
+    </select>
+
+    <delete id="delPost" parameterType="long" >
+        <![CDATA[
+            delete from post where post_id = #{postId}
+		]]>
+    </delete>
+
+    <insert id="addPost" parameterType="post">
+        <![CDATA[
+			insert into post values (null,#{title},#{contents},now(),#{part_id},#{member_id},#{file},#{image})
+		]]>
+    </insert>
+
+    <select id="getPostById" resultType="post" parameterType="long">
+        <![CDATA[
+            select post_id, title, contents, part_id, member_id, file, image from post where post_id = #{postId}
+		]]>
+    </select>
+
+    <update id="updatePost" parameterType="part" >
+        <![CDATA[
+            update post
+            set title = #{title},
+                contents = #{contents},
+                file= #{file},
+                image= #{image}
+            where post_id = #{post_id}
+		]]>
+    </update>
+
+    <select id="searchPost" resultType="map" parameterType="map">
+        <![CDATA[
+            select a.post_id, a.title, a.contents, a.date, a.part_id, a.member_id, a.file, a.image, c.name
+            from post a, part b, member c
+            where a.part_id = b.part_id
+            and a.member_id = c.member_id
+            and b.team_id like concat('%',#{teamId} ,'%')
+            and a.part_id like concat('%',#{partId},'%')
+            and (a.title like concat('%',#{keyword},'%') or a.contents like concat('%',#{keyword},'%'))
+		]]>
+    </select>
+
+    <!-- ===================  comment =========================== -->
+
+    <select id="getCommentList" resultType="map" parameterType="long">
+        <![CDATA[
+            select a.comment_id, a.contents, a.date, a.member_id, a.post_id, b.name
+            from comment a, member b
+            where a.member_id = b.member_id
+            and post_id = #{postId}
+		]]>
+    </select>
+
+    <insert id="addComment" parameterType="comment">
+        <![CDATA[
+			insert into comment values(null, #{contents},now(), #{member_id},#{post_id})
+		]]>
+    </insert>
+
+    <delete id="delComment" parameterType="long" >
+        <![CDATA[
+            delete from comment where comment_id = #{commentId}
+		]]>
+    </delete>
+
+</mapper>

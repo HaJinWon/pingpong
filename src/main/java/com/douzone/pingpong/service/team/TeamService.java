@@ -1,6 +1,8 @@
 package com.douzone.pingpong.service.team;
 
+import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.domain.member.Team;
+import com.douzone.pingpong.domain.team.Team2;
 import com.douzone.pingpong.repository.member.MemberRepository;
 import com.douzone.pingpong.repository.team.TeamRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -21,5 +25,25 @@ public class TeamService {
     @Transactional
     public void createTeam(Team team) {
         teamRepository.saveTeam(team);
+    }
+
+    // 맴버초대 서비스
+    public void inviteMember(String teamId, Long userId){
+        teamRepository.inviteMember(teamId,userId);
+    }
+
+    public List<Member> findUser(String userName) {
+        List<Member> list = teamRepository.findUser(userName);
+        return  list;
+    }
+
+    public void teamExit(String teamId, Long memberId) {
+
+        teamRepository.teamExit(teamId,memberId);
+    }
+
+
+    public List<Map<String, Object>> getTeamInfo(Long teamId) {
+        return teamRepository.getTeamInfo(teamId);
     }
 }

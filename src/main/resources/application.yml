@@ -21,15 +21,18 @@ spring:
     serialization:
       fail-on-empty-beans: false
 
+<<<<<<< HEAD
+=======
 
 
 
+>>>>>>> ab457d321699e0d6756b7f73e02b1cf1eeeebd0a
   # static 파일 서버 재시작 안해도 되게끔 하는 설정
   devtools:
     livereload:
       enabled: true
     restart:
-      enabled: false
+      enabled: true
 
 logging.level:
   org.hibernate.SQL: debug
@@ -40,6 +43,10 @@ server:
       tracking-modes: cookie #URL로 쿠키(JSESSION)을 보내지 않겠다는 설정
 
 
+
+# mybatis
+mybatis:
+  config-location: classpath:mybatis/configuration.xml
 
 
 #mybatis:

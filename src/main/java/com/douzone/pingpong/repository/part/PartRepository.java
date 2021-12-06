@@ -86,4 +86,15 @@ public class PartRepository {
     public Long getFirstPartId(Long teamId) {
         return sqlSession.selectOne("part.getFirstPartId",teamId);
     }
+
+    public void readPost(Long userId, Long postId) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("userId",userId);
+        map.put("postId",postId);
+        sqlSession.insert("part.readPost",map);
+    }
+
+    public List<Map<String, Object>> getPostReadMemberList(Long postId) {
+        return sqlSession.selectList("part.getPostReadMemberList",postId);
+    }
 }

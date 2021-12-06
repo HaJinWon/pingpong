@@ -1,6 +1,9 @@
 package com.douzone.pingpong.controller.chat;
 
 import com.douzone.pingpong.domain.chat.Chat;
+import com.douzone.pingpong.pubsub.RedisPublisher;
+import com.douzone.pingpong.repository.chat.RedisRoomRepository;
+import com.douzone.pingpong.repository.chat.RoomRepository;
 import com.douzone.pingpong.service.chat.ChatMessage;
 import com.douzone.pingpong.service.chat.ChatService;
 import lombok.RequiredArgsConstructor;
@@ -13,18 +16,25 @@ import org.springframework.stereotype.Controller;
 @RequiredArgsConstructor
 @Controller
 public class ChatController {
+    private final RedisPublisher redisPublisher;
+    private final ChatService chatService;
+    private final RedisRoomRepository redisRoomRepository;
+
+    @MessageMapping("/chat/message")
+    public void message(ChatMessage message) {
+        if(ChatMessage.MessageType.ENTER.equals(message.getType())){
+            redisRoomRepository.enterChatRoom(message.getRoomId());
+            message.setMessage(message.getSender() + "님이 입장하셨습니다.");
+        }
+
+        redisPublisher.publish(redisRoomRepository.getTopic(message.getRoomId()), message);
+    }
+
+
+
+    /*
     private final SimpMessageSendingOperations messagingTemplate;
     private final ChatService chatService;
-//    @MessageMapping(value = "/chats/enter")
-//    public void enter(Chat message) {
-//        message.setMessage(message.getMember().getName() + "님이 입장하셨습니다.");
-//        messagingTemplate.convertAndSend("/sub/chats/room/" + 1, message);
-//    }
-
-//    @MessageMapping(value = "/chats/message")
-//    public void message(Chat message) {
-//        messagingTemplate.convertAndSend("/sub/chats/room/" + message.getRoom().getId(), message);
-//    }
 
     @MessageMapping("{roomId}")
     public void test(@DestinationVariable Long roomId, ChatMessage message) {
@@ -37,6 +47,7 @@ public class ChatController {
                 .build();
         messagingTemplate.convertAndSend("/sub/" + roomId, chatMessage);
     }
+     */
 }
 
 

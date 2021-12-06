@@ -22,6 +22,4 @@ public class ChatRepository {
                 .setParameter("roomId", roomId)
                 .getResultList();
     }
-
-
 }

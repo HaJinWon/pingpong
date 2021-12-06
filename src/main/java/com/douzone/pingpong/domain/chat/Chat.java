@@ -24,12 +24,10 @@ public class Chat {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    @JsonIgnore
     private Member member;              // sender
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
-    @JsonIgnore
     private Room room;                  // 대화방 정보
 
     private String message;
@@ -38,11 +36,11 @@ public class Chat {
     @Column(name = "not_read_count")
     private Integer notReadCount;
 
-//    private MessageType type;
-//
-//    public enum MessageType {
-//        ENTER, TALK, EXIT
-//    }
+    private MessageType type;
+
+    public enum MessageType {
+        ENTER, TALK, EXIT
+    }
     @Builder
     public Chat (Room room, Member member, String message) {
         this.room = room;

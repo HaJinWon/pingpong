@@ -28,10 +28,9 @@ ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
     $(document).ready(function(){
 
         var roomName = [[${room.title}]];
-        var roomId = [[${room.id}]];
+        var roomId = [[${room.roomId}]];
         var memberName = [[${loginMember}]];
         var memberId = [[${loginMemberId}]];
-        var chatList = [[${chatList}]];
 
         console.log(roomName + ", " + roomId + ", " + memberName + ", " + memberId);
 
@@ -39,12 +38,12 @@ ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
         var stomp = Stomp.over(sockJs);
         stomp.connect({}, function (){
             console.log("STOMP Connection");
-            console.log(chatList);
 
             //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-            stomp.subscribe('/sub/'+roomId, function (chatMessage) {
+            stomp.subscribe('/sub/chat/room/'+roomId, function (chatMessage) {
                 console.log("subscribing....");
                 var content = JSON.parse(chatMessage.body);
+                console.log("content:::"+ content);
 
                 var writer = content.sender;
                 var writerId = content.senderId;
@@ -65,8 +64,10 @@ ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
             });
 
             //3. send(path, header, message)로 메세지를 보낼 수 있음
-            // stomp.send('/pub/'+roomId, {}, JSON.stringify({roomId: roomId, memberId: memberId}))
+            // stomp.send('/pub/chat/message', {}, JSON.stringify({type:'ENTER', roomId: roomId, senderId: memberId, message: msg.value, sender:memberName}))
+            stomp.send('/pub/chat/message', {}, JSON.stringify({type:"ENTER", roomId: roomId, message: msg.value, sender:memberName}))
         });
+
 
         function printChat(writer, message) {
             str = "<div class='col-6'>";
@@ -97,8 +98,8 @@ ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
                 return false;
             }
 
-
-            stomp.send('/pub/'+roomId, {}, JSON.stringify({roomId: roomId, senderId: memberId, message: msg.value, sender: memberName}));
+            console.log("!11111:::"+JSON.stringify({type:"TALK",roomId: roomId, senderId: memberId, message: msg.value, sender: memberName}))
+            stomp.send('/pub/chat/message', {}, JSON.stringify({type:"TALK",roomId: roomId,  message: msg.value, sender: memberName}));
             msg.value = '';
         });
     });

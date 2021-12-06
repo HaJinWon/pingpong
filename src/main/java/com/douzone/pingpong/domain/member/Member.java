@@ -52,11 +52,6 @@ public class Member {
     private LocalDateTime date;
     private String avatar;
 
-    // Post_member 삭제로 인한 주석처리 : 1204 JIN
-//    @OneToMany(mappedBy = "member")
-//    private List<PostMember> postMembers = new ArrayList<>();
-
-
     @Builder
     public Member (String email, String password, String name, String phone, String company, LocalDateTime date) {
         this.email = email;

@@ -4,6 +4,7 @@ package com.douzone.pingpong.service.chat;
 import com.douzone.pingpong.domain.chat.Room;
 import com.douzone.pingpong.domain.chat.RoomMember;
 import com.douzone.pingpong.domain.member.Member;
+import com.douzone.pingpong.repository.chat.RedisRoomRepository;
 import com.douzone.pingpong.repository.chat.RoomRepository;
 import com.douzone.pingpong.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,25 +21,28 @@ import java.util.List;
 public class RoomService {
     private final RoomRepository roomRepository;
     private final MemberRepository memberRepository;
+    private final RedisRoomRepository redisRoomRepository;
 
-    public List<Room> findRooms() {
-        return roomRepository.findAllRoom();
+    public List<ChatRoom> findRooms() {
+//        return roomRepository.findAllRoom();
+        return redisRoomRepository.findAllRoom();
     }
 
     @Transactional
-    public Long createRoom(Long memberId, String roomTitle) {
+    public ChatRoom createRoom(Long memberId, String roomTitle) {
 
         Member member = memberRepository.findById(memberId);
 
         Room room = Room.create(roomTitle);
         RoomMember roomMember = RoomMember.createRoomMember(member,room);
+        return redisRoomRepository.createChatRoom(roomTitle);
+//        roomRepository.createChatRoom(room, roomMember);  stomp db저장
 
-        roomRepository.createChatRoom(room, roomMember);
-        return room.getId();
+//        return room.getId();
     }
 
-    public Room findRoom(Long roomId) {
-        return roomRepository.findRoomById(roomId);
-
+    public ChatRoom findRoom(String roomId) {
+//        return roomRepository.findRoomById(roomId);
+            return redisRoomRepository.findRoomById(roomId);
     }
 }

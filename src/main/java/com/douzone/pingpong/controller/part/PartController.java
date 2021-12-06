@@ -36,6 +36,7 @@ public class PartController {
     @Autowired
     private TeamService teamService;
 
+    // 팀 페이지 불러오기 ( 통합 )
     @ResponseBody
     @RequestMapping({"/{partId}/{postId}","/{partId}",""})
     public HashMap<String,Object> teamPage(@PathVariable("teamId") Long teamId,
@@ -85,7 +86,7 @@ public class PartController {
         }
     }
 
-    //해당 아이디 part 조회
+    //해당 팀 아이디 part 조회
     @ResponseBody
     @RequestMapping("/part/list")
     public HashMap<String,Object> getPartList(@PathVariable("teamId") String teamId){
@@ -134,6 +135,13 @@ public class PartController {
     @RequestMapping("/post/del/{postId}")
     public void delPost(@PathVariable("postId") Long postId){
         partService.delPost(postId);
+    }
+
+    // 게시글 작성 페이지 이동
+    @GetMapping("{partId}/post/write")
+    public String movePostWrite(){
+
+        return "";
     }
 
     // 게시글 작성

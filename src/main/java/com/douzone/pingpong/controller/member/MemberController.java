@@ -88,6 +88,7 @@ public class MemberController {
     @GetMapping("/members/edit")
     public String editForm(@Login Member loginMember,
                              Model model) {
+
         Member findMember = memberService.findMember(loginMember.getId());
 
         EditForm editForm = EditForm.builder()

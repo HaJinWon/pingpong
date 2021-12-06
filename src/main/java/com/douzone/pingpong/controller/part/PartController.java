@@ -195,7 +195,7 @@ public class PartController {
         vo.setContents(contents);
         vo.setFile(fileUrl);
         vo.setImage(imageUrl);
-        vo.setMember_id(authUser.getId());
+        //vo.setMember_id(authUser.getId());
         partService.updatePost(vo);
         return "home";
     }
@@ -234,7 +234,7 @@ public class PartController {
         vo.setPost_id(postId);
         //vo.setMember_id(1L);
 
-        vo.setMember_id(authUser.getId());
+        //vo.setMember_id(authUser.getId());
         partService.addComment(vo);
 
         return "home";

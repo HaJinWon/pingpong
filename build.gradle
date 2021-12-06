@@ -45,6 +45,8 @@ dependencies {
 	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.0'
 
 
+
+
 	// SQL 실행 파라미터 보는 라이브러리
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'
 	//채팅
@@ -62,6 +64,10 @@ dependencies {
 	runtimeOnly 'com.h2database:h2'
 	testCompileOnly 'org.projectlombok:lombok:1.18.12'
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
+	// dto - entity mapper
+	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

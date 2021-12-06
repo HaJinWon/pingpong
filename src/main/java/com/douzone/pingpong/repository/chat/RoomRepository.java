@@ -1,6 +1,7 @@
 package com.douzone.pingpong.repository.chat;
 
 import com.douzone.pingpong.domain.chat.Room;
+import com.douzone.pingpong.domain.chat.RoomMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -28,8 +29,9 @@ public class RoomRepository {
         return em.find(Room.class, roomId);
     }
 
-    public Long createChatRoom(Room room) {
+    public Long createChatRoom(Room room, RoomMember roomMember) {
         em.persist(room);
+        em.persist(roomMember);
         return room.getId();
     }
 }

@@ -13,10 +13,20 @@ spring:
         format_sql: true
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    #spring.jackson.serialization.fail-on-empty-beans=false
   redis:
     host: localhost
     port: 6379
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> ab457d321699e0d6756b7f73e02b1cf1eeeebd0a
   # static 파일 서버 재시작 안해도 되게끔 하는 설정
   devtools:
     livereload:

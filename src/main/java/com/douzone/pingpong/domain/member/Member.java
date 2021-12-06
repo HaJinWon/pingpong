@@ -3,19 +3,15 @@ package com.douzone.pingpong.domain.member;
 import com.douzone.pingpong.domain.chat.Chat;
 import com.douzone.pingpong.domain.chat.RoomMember;
 import com.douzone.pingpong.domain.post.Comment;
-<<<<<<< HEAD
-import com.douzone.pingpong.domain.post.PostMember;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-=======
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
->>>>>>> ab457d321699e0d6756b7f73e02b1cf1eeeebd0a
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
@@ -25,10 +21,7 @@ import java.util.List;
 
 @Entity
 @Getter
-<<<<<<< HEAD
 @ToString
-=======
->>>>>>> ab457d321699e0d6756b7f73e02b1cf1eeeebd0a
 @DynamicInsert
 @NoArgsConstructor
 @JsonIdentityInfo(

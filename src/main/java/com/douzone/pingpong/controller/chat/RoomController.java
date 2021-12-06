@@ -18,7 +18,7 @@ import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
-@Controller
+//@Controller
 @RequestMapping("/chat")
 @Transactional(readOnly = true)
 public class RoomController {

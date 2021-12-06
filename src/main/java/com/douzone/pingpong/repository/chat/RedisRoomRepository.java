@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
-@Repository
+//@Repository
 public class RedisRoomRepository {
 
     // 채팅방(topic)에 발행되는 메시지를 처리할 Listner

@@ -14,9 +14,9 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     #spring.jackson.serialization.fail-on-empty-beans=false
-  redis:
-    host: 34.64.241.221
-    port: 6379
+#  redis:
+#    host: 34.64.241.221
+#    port: 6379
   jackson:
     serialization:
       fail-on-empty-beans: false

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * 채팅방에 입장하여 메세지를 작성하면 해당 메세지를 Redis Topic에 발행하는 기능의 서비스
  */
 @RequiredArgsConstructor
-@Service
+//@Service
 public class RedisPublisher {
     private final RedisTemplate<String, Object> redisTemplate;
 

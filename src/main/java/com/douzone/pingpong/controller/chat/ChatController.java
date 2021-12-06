@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
 
 
 @RequiredArgsConstructor
-@Controller
+//@Controller
 public class ChatController {
     private final RedisPublisher redisPublisher;
     private final ChatService chatService;

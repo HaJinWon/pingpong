@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Service
+//@Service
 @Transactional(readOnly = true)
 public class RoomService {
     private final RoomRepository roomRepository;

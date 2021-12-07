@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/{teamId:(?!assets$|images$).*}")
+@RequestMapping("/team/{teamId:(?!assets$|images$).*}")
 public class PartController {
     
     @Autowired

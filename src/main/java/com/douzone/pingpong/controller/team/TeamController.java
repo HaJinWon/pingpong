@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Controller
+//@Controller
 @Slf4j
 @RequiredArgsConstructor
 public class TeamController {

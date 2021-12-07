@@ -1,32 +1,33 @@
 package com.douzone.pingpong.controller.chat;
 
-import com.douzone.pingpong.domain.chat.Chat;
 import com.douzone.pingpong.pubsub.RedisPublisher;
 import com.douzone.pingpong.repository.chat.RedisRoomRepository;
-import com.douzone.pingpong.repository.chat.RoomRepository;
 import com.douzone.pingpong.service.chat.ChatMessage;
-import com.douzone.pingpong.service.chat.ChatService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 
 
 @RequiredArgsConstructor
-//@Controller
+@Controller
+@Slf4j
 public class ChatController {
     private final RedisPublisher redisPublisher;
-    private final ChatService chatService;
     private final RedisRoomRepository redisRoomRepository;
 
     @MessageMapping("/chat/message")
     public void message(ChatMessage message) {
+        log.info("CHATCONTOLLER IN!!! : {} sender:{}", message.getType(),message.getSender());
+
+
         if(ChatMessage.MessageType.ENTER.equals(message.getType())){
+            System.out.println("in!!!");
             redisRoomRepository.enterChatRoom(message.getRoomId());
             message.setMessage(message.getSender() + "님이 입장하셨습니다.");
         }
 
+        log.info("CONTROL : {}, {}" , redisRoomRepository.getTopic(message.getRoomId()), message);
         redisPublisher.publish(redisRoomRepository.getTopic(message.getRoomId()), message);
     }
 

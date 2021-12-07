@@ -23,15 +23,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller
-@RequestMapping("/{teamId:(?!assets$|images$).*}")
+//@Controller
+//@RequestMapping("/{teamId:(?!assets$|images$).*}")
 public class PartController {
 
     @Autowired
     private PartService partService;
 
-    @Autowired
-    private FileuploadService fileuploadService;
+    @Autowired private FileuploadService fileuploadService;
 
     @Autowired
     private TeamService teamService;
@@ -138,7 +137,7 @@ public class PartController {
     }
 
     // 게시글 작성 페이지 이동
-    @GetMapping("{partId}/post/write")
+    @GetMapping("/{partId}/post/write")
     public String movePostWrite(){
 
         return "";

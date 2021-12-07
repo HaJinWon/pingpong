@@ -20,8 +20,6 @@ public class HomeController {
     public String home(@SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
         return "home";
     }
-
-
 }
 
 

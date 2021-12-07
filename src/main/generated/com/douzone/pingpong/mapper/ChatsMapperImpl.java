@@ -9,7 +9,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-12-06T17:59:55+0900",
+    date = "2021-12-07T11:00:41+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 13.0.1 (Oracle Corporation)"
 )
 public class ChatsMapperImpl implements ChatsMapper {

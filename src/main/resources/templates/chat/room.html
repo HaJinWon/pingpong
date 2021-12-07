@@ -1,23 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="header">
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrinkto-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="/css/bootstrap.min.css" integrity="sha384-
+ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossorigin="anonymous">
-    <!-- Custom styles for this template -->
-    <link href="/css/jumbotron-narrow.css" rel="stylesheet">
-    <!-- 합쳐지고 최소화된 최신 CSS -->
-
-    <!-- 부가적인 테마 -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-
-    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-
+    <link th:href="@{/css/jumbotron-narrow.css}"  href="/css/jumbotron-narrow.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
@@ -28,10 +18,10 @@
 
         var roomName = [[${room.title}]];
         var roomId = [[${room.roomId}]];
-        var memberName = [[${loginMember}]];
-        var memberId = [[${loginMemberId}]];
+        var loginName = [[${loginMember}]];
+        var loginId = [[${loginMemberId}]];
 
-        console.log(roomName + ", " + roomId + ", " + memberName + ", " + memberId);
+        console.log(roomName + ", " + roomId + ", " + loginName + ", " + loginId);
 
         var sockJs = new SockJS("/ws-stomp");
         var stomp = Stomp.over(sockJs);
@@ -40,47 +30,53 @@
 
             //4. subscribe(path, callback)으로 메세지를 받을 수 있음
             stomp.subscribe('/sub/chat/room/'+roomId, function (chatMessage) {
-                console.log("subscribing....");
                 var content = JSON.parse(chatMessage.body);
-                console.log("content:::"+ content);
 
+                // 글을쓴사람 (로그인한사람이 아님)
                 var writer = content.sender;
                 var writerId = content.senderId;
-                var message = content.message;
-                var str = '';
 
-                if (writerId === memberId) {
-                    printChat(writer, message)
+                var message = content.message;
+                var type = content.type;
+                var str = '';
+                console.log(type);
+
+                if (type === 'ENTER') {
+                    printNotice(message);
                 } else {
-                    str = "<div class='col-6'>";
-                    str += "<div class='alert alert-warning'>";
-                    str += "<b>" + writer + " : " + message + "</b>";
-                    str += "</div></div>";
-                    $("#msgArea").append(str);
+                    if (writerId === loginId) {
+                        printMyChat(writer, message);
+                    } else {
+                        printOtherChat(writer, message);
+                    }
                 }
 
-                // $("#msgArea").append(str);
             });
-
-            //3. send(path, header, message)로 메세지를 보낼 수 있음
-            // stomp.send('/pub/chat/message', {}, JSON.stringify({type:'ENTER', roomId: roomId, senderId: memberId, message: msg.value, sender:memberName}))
-            stomp.send('/pub/chat/message', {}, JSON.stringify({type:"ENTER", roomId: roomId, message: msg.value, sender:memberName}))
+            // 입장메시지
+            stomp.send("/pub/chat/message", {}, JSON.stringify({type:'ENTER', roomId: roomId, sender:loginName}))
         });
-
-
-        function printChat(writer, message) {
+        function printMyChat(writer, message) {
             str = "<div class='col-6'>";
             str += "<div class='alert alert-secondary'>";
+            str += "<b>"+ writer + " : " + message + "</b>";
+            str += "</div></div>";
+            $("#msgArea").append(str);
+        }
+
+        function printOtherChat(writer, message){
+            str = "<div class='col-6'>";
+            str += "<div class='alert alert-warning'>";
             str += "<b>" + writer + " : " + message + "</b>";
             str += "</div></div>";
             $("#msgArea").append(str);
         }
 
-        function loadChat(chatList) {
-            if(chatList != null) {
-                for (ChatMessage in chatList) {
-                }
-            }
+        function printNotice(message) {
+            str = "<div class='col-6'>";
+            str += "<div class='alert alert-warning'>";
+            str += "<b> [알림] " + message + "</b>";
+            str += "</div></div>";
+            $("#msgArea").append(str);
         }
 
         $("#msg").on("keyup",function(key){
@@ -97,8 +93,7 @@
                 return false;
             }
 
-            console.log("!11111:::"+JSON.stringify({type:"TALK",roomId: roomId, senderId: memberId, message: msg.value, sender: memberName}))
-            stomp.send('/pub/chat/message', {}, JSON.stringify({type:"TALK",roomId: roomId,  message: msg.value, sender: memberName}));
+            stomp.send('/pub/chat/message', {}, JSON.stringify({type:"TALK",roomId: roomId, senderId: loginId,  message: msg.value, sender: loginName}));
             msg.value = '';
         });
     });
@@ -122,10 +117,6 @@
         </div>
         <div class="col-6"></div>
     </div>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 </th:block>
 
 </html>

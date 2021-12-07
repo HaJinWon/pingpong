@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @RequiredArgsConstructor
-//@Service
+@Service
 @Transactional(readOnly = true)
 public class RoomService {
     private final RoomRepository roomRepository;
@@ -28,7 +28,7 @@ public class RoomService {
         return redisRoomRepository.findAllRoom();
     }
 
-    @Transactional
+//    @Transactional
     public ChatRoom createRoom(Long memberId, String roomTitle) {
 
         Member member = memberRepository.findById(memberId);

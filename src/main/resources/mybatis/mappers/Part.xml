@@ -81,6 +81,20 @@
 		]]>
     </select>
 
+    <insert id="readPost" parameterType="map">
+        <![CDATA[
+			insert into post_member values (null, #{userId}, #{postId})
+		]]>
+    </insert>
+
+    <select id="getPostReadMemberList" resultType="map" parameterType="long">
+        <![CDATA[
+            select a.post_id, b.member_id, b.name, b.avatar
+            from post_member a, member b
+            where a.member_id = b.member_id
+            and post_id = #{postId}
+		]]>
+    </select>
     <!-- ===================  comment =========================== -->
 
     <select id="getCommentList" resultType="map" parameterType="long">

@@ -26,7 +26,7 @@ import java.util.Map;
 //@Controller
 //@RequestMapping("/{teamId:(?!assets$|images$).*}")
 public class PartController {
-
+    
     @Autowired
     private PartService partService;
 
@@ -156,9 +156,8 @@ public class PartController {
         vo.setTitle(title);
         vo.setContents(contents);
         vo.setFile(fileUrl);
-        vo.setPart_id(partId);
         vo.setImage(imageUrl);
-        //vo.setMember_id(authUser.getId());
+        vo.setMember_id(authUser.getId());
 
         partService.addPost(vo);
 
@@ -194,7 +193,7 @@ public class PartController {
         vo.setContents(contents);
         vo.setFile(fileUrl);
         vo.setImage(imageUrl);
-        //vo.setMember_id(authUser.getId());
+        vo.setMember_id(authUser.getId());
         partService.updatePost(vo);
         return "home";
     }
@@ -204,13 +203,35 @@ public class PartController {
     @GetMapping("/postsearch")
     public HashMap<String,Object> searchPost(@PathVariable("teamId") Long teamId, String keyword, String partId){
 
-
-
         List<Map<String,Object>> list = partService.searchPost(keyword,partId,teamId);
         HashMap<String,Object> map = new HashMap<>();
         map.put("searchPostList",list);
         return map;
     }
+
+    // 게시글 읽음 확인
+    @GetMapping("/post/read/{postId}")
+    public String readPost(@Login Member authUser, @PathVariable("postId") Long postId){
+
+        partService.readPost(authUser.getId(),postId);
+        //partService.readPost(2L,postId);
+
+        return "home";
+    }
+
+    // 게시물 읽은 사람 정보 가져오기
+    @ResponseBody
+    @GetMapping("/post/getReadMemberList/{postId}")
+    public HashMap<String,Object> getReamMember(@PathVariable("postId") Long postId){
+
+        List<Map<String,Object>> list = partService.getPostReadMemberList(postId);
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("readMemberList",list);
+
+        return map;
+
+    }
+
     /*====================================  댓글  ============================================*/
 
     // 해당 게시글 댓글 리스트 불러오기
@@ -233,7 +254,7 @@ public class PartController {
         vo.setPost_id(postId);
         //vo.setMember_id(1L);
 
-        //vo.setMember_id(authUser.getId());
+        vo.setMember_id(authUser.getId());
         partService.addComment(vo);
 
         return "home";

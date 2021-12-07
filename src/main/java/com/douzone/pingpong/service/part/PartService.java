@@ -73,4 +73,13 @@ public class PartService {
     public Long getFirstPartId(Long teamId) {
         return partRepository.getFirstPartId(teamId);
     }
+
+    public void readPost(Long userId, Long postId) {
+        partRepository.readPost(userId,postId);
+    }
+
+
+    public List<Map<String, Object>> getPostReadMemberList(Long postId) {
+        return partRepository.getPostReadMemberList(postId);
+    }
 }

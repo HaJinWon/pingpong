@@ -1,9 +1,9 @@
 package com.douzone.pingpong.repository.chat;
 
-import com.douzone.pingpong.domain.chat.Room;
 import com.douzone.pingpong.pubsub.RedisSubscriber;
-import com.douzone.pingpong.service.chat.ChatRoom;
+import com.douzone.pingpong.domain.chat.ChatRoom;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
@@ -18,6 +18,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @Repository
+@Slf4j
 public class RedisRoomRepository {
 
     // 채팅방(topic)에 발행되는 메시지를 처리할 Listner
@@ -71,6 +72,7 @@ public class RedisRoomRepository {
     }
 
     public ChannelTopic getTopic(String roomId) {
-        return topics.get(roomId);
+        ChannelTopic topic = topics.get(roomId);
+        return topic;
     }
 }

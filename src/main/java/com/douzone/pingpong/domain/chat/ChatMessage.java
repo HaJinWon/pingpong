@@ -1,4 +1,4 @@
-package com.douzone.pingpong.service.chat;
+package com.douzone.pingpong.domain.chat;
 
 
 import lombok.*;
@@ -17,6 +17,7 @@ public class ChatMessage implements Serializable{
     private String roomId;
     private String message;
     private String sender;
+    private Long senderId;
 
 
 //    public ChatMessage(String roomId, Long senderId, String message, String sender, MessageType type) {

@@ -39,8 +39,8 @@ server:
 
 
 # mybatis
-mybatis:
-  config-location: classpath:mybatis/configuration.xml
+#mybatis:
+#  config-location: classpath:mybatis/configuration.xml
 
 
 #mybatis:

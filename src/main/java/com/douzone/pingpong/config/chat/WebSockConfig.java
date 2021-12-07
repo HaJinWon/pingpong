@@ -9,7 +9,6 @@ import org.springframework.web.socket.config.annotation.*;
 import java.util.Collections;
 
 
-@RequiredArgsConstructor
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSockConfig implements WebSocketMessageBrokerConfigurer {

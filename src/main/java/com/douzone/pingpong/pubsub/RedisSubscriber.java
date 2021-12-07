@@ -1,7 +1,6 @@
 package com.douzone.pingpong.pubsub;
 
-import com.douzone.pingpong.domain.chat.Chat;
-import com.douzone.pingpong.service.chat.ChatMessage;
+import com.douzone.pingpong.domain.chat.ChatMessage;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +20,12 @@ public class RedisSubscriber implements MessageListener {
 
     @Override
     public void onMessage(Message message, byte[] pattern) {
+        log.info("ON MESSAGE IN!!!");
         try {
+            log.info("Message: {} ", message);
+
             String publishMessage = (String) redisTemplate.getStringSerializer().deserialize(message.getBody());
-            publishMessage = publishMessage.replaceAll("\\uFEFF","");
+            log.info("publishMessage: {} ", publishMessage);
 
             ChatMessage roomMessage = objectMapper.readValue(publishMessage, ChatMessage.class);
             log.info("[Subscribe][message] {}", publishMessage);

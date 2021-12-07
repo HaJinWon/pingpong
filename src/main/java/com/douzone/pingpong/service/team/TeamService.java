@@ -1,9 +1,7 @@
 package com.douzone.pingpong.service.team;
 
 import com.douzone.pingpong.domain.member.Member;
-import com.douzone.pingpong.domain.member.Team;
-import com.douzone.pingpong.domain.team.Team2;
-import com.douzone.pingpong.repository.member.MemberRepository;
+import com.douzone.pingpong.domain.team.Team;
 import com.douzone.pingpong.repository.team.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

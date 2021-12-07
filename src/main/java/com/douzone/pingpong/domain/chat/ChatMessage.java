@@ -1,4 +1,4 @@
-package com.douzone.pingpong.service.chat;
+package com.douzone.pingpong.domain.chat;
 
 
 import lombok.*;

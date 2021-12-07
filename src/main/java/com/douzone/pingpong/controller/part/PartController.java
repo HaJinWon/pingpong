@@ -1,30 +1,25 @@
 package com.douzone.pingpong.controller.part;
 
 import com.douzone.pingpong.domain.member.Member;
-import com.douzone.pingpong.domain.member.Team;
 import com.douzone.pingpong.domain.post.Comment2;
-import com.douzone.pingpong.domain.post.Part;
 import com.douzone.pingpong.domain.post.Part2;
 import com.douzone.pingpong.domain.post.Post2;
-import com.douzone.pingpong.domain.team.Team2;
 import com.douzone.pingpong.security.argumentresolver.Login;
 import com.douzone.pingpong.service.fileupload.FileuploadService;
 import com.douzone.pingpong.service.part.PartService;
 import com.douzone.pingpong.service.team.TeamService;
-import lombok.extern.java.Log;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.support.SimpleTriggerContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//@Controller
+@Controller
 //@RequestMapping("/{teamId:(?!assets$|images$).*}")
+@RequestMapping("/team")
 public class PartController {
     
     @Autowired
@@ -211,12 +206,13 @@ public class PartController {
 
     // 게시글 읽음 확인
     @GetMapping("/post/read/{postId}")
+    @ResponseBody
     public String readPost(@Login Member authUser, @PathVariable("postId") Long postId){
 
         partService.readPost(authUser.getId(),postId);
         //partService.readPost(2L,postId);
 
-        return "home";
+        return "success";
     }
 
     // 게시물 읽은 사람 정보 가져오기

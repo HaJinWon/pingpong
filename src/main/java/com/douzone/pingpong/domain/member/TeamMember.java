@@ -1,5 +1,6 @@
 package com.douzone.pingpong.domain.member;
 
+import com.douzone.pingpong.domain.team.Team;
 import lombok.Getter;
 
 import javax.persistence.*;

@@ -1,14 +1,12 @@
 package com.douzone.pingpong.controller.team;
 
 import com.douzone.pingpong.domain.member.Member;
-import com.douzone.pingpong.domain.member.Team;
-import com.douzone.pingpong.dto.JsonResult;
+import com.douzone.pingpong.domain.team.Team;
 import com.douzone.pingpong.security.argumentresolver.Login;
 import com.douzone.pingpong.service.team.TeamService;
 import com.douzone.pingpong.web.team.CreateTeamForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 

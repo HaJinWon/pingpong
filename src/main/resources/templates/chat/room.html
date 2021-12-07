@@ -57,7 +57,7 @@ ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
         });
         function printMyChat(writer, message) {
             str = "<div class='col-6'>";
-            str += "<div class='alert alert-secondary'>";
+            str += "<div class='alert alert-warning'>";
             str += "<b>"+ writer + " : " + message + "</b>";
             str += "</div></div>";
             $("#msgArea").append(str);
@@ -65,7 +65,7 @@ ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 
         function printOtherChat(writer, message){
             str = "<div class='col-6'>";
-            str += "<div class='alert alert-warning'>";
+            str += "<div class='alert alert-secondary'>";
             str += "<b>" + writer + " : " + message + "</b>";
             str += "</div></div>";
             $("#msgArea").append(str);
@@ -73,7 +73,7 @@ ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 
         function printNotice(message) {
             str = "<div class='col-6'>";
-            str += "<div class='alert alert-warning'>";
+            str += "<div class='alert alert-secondary'>";
             str += "<b> [알림] " + message + "</b>";
             str += "</div></div>";
             $("#msgArea").append(str);

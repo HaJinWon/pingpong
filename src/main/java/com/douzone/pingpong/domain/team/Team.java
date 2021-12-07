@@ -1,5 +1,6 @@
-package com.douzone.pingpong.domain.member;
+package com.douzone.pingpong.domain.team;
 
+import com.douzone.pingpong.domain.member.TeamMember;
 import com.douzone.pingpong.domain.post.Part;
 import lombok.Builder;
 import lombok.Getter;

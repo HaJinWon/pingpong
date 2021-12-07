@@ -1,10 +1,8 @@
 package com.douzone.pingpong.service.chat;
 
 import com.douzone.pingpong.domain.chat.Chat;
-import com.douzone.pingpong.domain.chat.ChatDto;
 import com.douzone.pingpong.domain.chat.Room;
 import com.douzone.pingpong.domain.member.Member;
-import com.douzone.pingpong.mapper.ChatsMapper;
 import com.douzone.pingpong.repository.chat.ChatRepository;
 import com.douzone.pingpong.repository.chat.RoomRepository;
 import com.douzone.pingpong.repository.member.MemberRepository;

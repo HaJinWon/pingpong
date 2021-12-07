@@ -1,6 +1,7 @@
 package com.douzone.pingpong.service.chat;
 
 
+import com.douzone.pingpong.domain.chat.ChatRoom;
 import com.douzone.pingpong.domain.chat.Room;
 import com.douzone.pingpong.domain.chat.RoomMember;
 import com.douzone.pingpong.domain.member.Member;
@@ -8,10 +9,8 @@ import com.douzone.pingpong.repository.chat.RedisRoomRepository;
 import com.douzone.pingpong.repository.chat.RoomRepository;
 import com.douzone.pingpong.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 

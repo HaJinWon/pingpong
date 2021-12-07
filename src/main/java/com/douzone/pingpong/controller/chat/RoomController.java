@@ -3,7 +3,7 @@ package com.douzone.pingpong.controller.chat;
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.repository.chat.RedisRoomRepository;
 import com.douzone.pingpong.security.argumentresolver.Login;
-import com.douzone.pingpong.service.chat.ChatRoom;
+import com.douzone.pingpong.domain.chat.ChatRoom;
 import com.douzone.pingpong.service.chat.ChatService;
 import com.douzone.pingpong.service.chat.RoomService;
 import com.douzone.pingpong.web.chat.RoomForm;

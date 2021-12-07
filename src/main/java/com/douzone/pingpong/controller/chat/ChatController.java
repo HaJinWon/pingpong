@@ -2,7 +2,7 @@ package com.douzone.pingpong.controller.chat;
 
 import com.douzone.pingpong.pubsub.RedisPublisher;
 import com.douzone.pingpong.repository.chat.RedisRoomRepository;
-import com.douzone.pingpong.service.chat.ChatMessage;
+import com.douzone.pingpong.domain.chat.ChatMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;

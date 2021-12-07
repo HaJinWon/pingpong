@@ -1,8 +1,7 @@
 package com.douzone.pingpong.repository.chat;
 
-import com.douzone.pingpong.domain.chat.Room;
 import com.douzone.pingpong.pubsub.RedisSubscriber;
-import com.douzone.pingpong.service.chat.ChatRoom;
+import com.douzone.pingpong.domain.chat.ChatRoom;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.HashOperations;

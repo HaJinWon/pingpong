@@ -1,8 +1,7 @@
 package com.douzone.pingpong.repository.team;
 
 import com.douzone.pingpong.domain.member.Member;
-import com.douzone.pingpong.domain.member.Team;
-import com.douzone.pingpong.domain.team.Team2;
+import com.douzone.pingpong.domain.team.Team;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;

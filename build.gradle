@@ -43,7 +43,11 @@ dependencies {
 	//jackson databind
 	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.0'
 
+	//common-io
+	implementation group: 'commons-io', name: 'commons-io', version: '1.4'
 
+	//fileupload
+	implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.2.1'
 
 
 	// SQL 실행 파라미터 보는 라이브러리

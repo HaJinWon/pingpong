@@ -16,7 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.List;
 
 @Configuration
-@PropertySource("classpath:com/douzone/mysite/config/WebConfig.properties")
+@PropertySource("classpath:com/douzone/pingpong/config/WebConfig.properties")
 public class WebConfig implements WebMvcConfigurer {
 
     @Autowired

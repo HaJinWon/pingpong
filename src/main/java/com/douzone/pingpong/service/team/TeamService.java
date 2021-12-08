@@ -30,8 +30,8 @@ public class TeamService {
         teamRepository.inviteMember(teamId,userId);
     }
 
-    public List<Member> findUser(String userName) {
-        List<Member> list = teamRepository.findUser(userName);
+    public List<Map<String, Object>> findUser(String userName, Long teamId) {
+        List<Map<String, Object>> list = teamRepository.findUser(userName, teamId);
         return  list;
     }
 
@@ -42,6 +42,16 @@ public class TeamService {
 
 
     public List<Map<String, Object>> getTeamInfo(Long teamId) {
+
         return teamRepository.getTeamInfo(teamId);
+    }
+
+    public List<Map<String, Object>> getTeamList(Long memberId) {
+        return teamRepository.getTeamList(memberId);
+    }
+
+    @Transactional
+    public void acceptTeam(Long teamId, Long memberId) {
+        teamRepository.acceptTeam(teamId,memberId);
     }
 }

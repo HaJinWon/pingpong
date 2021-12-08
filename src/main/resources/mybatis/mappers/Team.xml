@@ -2,16 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="team">
-    <!-- -->
+
     <insert id="inviteMember" parameterType="map">
         <![CDATA[
-			insert into team_member values (null,#{teamId},#{userId});
+			insert into team_member values (null,#{teamId},#{userId},'N')
 		]]>
     </insert>
-    <select id="findUser" resultType="member" parameterType="string">
+    <select id="findUser" resultType="map" parameterType="map">
         <![CDATA[
-            select member_id, email, name, status, avatar, company
-            from member
+            select t.member_id, t.email, t.name, t.phone, t.status, t.avatar, t.company
+            from
+            (
+                select a.member_id, a.email, a.name, a.phone, a.status, a.avatar, a.company
+                from member a
+                left join team_member b
+                on a.member_id = b.member_id
+                where (b.team_id not in ( #{teamId} ))
+                or b.include = 'N'
+                or b.team_id is null
+            ) t
             where name like concat('%',#{userName},'%')
 		]]>
     </select>
@@ -29,4 +38,23 @@
             where team_id = #{teamId}
 		]]>
     </select>
+
+    <select id="getTeamList" resultType="map" parameterType="long">
+        <![CDATA[
+            select a.team_id, b.name
+            from team_member a, team b
+            where a.team_id = b. team_id
+            and a.member_id =#{memberId}
+            and a.include = 'Y'
+		]]>
+    </select>
+
+    <update id="acceptTeam" parameterType="map">
+        <![CDATA[
+            update team_member
+            set include = 'Y'
+            where member_id = #{memberId}
+            and team_id = #{teamId}
+		]]>
+    </update>
 </mapper>

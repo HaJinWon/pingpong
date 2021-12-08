@@ -38,13 +38,14 @@ public class TeamController {
                 .host(loginMember.getId()).build();
 
         TeamMember teamMember = TeamMember.builder()
-                        .member(loginMember)
-                        .team(team)
-                        .build();
+                .member(loginMember)
+                .team(team)
+                .build();
 
         teamService.createTeam(team, teamMember);
         return "redirect:/";
     }
+}
 
     /**
      * 1. 팀생성
@@ -52,28 +53,3 @@ public class TeamController {
      * 3. 생성된 팀에 들어가기 (초대장 송수신)
      * 4. 팀나가기
      */
-
-    // 팀 초대
-//    @PostMapping("/{teamId}/invite")
-    public String invite(@PathVariable("teamId") String teamId, Long userId){
-
-        teamService.inviteMember(teamId,userId);
-
-        return "home";
-    }
-
-    
-    @GetMapping("/api/searchUser/{username}")
-    public String findUser(@PathVariable("username") String userName){
-        List<Member> list = teamService.findUser(userName);
-        System.out.println("list.get(0).getName() = " + list.get(0).getName());
-        return "home";
-    }
-
-    @GetMapping("/team/exit/{teamId}")
-    public String teamExit(@PathVariable("teamId") String teamId, @Login Member member){
-
-        teamService.teamExit(teamId,member.getId());
-        return "";
-    }
-}

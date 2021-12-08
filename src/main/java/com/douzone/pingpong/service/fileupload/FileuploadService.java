@@ -13,7 +13,7 @@ import java.util.Calendar;
 @Service
 public class FileuploadService {
     private static String SAVE_PATH = "/upload-file";
-    private static String URL_BASE = "/upload/file";
+    private static String URL_BASE = "/upload-file";
 
     public String restoreFile(MultipartFile file) throws FileUploadException {
         try {
@@ -23,7 +23,7 @@ public class FileuploadService {
             }
 
             if(file.isEmpty()) {
-                throw new FileUploadException("file upload error: image empty");
+                throw new FileUploadException("file upload error: file empty");
             }
 
             String originFilename = file.getOriginalFilename();

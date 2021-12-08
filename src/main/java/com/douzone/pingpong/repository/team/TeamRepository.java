@@ -35,8 +35,11 @@ public class TeamRepository {
         em.persist(teamMember);
     }
 
-    public List<Member> findUser(String userName) {
-        return sqlSession.selectList("team.findUser",userName);
+    public List<Map<String, Object>> findUser(String userName, Long teamId) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("userName",userName);
+        map.put("teamId",teamId);
+        return sqlSession.selectList("team.findUser",map);
     }
 
     public void teamExit(String teamId, Long memberId) {
@@ -48,6 +51,17 @@ public class TeamRepository {
 
 
     public List<Map<String, Object>> getTeamInfo(Long teamId) {
-        return sqlSession.selectList("getTeamInfo",teamId);
+        return sqlSession.selectList("team.getTeamInfo",teamId);
+    }
+
+    public List<Map<String, Object>> getTeamList(Long memberId) {
+        return sqlSession.selectList("team.getTeamList", memberId);
+    }
+
+    public void acceptTeam(Long teamId, Long memberId) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("teamId",teamId);
+        map.put("memberId",memberId);
+        sqlSession.update("team.acceptTeam",map);
     }
 }

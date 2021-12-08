@@ -24,9 +24,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'
 
 	//devtools
-	implementation group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '2.6.1'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-devtools'
 
 	// MYSQL
 	implementation 'mysql:mysql-connector-java'
@@ -41,7 +42,7 @@ dependencies {
 //	implementation 'org.springframework.security:spring-security-test'
 
 	//jackson databind
-	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.0'
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
 
 
 

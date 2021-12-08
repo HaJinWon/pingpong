@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+//@Controller
 //@RequestMapping("/{teamId:(?!assets$|images$).*}")
 @RequestMapping("/team")
 public class PartController {
@@ -98,7 +98,6 @@ public class PartController {
     //새 파트 추가
     @RequestMapping("/part/add")
     public String addPart(@PathVariable("teamId") Long teamId, String partName ){
-
         partService.addPart(teamId,partName);
         return "home";
     }

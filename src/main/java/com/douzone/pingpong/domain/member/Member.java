@@ -3,6 +3,8 @@ package com.douzone.pingpong.domain.member;
 import com.douzone.pingpong.domain.chat.Chat;
 import com.douzone.pingpong.domain.chat.RoomMember;
 import com.douzone.pingpong.domain.post.Comment;
+import com.douzone.pingpong.domain.post.PostMember;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,12 +37,15 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<TeamMember> teamMembers = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "member")
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<RoomMember> roomMembers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    private List<PostMember> postMembers = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Chat> chats = new ArrayList<>();

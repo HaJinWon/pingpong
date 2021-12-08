@@ -1,5 +1,6 @@
 package com.douzone.pingpong.domain.team;
 
+import com.douzone.pingpong.domain.chat.Room;
 import com.douzone.pingpong.domain.member.TeamMember;
 import com.douzone.pingpong.domain.post.Part;
 import lombok.Builder;
@@ -24,6 +25,9 @@ public class Team {
 
     @OneToMany(mappedBy = "team")
     private List<Part> parts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "team")
+    private List<Room> rooms = new ArrayList<>();
 
     private String name;
     private LocalDateTime date;

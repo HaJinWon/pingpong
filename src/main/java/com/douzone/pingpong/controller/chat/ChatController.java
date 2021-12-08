@@ -18,16 +18,10 @@ public class ChatController {
 
     @MessageMapping("/chat/message")
     public void message(ChatMessage message) {
-        log.info("CHATCONTOLLER IN!!! : {} sender:{}", message.getType(),message.getSender());
-
-
         if(ChatMessage.MessageType.ENTER.equals(message.getType())){
-            System.out.println("in!!!");
             redisRoomRepository.enterChatRoom(message.getRoomId());
             message.setMessage(message.getSender() + "님이 입장하셨습니다.");
         }
-
-        log.info("CONTROL : {}, {}" , redisRoomRepository.getTopic(message.getRoomId()), message);
         redisPublisher.publish(redisRoomRepository.getTopic(message.getRoomId()), message);
     }
 

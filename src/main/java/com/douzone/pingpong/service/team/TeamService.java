@@ -1,6 +1,7 @@
 package com.douzone.pingpong.service.team;
 
 import com.douzone.pingpong.domain.member.Member;
+import com.douzone.pingpong.domain.member.TeamMember;
 import com.douzone.pingpong.domain.team.Team;
 import com.douzone.pingpong.repository.team.TeamRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +22,8 @@ public class TeamService {
     private final EntityManager em;
 
     @Transactional
-    public void createTeam(Team team) {
-        teamRepository.saveTeam(team);
+    public void createTeam(Team team, TeamMember teamMember) {
+        teamRepository.saveTeam(team, teamMember);
     }
 
     // 맴버초대 서비스

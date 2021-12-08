@@ -1,6 +1,7 @@
 package com.douzone.pingpong.repository.team;
 
 import com.douzone.pingpong.domain.member.Member;
+import com.douzone.pingpong.domain.member.TeamMember;
 import com.douzone.pingpong.domain.team.Team;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
@@ -29,8 +30,9 @@ public class TeamRepository {
         sqlSession.insert("team.inviteMember",map);
     }
 
-    public void saveTeam(Team team) {
+    public void saveTeam(Team team, TeamMember teamMember) {
         em.persist(team);
+        em.persist(teamMember);
     }
 
     public List<Member> findUser(String userName) {

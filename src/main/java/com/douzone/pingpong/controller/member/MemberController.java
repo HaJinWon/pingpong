@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -34,14 +35,15 @@ public class MemberController {
     }
 
     @PostMapping("/members/login")
-    public String login(@ModelAttribute @Validated LoginForm loginForm,
+    public String login(@ModelAttribute @Valid LoginForm loginForm,
                         BindingResult bindingResult,
-                        HttpServletRequest request,
-                        Model model) {
+                        HttpServletRequest request
+                        ) {
+
         if (bindingResult.hasErrors()) {
-            log.info(bindingResult.toString());
             return "members/loginForm";
         }
+
         Member loginMember = memberService.login(loginForm.getEmail(), loginForm.getPassword());
 
         if (loginMember == null) {
@@ -71,7 +73,12 @@ public class MemberController {
     }
 
     @PostMapping("/members/new")
-    public String join(@ModelAttribute JoinForm joinForm) {
+    public String join(@ModelAttribute @Valid JoinForm joinForm,
+                       BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "members/joinForm";
+        }
+
         Member member = Member.builder()
                 .email(joinForm.getEmail())
                 .password(joinForm.getPassword())
@@ -100,6 +107,8 @@ public class MemberController {
         return "members/editForm";
     }
 
+    /*
+    화면용 멤버수정 현재 필요없음.
     @PostMapping("/members/edit")
     public String edit(@Login Member loginMember,
                        @ModelAttribute EditForm editForm,
@@ -123,10 +132,5 @@ public class MemberController {
         return "redirect:/";
     }
 
-    @GetMapping("/members")
-    public String members(Model model) {
-        List<Member> members = memberService.findMembers();
-        model.addAttribute("members", members);
-        return "members/memberList";
-    }
+     */
 }

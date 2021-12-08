@@ -1,19 +1,21 @@
 package com.douzone.pingpong.controller.team;
 
 import com.douzone.pingpong.domain.member.Member;
+import com.douzone.pingpong.domain.member.TeamMember;
 import com.douzone.pingpong.domain.team.Team;
 import com.douzone.pingpong.security.argumentresolver.Login;
 import com.douzone.pingpong.service.team.TeamService;
 import com.douzone.pingpong.web.team.CreateTeamForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-//@Controller
+@Controller
 @Slf4j
 @RequiredArgsConstructor
 public class TeamController {
@@ -35,7 +37,12 @@ public class TeamController {
                 .date(LocalDateTime.now())
                 .host(loginMember.getId()).build();
 
-        teamService.createTeam(team);
+        TeamMember teamMember = TeamMember.builder()
+                        .member(loginMember)
+                        .team(team)
+                        .build();
+
+        teamService.createTeam(team, teamMember);
         return "redirect:/";
     }
 
@@ -47,7 +54,7 @@ public class TeamController {
      */
 
     // 팀 초대
-    @PostMapping("/{teamId}/invite")
+//    @PostMapping("/{teamId}/invite")
     public String invite(@PathVariable("teamId") String teamId, Long userId){
 
         teamService.inviteMember(teamId,userId);

@@ -18,6 +18,13 @@ public class Post {
     @JoinColumn(name = "part_id")
     private Part part;
 
+    @OneToMany(mappedBy = "post")
+    List<PostMember> postMembers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post")
+    List<Comment> comments = new ArrayList<>();
+
+
 
     private String contents;
     private LocalDateTime date;
@@ -27,6 +34,5 @@ public class Post {
     private String title;
 
 //     Post_momber 테이블 삭제로 인한 주석처리 : 1204 JIN
-//    @OneToMany(mappedBy = "post")
-//    List<PostMember> postMembers = new ArrayList<>();
+
 }

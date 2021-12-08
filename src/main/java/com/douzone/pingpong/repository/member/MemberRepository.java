@@ -21,6 +21,11 @@ public class MemberRepository {
         return em.find(Member.class, memberId);
     }
 
+//    public Member findByEmail(String email) {
+//        return em.createQuery("select m from Member m where m.email=:email", Member.class)
+//                .getSingleResult();
+//    }
+
     public Optional<Member> findByEmail(String email) {
         Optional<Member> member = Optional.ofNullable(em.createQuery("select m from Member m where m.email=:email", Member.class)
                         .setParameter("email", email)
@@ -36,8 +41,12 @@ public class MemberRepository {
         return member;
     }
 
-    public List<Member> findAll() {
-        return em.createQuery("select m from Member m", Member.class)
+    public List<Member> findByTeamMembers(Long teamId) {
+        return em.createQuery("select distinct m from Member m" +
+                        " join fetch m.teamMembers tm" +
+                        " join fetch tm.team t" +
+                        " where t.id = :teamId",Member.class)
+                .setParameter("teamId", teamId)
                 .getResultList();
     }
 }

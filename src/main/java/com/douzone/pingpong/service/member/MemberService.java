@@ -1,5 +1,6 @@
 package com.douzone.pingpong.service.member;
 
+import com.douzone.pingpong.controller.api.dto.UpdateMemberRequest;
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -19,8 +21,18 @@ public class MemberService {
     private final EntityManager em;
 
     @Transactional
-    public void join(Member member) {
+    public Long join(Member member) {
+        validateDuplicateMember(member);
         memberRepository.save(member);
+        return member.getId();
+    }
+
+    // 회원 체크 (이메일 중복 체크)
+    private void validateDuplicateMember(Member member) {
+        Member findMember = memberRepository.findByEmail(member.getEmail()).get();
+        if (findMember != null) {
+            throw new IllegalStateException("이미 존재하는 이메일입니다.");
+        }
     }
 
     public Member findMember(Long memberId) {
@@ -37,16 +49,13 @@ public class MemberService {
         return member;
     }
 
-    public List<Member> findMembers() {
-        return memberRepository.findAll();
-    }
-
     @Transactional
-    public void editMember(EditMemberDto editMemberDto) {
-        Member findMember = em.find(Member.class, editMemberDto.getId());
-        log.info("findMember ::: {}", findMember);
-        findMember.updateMember(editMemberDto.getName(), editMemberDto.getStatus(), editMemberDto.getAvatar());
+    public void update(Long memberId, UpdateMemberRequest request) {
+        Member findMember = em.find(Member.class, memberId);
+        findMember.updateMember(request.getName(), request.getStatus(), request.getAvatar());
     }
 
-
+    public List<Member> findByTeamMembers(Long teamId) {
+        return memberRepository.findByTeamMembers(teamId);
+    }
 }

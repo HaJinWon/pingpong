@@ -14,6 +14,8 @@ public class MemberRepository {
     private final EntityManager em;
 
     public void save(Member member) {
+        System.out.println("reposi save");
+        System.out.println(member.getEmail());
         em.persist(member);
     }
 

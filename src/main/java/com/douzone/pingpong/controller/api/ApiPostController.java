@@ -3,6 +3,7 @@ package com.douzone.pingpong.controller.api;
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.domain.post.Comment2;
 import com.douzone.pingpong.domain.post.Post2;
+import com.douzone.pingpong.dto.JsonResult;
 import com.douzone.pingpong.security.argumentresolver.Login;
 import com.douzone.pingpong.service.part.PartService;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
@@ -30,6 +31,16 @@ public class ApiPostController {
         map.put("postList", list);
 
         return map;
+    }
+
+    @RequestMapping("/listtest/{partId}")
+    public JsonResult getPostListtest(@PathVariable("partId") Long partId){
+        System.out.println("getPostList");
+        List<Map<String,Object>> list = partService.getPostList(partId);
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("postList", list);
+
+        return JsonResult.success(map);
     }
 
     // 게시글 삭제

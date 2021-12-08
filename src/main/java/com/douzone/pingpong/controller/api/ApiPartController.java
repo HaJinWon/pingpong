@@ -4,16 +4,14 @@ import com.douzone.pingpong.domain.post.Part2;
 import com.douzone.pingpong.service.part.PartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 
 @Controller
 @RequestMapping("/part")
+@CrossOrigin("*")
 public class ApiPartController {
 
     @Autowired

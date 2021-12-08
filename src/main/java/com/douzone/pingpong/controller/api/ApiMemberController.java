@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin("*")
 @RequestMapping("/api")
 public class ApiMemberController {
     private final MemberService memberService;
@@ -43,6 +44,8 @@ public class ApiMemberController {
     public CreateMemberResponse saveMember(
             @RequestBody @Valid CreateMemberRequest request
     ) {
+        System.out.println("test");
+
         Member member = Member.builder()
                 .email(request.getEmail())
                 .name(request.getName())
@@ -65,6 +68,7 @@ public class ApiMemberController {
             BindingResult bindingResult,
             HttpServletRequest httpRequest
     ) {
+        System.out.println("로그인 컨트롤ㄹ러");
         if (bindingResult.hasErrors()) {
             return new LoginMemberResponse();
         }
@@ -119,3 +123,4 @@ public class ApiMemberController {
 //    }
 
 }
+

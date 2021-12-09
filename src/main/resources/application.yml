@@ -1,9 +1,14 @@
 spring:
   datasource:
-    url: jdbc:mysql://34.64.241.221:3306/pingpong?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
-    username: pingpong
-    password: pingpong
+#    url: jdbc:mysql://34.64.180.147:3306/pingpong?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+#    username: pingpong
+#    password: pingpong
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://pingpongdz.synology.me:3306/pingpong?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: root
+    password: gkwlsdnjs
     driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
     hibernate:
       ddl-auto: none
@@ -15,7 +20,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     #spring.jackson.serialization.fail-on-empty-beans=false
   redis:
-    host: 34.64.241.221
+    host: pingpongdz.synology.me
     port: 6379
   jackson:
     serialization:

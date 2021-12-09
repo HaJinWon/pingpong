@@ -28,7 +28,7 @@ public class PartRepository {
         map.put("teamId",teamId);
         map.put("partName",partName);
 
-        sqlSession.insert("part.addPart",map);
+        sqlSession.insert("part.addPart", map);
     }
 
     public void delPart( Long partId) {

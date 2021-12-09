@@ -26,7 +26,7 @@ public class PartService {
     }
 
     public void addPart(Long teamId, String partName) {
-        partRepository.addPart(teamId,partName);
+         partRepository.addPart(teamId, partName);
     }
 
     public void delPart(Long partId) {

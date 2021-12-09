@@ -4,7 +4,6 @@ import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.repository.chat.RedisRoomRepository;
 import com.douzone.pingpong.security.argumentresolver.Login;
 import com.douzone.pingpong.domain.chat.ChatRoom;
-import com.douzone.pingpong.service.chat.ChatService;
 import com.douzone.pingpong.service.chat.RoomService;
 import com.douzone.pingpong.web.chat.RoomForm;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +19,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/chat")
-@Transactional(readOnly = true)
 public class RoomController {
     private final RoomService roomService;
     private final RedisRoomRepository redisRoomRepository;
-    private final ChatService chatService;
 
     //  채팅 리스트 화면
     @GetMapping("/room")

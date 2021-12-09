@@ -39,6 +39,7 @@ public class ApiPartController {
     public String addPart(@PathVariable("teamId") Long teamId, String partName ){
 
         partService.addPart(teamId,partName);
+
         return "success";
     }
 

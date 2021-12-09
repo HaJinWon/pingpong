@@ -1,5 +1,12 @@
 package com.douzone.pingpong.controller.api.dto;
 
-public class LoginMemberResponse {
+import lombok.Data;
 
+@Data
+public class LoginMemberResponse {
+    private Long memberId;
+
+    public LoginMemberResponse(Long memberId) {
+        this.memberId = memberId;
+    }
 }

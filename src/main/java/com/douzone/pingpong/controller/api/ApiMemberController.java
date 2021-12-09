@@ -41,8 +41,10 @@ public class ApiMemberController {
      */
     @PostMapping("/members")
     public CreateMemberResponse saveMember(
-            @RequestBody @Valid CreateMemberRequest request
+            @RequestBody CreateMemberRequest request
     ) {
+        log.info("request {} ", request);
+
         Member member = Member.builder()
                 .email(request.getEmail())
                 .name(request.getName())
@@ -66,13 +68,17 @@ public class ApiMemberController {
             HttpServletRequest httpRequest
     ) {
         if (bindingResult.hasErrors()) {
-            return new LoginMemberResponse();
+            log.info("Login Valid Error");
         }
         Member loginMember = memberService.login(request.getEmail(), request.getPassword());
 
+        if (loginMember == null) {
+            // 로그인 실패 로직 ( 회원정보 일치하지 않음)
+        }
+
         HttpSession session = httpRequest.getSession();
         session.setAttribute(SessionConstants.LOGIN_MEMBER, loginMember);
-        return new LoginMemberResponse();
+        return new LoginMemberResponse(loginMember.getId());
     }
 
 
@@ -93,6 +99,7 @@ public class ApiMemberController {
 
     /**
      * 팀에 소속된 멤버 검색
+     * 1대1 채팅할때 사용
      * @return
      */
     @GetMapping("/members/{teamId}")
@@ -106,16 +113,5 @@ public class ApiMemberController {
         return result;
     }
 
-//    @GetMapping("/members/v2/{teamId}")
-//    public List<MemberDto> find ByTeamMembersV2(
-//            @PathVariable Long teamId
-//    ) {
-//        List<Member> members = memberService.findByTeamMembers(teamId);
-//        List<MemberDto> result = members.stream()
-//                .map(m -> new MemberDto(m))
-//                .collect(Collectors.toList());
-//        return result;
-//
-//    }
 
 }

@@ -1,0 +1,13 @@
+# redis-server.yml
+version: '3.7'
+services:
+  redis:
+    image: redis
+    command: redis-server --port 6379
+    container_name: pingredis
+    hostname: pingredis
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    ports:
+      - 6379:6379

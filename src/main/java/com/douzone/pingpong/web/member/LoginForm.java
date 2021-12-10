@@ -8,8 +8,8 @@ import javax.validation.constraints.NotBlank;
 
 @Getter @Setter
 public class LoginForm {
-    @NotBlank @Email
+    //@NotBlank @Email
     private String email;
-    @NotBlank
+    //@NotBlank
     private String password;
 }

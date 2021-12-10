@@ -42,11 +42,12 @@ public class RoomController {
     }
 
     // 채팅방 생성
-    @PostMapping("/room")
+    @PostMapping("/room/{teamId}")
     @ResponseBody
     public ChatRoom createRoom(@ModelAttribute RoomForm roomForm,
+                              @PathVariable Long teamId,
                              @Login Member loginMember) {
-        return roomService.createRoom(loginMember.getId(), roomForm.getTitle());
+        return roomService.createRoom(loginMember.getId(), roomForm.getTitle(), teamId);
     }
 
     // 채팅방 입장 화면

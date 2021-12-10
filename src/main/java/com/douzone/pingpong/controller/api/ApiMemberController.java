@@ -3,6 +3,7 @@ package com.douzone.pingpong.controller.api;
 import com.douzone.pingpong.controller.api.dto.*;
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.domain.member.TeamMember;
+import com.douzone.pingpong.dto.JsonResult;
 import com.douzone.pingpong.security.argumentresolver.Login;
 import com.douzone.pingpong.service.member.MemberService;
 import com.douzone.pingpong.web.SessionConstants;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin("*")
 @RequestMapping("/api")
 public class ApiMemberController {
     private final MemberService memberService;
@@ -90,11 +92,24 @@ public class ApiMemberController {
     public UpdateMemberResponse editMember(
                 @Login Member loginMember,
                 @RequestBody UpdateMemberRequest request) {
+        System.out.println("updateForm");
         Long memberId = loginMember.getId();
         memberService.update(memberId, request);
         memberService.findMember(memberId);
 
         return new UpdateMemberResponse(memberId, request.getName());
+    }
+
+    /**
+     *  회원 정보 수정 페이지 ( 원래 정보를 띄우기 위한 메서드)
+     */
+    @GetMapping("/members/edit")
+    public JsonResult userUpdate(@Login Member member){
+        System.out.println("getUpdateUser");
+        Member updateMemeber = memberService.getUpdateUser(1L);
+        //Member updateMemeber = memberService.getUpdateUser(member.getId());
+        System.out.println("updateMemeber = " + updateMemeber);
+        return JsonResult.success(updateMemeber);
     }
 
     /**
@@ -114,4 +129,14 @@ public class ApiMemberController {
     }
 
 
+    @GetMapping("/members/emailcheck/{email}")
+    public JsonResult joinEmailCheck(@PathVariable("email") String email){
+        System.out.println("emailcheck");
+        System.out.println("emailcheck"+email);
+        Member member = memberService.checkEmail(email);
+
+        return JsonResult.success(member);
+    }
 }
+
+

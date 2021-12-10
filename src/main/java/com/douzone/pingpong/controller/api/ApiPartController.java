@@ -4,16 +4,14 @@ import com.douzone.pingpong.domain.post.Part2;
 import com.douzone.pingpong.service.part.PartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 
 @Controller
-@RequestMapping("/part")
+@RequestMapping("/api/part")
+@CrossOrigin("*")
 public class ApiPartController {
 
     @Autowired
@@ -36,7 +34,7 @@ public class ApiPartController {
     //새 파트 추가
     @ResponseBody
     @PostMapping("/add/{teamId:(?!assets$|images$).*}")
-    public String addPart(@PathVariable("teamId") Long teamId, String partName ){
+    public String addPart(@PathVariable("teamId") Long teamId, @RequestBody String partName ){
 
         partService.addPart(teamId,partName);
 

@@ -3,6 +3,7 @@ package com.douzone.pingpong.controller.api;
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.domain.post.Comment2;
 import com.douzone.pingpong.domain.post.Post2;
+import com.douzone.pingpong.dto.JsonResult;
 import com.douzone.pingpong.security.argumentresolver.Login;
 import com.douzone.pingpong.service.part.PartService;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/post")
+@RequestMapping("/api/post")
 public class ApiPostController {
 
     @Autowired
@@ -32,6 +33,16 @@ public class ApiPostController {
         return map;
     }
 
+    @RequestMapping("/listtest/{partId}")
+    public JsonResult getPostListtest(@PathVariable("partId") Long partId){
+        System.out.println("getPostList");
+        List<Map<String,Object>> list = partService.getPostList(partId);
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("postList", list);
+
+        return JsonResult.success(map);
+    }
+
     // 게시글 삭제
     @RequestMapping("/del/{postId}")
     public String delPost(@PathVariable("postId") Long postId){
@@ -42,8 +53,9 @@ public class ApiPostController {
     // 게시글 작성
     @PostMapping("/post/write/{partId}")
     public String writePost(@PathVariable("partId") Long partId, @Login Member authUser,
-                            String title, String contents /*, MultipartFile file, MultipartFile image*/) throws FileUploadException {
+                            @RequestBody Post2 postVo /*, MultipartFile file, MultipartFile image*/) throws FileUploadException {
         System.out.println("addPost");
+        /*
         Post2 vo = new Post2();
         //String fileUrl = fileuploadService.restoreFile(file);
         //String imageUrl = fileuploadService.restoreFile(image);
@@ -54,8 +66,8 @@ public class ApiPostController {
         vo.setFile(fileUrl);
         vo.setImage(imageUrl);
         vo.setMember_id(authUser.getId());
-
-        partService.addPost(vo);
+        */
+        partService.addPost(postVo);
 
         return "success";
 
@@ -144,7 +156,7 @@ public class ApiPostController {
 
     //새 댓글 작성
     @PostMapping("/comment/{postId}")
-    public String addComment(@PathVariable("postId") Long postId, @Login Member authUser, String contents){
+    public String addComment(@PathVariable("postId") Long postId, @Login Member authUser, @RequestBody String contents){
 
         Comment2 vo = new Comment2();
         vo.setContents(contents);

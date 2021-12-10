@@ -1,10 +1,14 @@
 spring:
   datasource:
+<<<<<<< HEAD
 #    url: jdbc:mysql://34.64.180.147:3306/pingpong?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
 #    username: pingpong
 #    password: pingpong
 #    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://pingpongdz.synology.me:3306/pingpong?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+=======
+    url: jdbc:mysql://pingpongdz.synology.me:3306/pingpong?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+>>>>>>> c985a27abd0e1411b99991f5a798d9b478474f8b
     username: root
     password: gkwlsdnjs
     driver-class-name: com.mysql.cj.jdbc.Driver

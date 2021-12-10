@@ -18,7 +18,7 @@ import java.nio.file.Paths;
 @RestController
 public class ApiFileDownloadController {
 
-    @GetMapping("/download/{filename}")
+    @GetMapping("/api/download/{filename}")
     public ResponseEntity<Object> download(@PathVariable("filename") String filename) {
         System.out.println("파일 다운로드");
         String path = "C:"+filename;

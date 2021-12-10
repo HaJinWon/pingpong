@@ -25,6 +25,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin("*")
 public class MemberController {
     private final MemberService memberService;
 
@@ -75,10 +76,12 @@ public class MemberController {
     @PostMapping("/members/new")
     public String join(@ModelAttribute @Valid JoinForm joinForm,
                        BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "members/joinForm";
-        }
-
+        System.out.println("여기 됨");
+        System.out.println(joinForm.getEmail());
+//        if (bindingResult.hasErrors()) {
+//            return "members/joinForm";
+//        }
+        System.out.println(joinForm.getEmail());
         Member member = Member.builder()
                 .email(joinForm.getEmail())
                 .password(joinForm.getPassword())
@@ -87,6 +90,7 @@ public class MemberController {
                 .company(joinForm.getCompany())
                 .date(LocalDateTime.now())
                 .build();
+        log.info("MEMBER {}", member);
         memberService.join(member);
         return "redirect:/";
     }

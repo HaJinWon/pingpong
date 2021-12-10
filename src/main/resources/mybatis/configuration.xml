@@ -13,5 +13,6 @@
     <mappers>
         <mapper resource="mybatis/mappers/Part.xml" />
         <mapper resource="mybatis/mappers/Team.xml" />
+        <mapper resource="mybatis/mappers/Member.xml" />
     </mappers>
 </configuration>

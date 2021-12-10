@@ -5,9 +5,11 @@ import com.douzone.pingpong.domain.chat.ChatRoom;
 import com.douzone.pingpong.domain.chat.Room;
 import com.douzone.pingpong.domain.chat.RoomMember;
 import com.douzone.pingpong.domain.member.Member;
+import com.douzone.pingpong.domain.team.Team;
 import com.douzone.pingpong.repository.chat.RedisRoomRepository;
 import com.douzone.pingpong.repository.chat.RoomRepository;
 import com.douzone.pingpong.repository.member.MemberRepository;
+import com.douzone.pingpong.repository.team.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,7 @@ import java.util.List;
 public class RoomService {
     private final MemberRepository memberRepository;
     private final RoomRepository roomRepository;
+    private final TeamRepository teamRepository;
     private final RedisRoomRepository redisRoomRepository;
 //
 //    public List<Room> findRooms() {
@@ -55,15 +58,15 @@ public class RoomService {
     }
 
     @Transactional
-    public ChatRoom createRoom(Long memberId, String roomTitle, Long teamId) {
+    public ChatRoom createRoom(Long memberId, String roomTitle) {
         // 엔티티 조회
         Member member = memberRepository.findById(memberId);
-        findById(teamId);
+        Team team = teamRepository.findById(1L);
 
         // RoomMember 생성
         RoomMember roomMember = RoomMember.createRoomMember(member);
 
-        Room room = Room.createRoom(roomMember, roomTitle);
+        Room room = Room.createRoom(roomMember, team, roomTitle);
 
         roomRepository.createChatRoom(room);
         return redisRoomRepository.createChatRoom(roomTitle);

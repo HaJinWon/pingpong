@@ -42,7 +42,7 @@ public class ApiMemberController {
      * @return : memberId
      */
     @PostMapping("/members")
-    public CreateMemberResponse saveMember(
+    public JsonResult saveMember(
             @RequestBody CreateMemberRequest request
     ) {
         System.out.println("test");
@@ -56,7 +56,7 @@ public class ApiMemberController {
                 .date(LocalDateTime.now())
                 .build();
         Long memberId = memberService.join(member);
-        return new CreateMemberResponse(memberId);
+        return JsonResult.success(memberId);
     }
 
     /**
@@ -69,15 +69,19 @@ public class ApiMemberController {
             BindingResult bindingResult,
             HttpServletRequest httpRequest
     ) {
-        System.out.println("로그인 컨트롤ㄹ러");
+        System.out.println("로그인 컨트롤러");
 //        if (bindingResult.hasErrors()) {
 //            return new LoginMemberResponse();
 //        }
         Member loginMember = memberService.login(request.getEmail(), request.getPassword());
-        System.out.println("이메일"+loginMember.getEmail());
+
+        if (loginMember == null){
+            throw new IllegalStateException("일치멤버없음");
+        }
+        System.out.println("이메일!!!!"+loginMember.getEmail());
         HttpSession session = httpRequest.getSession();
         session.setAttribute(SessionConstants.LOGIN_MEMBER, loginMember);
-        return new LoginMemberResponse();
+        return new LoginMemberResponse(loginMember);
     }
 
 
@@ -86,7 +90,7 @@ public class ApiMemberController {
      * @return : memberId, name
      */
     @PostMapping("/members/edit")
-    public UpdateMemberResponse editMember(
+    public JsonResult editMember(
                 @Login Member loginMember,
                 @RequestBody UpdateMemberRequest request) {
         System.out.println("updateForm");
@@ -94,7 +98,7 @@ public class ApiMemberController {
         memberService.update(memberId, request);
         memberService.findMember(memberId);
 
-        return new UpdateMemberResponse(memberId, request.getName());
+        return JsonResult.success(new UpdateMemberResponse(memberId, request.getName()));
     }
 
     /**

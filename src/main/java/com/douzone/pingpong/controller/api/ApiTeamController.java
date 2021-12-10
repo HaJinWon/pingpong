@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/team")
+@RequestMapping("/api/team")
 public class ApiTeamController {
 
     @Autowired
@@ -82,9 +82,12 @@ public class ApiTeamController {
 
     // 팀 초대
     @PostMapping("/invite/{teamId}")
-    public String invite(@PathVariable("teamId") String teamId, Long userId){
+    public String invite(@PathVariable("teamId") String teamId, @RequestBody List<Long> userId){
 
-        teamService.inviteMember(teamId,userId);
+        for(int i =0; i<userId.size();i++){
+            teamService.inviteMember(teamId,userId.get(i));
+        }
+
 
         return "success";
     }
@@ -117,7 +120,7 @@ public class ApiTeamController {
 
     // 전체 유저 검색 우리팀에 속해있는 유저 제외
     @GetMapping("/searchUser/{teamId}")
-    public HashMap<String,Object> findUser( @PathVariable("teamId") Long teamId, String userName){
+    public HashMap<String,Object> findUser( @PathVariable("teamId") Long teamId, @RequestBody String userName){
         List<Map<String, Object>> list = teamService.findUser(userName,teamId);
         //System.out.println("list.get(0).getName() = " + list.get(0).getName());
         HashMap<String,Object> map = new HashMap<>();

@@ -58,4 +58,13 @@ public class MemberService {
     public List<Member> findByTeamMembers(Long teamId) {
         return memberRepository.findByTeamMembers(teamId);
     }
+
+
+    public Member checkEmail(String email) {
+        return memberRepository.checkEmail(email);
+    }
+
+    public Member getUpdateUser(Long id) {
+        return memberRepository.getUpdateUser(id);
+    }
 }

@@ -78,9 +78,9 @@ public class MemberController {
                        BindingResult bindingResult) {
         System.out.println("여기 됨");
         System.out.println(joinForm.getEmail());
-        if (bindingResult.hasErrors()) {
-            return "members/joinForm";
-        }
+//        if (bindingResult.hasErrors()) {
+//            return "members/joinForm";
+//        }
         System.out.println(joinForm.getEmail());
         Member member = Member.builder()
                 .email(joinForm.getEmail())

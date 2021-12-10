@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @Controller
-@RequestMapping("/part")
+@RequestMapping("/api/part")
 @CrossOrigin("*")
 public class ApiPartController {
 
@@ -34,7 +34,7 @@ public class ApiPartController {
     //새 파트 추가
     @ResponseBody
     @PostMapping("/add/{teamId:(?!assets$|images$).*}")
-    public String addPart(@PathVariable("teamId") Long teamId, String partName ){
+    public String addPart(@PathVariable("teamId") Long teamId, @RequestBody String partName ){
 
         partService.addPart(teamId,partName);
         return "success";

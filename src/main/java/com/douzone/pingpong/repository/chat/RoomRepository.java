@@ -29,10 +29,9 @@ public class RoomRepository {
         return em.find(Room.class, roomId);
     }
 
-//    public Long createChatRoom(Room room, RoomMember roomMember) {
-//        em.persist(room);
-//        em.persist(roomMember);
-//        return room.getId();
-//    }
+    public Long createChatRoom(Room room) {
+        em.persist(room);
+        return room.getId();
+    }
 }
 

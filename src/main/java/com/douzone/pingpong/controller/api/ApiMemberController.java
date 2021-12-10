@@ -45,7 +45,7 @@ public class ApiMemberController {
     public JsonResult saveMember(
             @RequestBody CreateMemberRequest request
     ) {
-        System.out.println("test");
+        log.info("request {} ", request);
 
         Member member = Member.builder()
                 .email(request.getEmail())
@@ -69,6 +69,7 @@ public class ApiMemberController {
             BindingResult bindingResult,
             HttpServletRequest httpRequest
     ) {
+
         System.out.println("로그인 컨트롤러");
 //        if (bindingResult.hasErrors()) {
 //            return new LoginMemberResponse();
@@ -82,6 +83,7 @@ public class ApiMemberController {
         HttpSession session = httpRequest.getSession();
         session.setAttribute(SessionConstants.LOGIN_MEMBER, loginMember);
         return new LoginMemberResponse(loginMember);
+
     }
 
 
@@ -115,6 +117,7 @@ public class ApiMemberController {
 
     /**
      * 팀에 소속된 멤버 검색
+     * 1대1 채팅할때 사용
      * @return
      */
     @GetMapping("/members/{teamId}")
@@ -128,17 +131,6 @@ public class ApiMemberController {
         return result;
     }
 
-//    @GetMapping("/members/v2/{teamId}")
-//    public List<MemberDto> find ByTeamMembersV2(
-//            @PathVariable Long teamId
-//    ) {
-//        List<Member> members = memberService.findByTeamMembers(teamId);
-//        List<MemberDto> result = members.stream()
-//                .map(m -> new MemberDto(m))
-//                .collect(Collectors.toList());
-//        return result;
-//
-//    }
 
     @GetMapping("/members/emailcheck/{email}")
     public JsonResult joinEmailCheck(@PathVariable("email") String email){

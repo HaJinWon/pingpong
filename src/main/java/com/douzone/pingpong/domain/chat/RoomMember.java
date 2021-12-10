@@ -44,10 +44,9 @@ public class RoomMember {
     }
 
     //== 생성 메서드 == //
-    public static RoomMember createRoomMember(Member member, Room room) {
+    public static RoomMember createRoomMember(Member member) {
         return  RoomMember.builder()
                 .member(member)
-                .room(room)
                 .build();
     }
 }

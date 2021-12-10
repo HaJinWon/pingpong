@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 @RequiredArgsConstructor
 @Repository
 @Slf4j
@@ -41,7 +42,6 @@ public class RedisRoomRepository {
     public List<ChatRoom> findAllRoom() {
         List<ChatRoom> result = opsHashChatRoom.values(CHAT_ROOMS);
         Collections.reverse(result);
-
         return result;
 
     }

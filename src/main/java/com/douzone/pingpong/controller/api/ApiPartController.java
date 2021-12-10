@@ -38,7 +38,9 @@ public class ApiPartController {
     public JsonResult addPart(@PathVariable("teamId") Long teamId, @RequestBody String partName ){
 
         partService.addPart(teamId,partName);
+
         return JsonResult.success("success");
+
     }
 
     //파트 삭제

@@ -9,6 +9,7 @@ import com.douzone.pingpong.security.argumentresolver.Login;
 import com.douzone.pingpong.service.fileupload.FileuploadService;
 import com.douzone.pingpong.service.part.PartService;
 import com.douzone.pingpong.service.team.TeamService;
+import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,16 +20,14 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/team")
 public class ApiTeamController {
+    private final PartService partService;
 
-    @Autowired
-    private PartService partService;
+    private final FileuploadService fileuploadService;
 
-    @Autowired private FileuploadService fileuploadService;
-
-    @Autowired
-    private TeamService teamService;
+    private final TeamService teamService;
 
     // 팀 페이지 불러오기 ( 통합 )
     @RequestMapping({"/{teamId:(?!assets$|images$).*}/{partId}/{postId}",
@@ -88,8 +87,6 @@ public class ApiTeamController {
         for(int i =0; i<userId.size();i++){
             teamService.inviteMember(teamId,userId.get(i));
         }
-
-
         return "success";
     }
 

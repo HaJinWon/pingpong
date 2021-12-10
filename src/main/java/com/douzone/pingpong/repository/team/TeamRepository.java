@@ -17,9 +17,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class TeamRepository {
     private final EntityManager em;
-
-    @Autowired
-    private SqlSession sqlSession;
+    private final SqlSession sqlSession;
 
     //팀에 멤버 초대
     public void inviteMember(String teamId, Long userId) {
@@ -64,4 +62,10 @@ public class TeamRepository {
         map.put("memberId",memberId);
         sqlSession.update("team.acceptTeam",map);
     }
+
+    public Team findById(Long teamId) {
+        return em.find(Team.class, teamId);
+    }
+
+
 }

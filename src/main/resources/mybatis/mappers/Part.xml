@@ -9,7 +9,7 @@
 		]]>
     </select>
 
-    <insert id="addPart" parameterType="map">
+    <insert id="addPart" parameterType="map" >
         <![CDATA[
 			insert into part values (null, #{partName},now(),#{teamId})
 		]]>

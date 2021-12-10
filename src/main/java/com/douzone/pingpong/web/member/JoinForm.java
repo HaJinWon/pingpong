@@ -31,7 +31,7 @@ public class JoinForm {
     private String phone;
     private String company;
 
-    //@AssertTrue(message = "입력한 비밀번호가 서로 다릅니다.")
+//    @AssertTrue(message = "입력한 비밀번호가 서로 다릅니다.")
     public boolean isPasswordEqual() {
         return password.equals(password2);
     }

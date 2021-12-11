@@ -92,16 +92,16 @@ public class ApiTeamController {
 
     // 팀 초대장 수락
     @GetMapping("/accept/{teamId}")
-    public String acceptTeam(@PathVariable("teamId") Long teamId, @Login Member authUser){
-        teamService.acceptTeam(teamId,authUser.getId());
+    public String acceptTeam(@PathVariable("teamId") Long teamId, @Login Member loginMember){
+        teamService.acceptTeam(teamId,loginMember.getId());
         return "success";
     }
 
     // 로그인 사용자가 속한 팀 정보 불러오기
     @GetMapping("/list")
-    public JsonResult getTeamList(@Login Member authUser){
+    public JsonResult getTeamList(@Login Member loginMember){
 
-        List<Map<String, Object>> teamList = teamService.getTeamList(authUser.getId());
+        List<Map<String, Object>> teamList = teamService.getTeamList(loginMember.getId());
         HashMap<String,Object> map = new HashMap<>();
         map.put("teamList",teamList);
         return JsonResult.success(map);
@@ -109,8 +109,8 @@ public class ApiTeamController {
 
     //팀 나가기
     @GetMapping("/team/exit/{teamId}")
-    public JsonResult teamExit(@PathVariable("teamId") String teamId, @Login Member member){
-        teamService.teamExit(teamId,member.getId());
+    public JsonResult teamExit(@PathVariable("teamId") String teamId, @Login Member loginMember){
+        teamService.teamExit(teamId,loginMember.getId());
         return JsonResult.success("success");
     }
 

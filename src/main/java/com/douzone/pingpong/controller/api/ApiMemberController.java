@@ -33,7 +33,7 @@ public class ApiMemberController {
      * @return : memberId
      */
     @PostMapping("/members")
-    public CreateMemberResponse saveMember(
+    public JsonResult saveMember(
             @RequestBody CreateMemberRequest request
     ) {
         log.info("request {} ", request);
@@ -47,7 +47,7 @@ public class ApiMemberController {
                 .date(LocalDateTime.now())
                 .build();
         Long memberId = memberService.join(member);
-        return new CreateMemberResponse(memberId);
+        return JsonResult.success(memberId);
     }
 
     /**
@@ -60,27 +60,26 @@ public class ApiMemberController {
             BindingResult bindingResult,
             HttpServletRequest httpRequest
     ) {
-        if (bindingResult.hasErrors()) {
-            log.info("Login Valid Error");
-        }
+
+//        if (bindingResult.hasErrors()) {
+//            return new LoginMemberResponse();
+//        }
         Member loginMember = memberService.login(request.getEmail(), request.getPassword());
 
-        if (loginMember == null) {
-            // 로그인 실패 로직 ( 회원정보 일치하지 않음)
+        if (loginMember == null){
+            throw new IllegalStateException("일치멤버없음");
         }
-
         HttpSession session = httpRequest.getSession();
         session.setAttribute(SessionConstants.LOGIN_MEMBER, loginMember);
-        return new LoginMemberResponse(loginMember.getId());
+        return new LoginMemberResponse(loginMember);
     }
-
 
     /**
      * 회원 정보 수정
      * @return : memberId, name
      */
     @PostMapping("/members/edit")
-    public UpdateMemberResponse editMember(
+    public JsonResult editMember(
                 @Login Member loginMember,
                 @RequestBody UpdateMemberRequest request) {
         System.out.println("updateForm");
@@ -88,7 +87,7 @@ public class ApiMemberController {
         memberService.update(memberId, request);
         memberService.findMember(memberId);
 
-        return new UpdateMemberResponse(memberId, request.getName());
+        return JsonResult.success(new UpdateMemberResponse(memberId, request.getName()));
     }
 
     /**
@@ -96,10 +95,7 @@ public class ApiMemberController {
      */
     @GetMapping("/members/edit")
     public JsonResult userUpdate(@Login Member member){
-        System.out.println("getUpdateUser");
         Member updateMemeber = memberService.getUpdateUser(1L);
-        //Member updateMemeber = memberService.getUpdateUser(member.getId());
-        System.out.println("updateMemeber = " + updateMemeber);
         return JsonResult.success(updateMemeber);
     }
 
@@ -122,8 +118,6 @@ public class ApiMemberController {
 
     @GetMapping("/members/emailcheck/{email}")
     public JsonResult joinEmailCheck(@PathVariable("email") String email){
-        System.out.println("emailcheck");
-        System.out.println("emailcheck"+email);
         Member member = memberService.checkEmail(email);
 
         return JsonResult.success(member);

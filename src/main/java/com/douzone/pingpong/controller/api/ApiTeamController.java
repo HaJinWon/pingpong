@@ -3,6 +3,7 @@ package com.douzone.pingpong.controller.api;
 import com.douzone.pingpong.controller.api.dto.member.CreateTeamResponse;
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.domain.post.Part2;
+import com.douzone.pingpong.dto.JsonResult;
 import com.douzone.pingpong.security.argumentresolver.Login;
 import com.douzone.pingpong.service.chat.RoomService;
 import com.douzone.pingpong.service.fileupload.FileuploadService;
@@ -111,29 +112,29 @@ public class ApiTeamController {
 
     // 로그인 사용자가 속한 팀 정보 불러오기
     @GetMapping("/list")
-    public HashMap<String,Object> getTeamList(@Login Member authUser){
+    public JsonResult getTeamList(@Login Member authUser){
 
         List<Map<String, Object>> teamList = teamService.getTeamList(authUser.getId());
         //List<Map<String, Object>> teamList = teamService.getTeamList(2L);
         HashMap<String,Object> map = new HashMap<>();
         map.put("teamList",teamList);
-        return map;
+        return JsonResult.success(map);
     }
 
     //팀 나가기
     @GetMapping("/team/exit/{teamId}")
-    public String teamExit(@PathVariable("teamId") String teamId, @Login Member member){
+    public JsonResult teamExit(@PathVariable("teamId") String teamId, @Login Member member){
         teamService.teamExit(teamId,member.getId());
-        return "success";
+        return JsonResult.success("success");
     }
 
     // 전체 유저 검색 우리팀에 속해있는 유저 제외
     @GetMapping("/searchUser/{teamId}")
-    public HashMap<String,Object> findUser( @PathVariable("teamId") Long teamId, @RequestBody String userName){
+    public JsonResult findUser( @PathVariable("teamId") Long teamId, @RequestBody String userName){
         List<Map<String, Object>> list = teamService.findUser(userName,teamId);
         //System.out.println("list.get(0).getName() = " + list.get(0).getName());
         HashMap<String,Object> map = new HashMap<>();
         map.put("findUserList",list);
-        return map;
+        return JsonResult.success(map);
     }
 }

@@ -16,21 +16,19 @@ public class MemberRepository {
 
     private final SqlSession sqlSession;
 
+    // 멤버 저장
     public void save(Member member) {
         System.out.println("reposi save");
         System.out.println(member.getEmail());
         em.persist(member);
     }
 
+    // 멤버 찾기 (멤버 ID)
     public Member findById(Long memberId) {
         return em.find(Member.class, memberId);
     }
 
-//    public Member findByEmail(String email) {
-//        return em.createQuery("select m from Member m where m.email=:email", Member.class)
-//                .getSingleResult();
-//    }
-
+    // 멤버 찾기 (이메일)
     public Optional<Member> findByEmail(String email) {
         Optional<Member> member = Optional.ofNullable(em.createQuery("select m from Member m where m.email=:email", Member.class)
                         .setParameter("email", email)
@@ -38,14 +36,7 @@ public class MemberRepository {
         return member;
     }
 
-    public Member findByEmailAndPassword (String email, String password) {
-        Member member = em.createQuery("select m from Member m where m.email=:email and m.password=:password", Member.class)
-                .setParameter("email", email)
-                .setParameter("password", password)
-                .getSingleResult();
-        return member;
-    }
-
+    // 팀에 속한 멤버 검색
     public List<Member> findByTeamMembers(Long teamId) {
         return em.createQuery("select distinct m from Member m" +
                         " join fetch m.teamMembers tm" +

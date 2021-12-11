@@ -32,7 +32,10 @@ spring:
       enabled: true
     restart:
       enabled: true
-
+Dsun:
+  io:
+    serialization:
+      extendedDebugInfo: true
 logging.level:
   org.hibernate.SQL: debug
 

@@ -12,19 +12,16 @@ import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "room_member")
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 @DynamicInsert
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
-public class RoomMember {
-
+public class RoomMember implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "room_member_id")
     private Long id;
@@ -35,12 +32,12 @@ public class RoomMember {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
+    @JsonIgnore
     private Room room;
 
     @Builder
-    public RoomMember(Member member, Room room) {
+    public RoomMember(Member member) {
         this.member = member;
-        this.room = room;
     }
 
     //== 생성 메서드 == //
@@ -49,4 +46,6 @@ public class RoomMember {
                 .member(member)
                 .build();
     }
+
+    //== 연관관계 메서드 == //
 }

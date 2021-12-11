@@ -1,18 +1,17 @@
 package com.douzone.pingpong.controller.api;
 
+import com.douzone.pingpong.controller.api.dto.member.CreateTeamResponse;
 import com.douzone.pingpong.domain.member.Member;
-import com.douzone.pingpong.domain.post.Comment2;
 import com.douzone.pingpong.domain.post.Part2;
-import com.douzone.pingpong.domain.post.Post2;
 import com.douzone.pingpong.dto.JsonResult;
 import com.douzone.pingpong.security.argumentresolver.Login;
+import com.douzone.pingpong.service.chat.RoomService;
 import com.douzone.pingpong.service.fileupload.FileuploadService;
 import com.douzone.pingpong.service.part.PartService;
 import com.douzone.pingpong.service.team.TeamService;
+import com.douzone.pingpong.web.team.CreateTeamForm;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -24,10 +23,24 @@ import java.util.Map;
 @RequestMapping("/api/team")
 public class ApiTeamController {
     private final PartService partService;
-
     private final FileuploadService fileuploadService;
-
     private final TeamService teamService;
+    private final RoomService roomService;
+
+    @GetMapping("/team/create")
+    public String createForm(Model model) {
+        model.addAttribute("createTeamForm", new CreateTeamForm());
+        return "team/createTeamForm";
+    }
+
+
+    @PostMapping("/create")
+    public CreateTeamResponse create(@Login Member loginMember,
+                         @RequestBody String teamName) {
+        roomService.createRoom(loginMember.getId(), teamName);
+        Long teamId = teamService.createTeam(teamName, loginMember.getId());
+        return new CreateTeamResponse(teamId);
+    }
 
     // 팀 페이지 불러오기 ( 통합 )
     @RequestMapping({"/{teamId:(?!assets$|images$).*}/{partId}/{postId}",
@@ -71,7 +84,6 @@ public class ApiTeamController {
             List<Map<String,Object>> commentList = partService.getCommentList(postId);
 
             HashMap<String,Object> map = new HashMap<>();
-            map.put("teamInfo",teamInfo);
             map.put("partList",partList);
             map.put("postList",postList);
             map.put("commentList",commentList);
@@ -82,8 +94,7 @@ public class ApiTeamController {
 
     // 팀 초대
     @PostMapping("/invite/{teamId}")
-    public String invite(@PathVariable("teamId") String teamId, @RequestBody List<Long> userId){
-
+    public String invite(@PathVariable("teamId") Long teamId, @RequestBody List<Long> userId){
         for(int i =0; i<userId.size();i++){
             teamService.inviteMember(teamId,userId.get(i));
         }
@@ -92,8 +103,11 @@ public class ApiTeamController {
 
     // 팀 초대장 수락
     @GetMapping("/accept/{teamId}")
+
     public String acceptTeam(@PathVariable("teamId") Long teamId, @Login Member loginMember){
         teamService.acceptTeam(teamId,loginMember.getId());
+        
+
         return "success";
     }
 

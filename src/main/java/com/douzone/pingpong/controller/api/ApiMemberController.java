@@ -1,28 +1,19 @@
 package com.douzone.pingpong.controller.api;
 
-import com.douzone.pingpong.controller.api.dto.*;
+import com.douzone.pingpong.controller.api.dto.member.*;
 import com.douzone.pingpong.domain.member.Member;
-import com.douzone.pingpong.domain.member.TeamMember;
 import com.douzone.pingpong.dto.JsonResult;
 import com.douzone.pingpong.security.argumentresolver.Login;
 import com.douzone.pingpong.service.member.MemberService;
 import com.douzone.pingpong.web.SessionConstants;
-import lombok.Data;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import java.net.http.HttpRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,7 +61,6 @@ public class ApiMemberController {
             HttpServletRequest httpRequest
     ) {
 
-        System.out.println("로그인 컨트롤러");
 //        if (bindingResult.hasErrors()) {
 //            return new LoginMemberResponse();
 //        }
@@ -79,13 +69,10 @@ public class ApiMemberController {
         if (loginMember == null){
             throw new IllegalStateException("일치멤버없음");
         }
-        System.out.println("이메일!!!!"+loginMember.getEmail());
         HttpSession session = httpRequest.getSession();
         session.setAttribute(SessionConstants.LOGIN_MEMBER, loginMember);
         return new LoginMemberResponse(loginMember);
-
     }
-
 
     /**
      * 회원 정보 수정
@@ -108,10 +95,7 @@ public class ApiMemberController {
      */
     @GetMapping("/members/edit")
     public JsonResult userUpdate(@Login Member member){
-        System.out.println("getUpdateUser");
         Member updateMemeber = memberService.getUpdateUser(1L);
-        //Member updateMemeber = memberService.getUpdateUser(member.getId());
-        System.out.println("updateMemeber = " + updateMemeber);
         return JsonResult.success(updateMemeber);
     }
 
@@ -134,8 +118,6 @@ public class ApiMemberController {
 
     @GetMapping("/members/emailcheck/{email}")
     public JsonResult joinEmailCheck(@PathVariable("email") String email){
-        System.out.println("emailcheck");
-        System.out.println("emailcheck"+email);
         Member member = memberService.checkEmail(email);
 
         return JsonResult.success(member);

@@ -1,9 +1,14 @@
 package com.douzone.pingpong.service.team;
 
+import com.douzone.pingpong.domain.chat.Room;
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.domain.member.TeamMember;
 import com.douzone.pingpong.domain.team.Team;
+import com.douzone.pingpong.repository.chat.RoomRepository;
+import com.douzone.pingpong.repository.member.MemberRepository;
 import com.douzone.pingpong.repository.team.TeamRepository;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -19,15 +25,28 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class TeamService {
     private final TeamRepository teamRepository;
+    private final MemberRepository memberRepository;
+    private final RoomRepository roomRepository;
+
     private final EntityManager em;
 
     @Transactional
-    public void createTeam(Team team, TeamMember teamMember) {
-        teamRepository.saveTeam(team, teamMember);
+    public Long createTeam(String name, Long memberId) {
+
+        Member findMember = memberRepository.findById(memberId);
+
+        // 다대다 테이블(TeamMember) 생성
+        TeamMember teamMember = TeamMember.createTeamMember(findMember);
+
+        // 팀 테이블 생성
+        Team team = Team.createTeam(name, teamMember);
+
+        teamRepository.saveTeam(team);
+        return team.getId();
     }
 
     // 맴버초대 서비스
-    public void inviteMember(String teamId, Long userId){
+    public void inviteMember(Long teamId, Long userId){
         teamRepository.inviteMember(teamId,userId);
     }
 
@@ -53,6 +72,11 @@ public class TeamService {
 
     @Transactional
     public void acceptTeam(Long teamId, Long memberId) {
+
+        List<Room> roomList = roomRepository.findByTeam(teamId);
+        Room groupRoom = roomList.stream().findFirst().get();
+        log.info("groupRoom:{}", groupRoom);
+
         teamRepository.acceptTeam(teamId,memberId);
     }
 }

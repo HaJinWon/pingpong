@@ -1,6 +1,6 @@
 package com.douzone.pingpong.pubsub;
 
-import com.douzone.pingpong.domain.chat.ChatMessage;
+import com.douzone.pingpong.domain.chat.ChatDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class RedisPublisher {
     private final RedisTemplate<String, Object> redisTemplate;
 
-    public void publish(ChannelTopic topic, ChatMessage message) {
+    public void publish(ChannelTopic topic, ChatDto message) {
         redisTemplate.convertAndSend(topic.getTopic(), message);
         log.info("publishing:: {} / {}", topic.getTopic(), message);
     }

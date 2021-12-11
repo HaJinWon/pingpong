@@ -4,6 +4,7 @@ import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.domain.member.TeamMember;
 import com.douzone.pingpong.domain.team.Team;
 import com.douzone.pingpong.security.argumentresolver.Login;
+import com.douzone.pingpong.service.chat.RoomService;
 import com.douzone.pingpong.service.team.TeamService;
 import com.douzone.pingpong.web.team.CreateTeamForm;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TeamController {
     private final TeamService teamService;
+    private final RoomService roomService;
 
     @GetMapping("/team/create")
     public String createForm(Model model) {
@@ -31,18 +33,8 @@ public class TeamController {
     @PostMapping("/team/create")
     public String create(@Login Member loginMember,
                          @ModelAttribute CreateTeamForm createTeamForm) {
-
-        Team team = Team.builder()
-                .name(createTeamForm.getName())
-                .date(LocalDateTime.now())
-                .host(loginMember.getId()).build();
-
-        TeamMember teamMember = TeamMember.builder()
-                .member(loginMember)
-                .team(team)
-                .build();
-
-        teamService.createTeam(team, teamMember);
+        roomService.createRoom(loginMember.getId(), createTeamForm.getName());
+        teamService.createTeam(createTeamForm.getName(), loginMember.getId());
         return "redirect:/";
     }
 }

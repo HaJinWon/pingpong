@@ -8,16 +8,16 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @DynamicInsert
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
-public class Room {
+public class Room implements Serializable {
+    private static final long serialVersionUID = 1651894651651487L;
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "room_id")
     private Long id;
@@ -27,7 +27,7 @@ public class Room {
     @JoinColumn(name = "team_id")
     private Team team;
 
-    @OneToMany(mappedBy = "room")
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private List<RoomMember> roomMembers = new ArrayList<>();
 
     @OneToMany(mappedBy = "room")
@@ -40,11 +40,15 @@ public class Room {
         Room chatRoom = new Room();
         chatRoom.title = title;
         chatRoom.team = team;
-        chatRoom.roomMembers.add(roomMember);
+        chatRoom.addRoomMember(roomMember);
         return chatRoom;
     }
 
     // == 연관관계 메서드 == //
+    public void addRoomMember(RoomMember roomMember) {
+        roomMembers.add(roomMember);
+        roomMember.setRoom(this);
+    }
 
 }
 

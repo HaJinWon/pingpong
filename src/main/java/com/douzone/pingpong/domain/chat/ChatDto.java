@@ -6,7 +6,8 @@ import lombok.*;
 import java.io.Serializable;
 
 @Getter @Setter
-public class ChatMessage implements Serializable{
+@NoArgsConstructor
+public class ChatDto implements Serializable{
     private static final long serialVersionUID = 1651894651651487L;
     private MessageType type;
 
@@ -14,13 +15,19 @@ public class ChatMessage implements Serializable{
         ENTER, TALK, EXIT
     }
 
-    private String roomId;
+    private Long roomId;
     private String message;
     private String sender;
     private Long senderId;
 
+    public ChatDto(Chat chat) {
+        roomId = chat.getRoom().getId();
+        message = chat.getMessage();
+        sender = chat.getMember().getName();
+        senderId = chat.getMember().getId();
+    }
 
-//    public ChatMessage(String roomId, Long senderId, String message, String sender, MessageType type) {
+    //    public ChatMessage(String roomId, Long senderId, String message, String sender, MessageType type) {
 //        this.roomId = roomId;
 //        this.senderId = senderId;
 //        this.message = message;

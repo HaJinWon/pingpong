@@ -36,9 +36,9 @@ public class ApiTeamController {
     public HashMap<String,Object> teamPage(@PathVariable("teamId") Long teamId,
                                            @PathVariable(value="partId", required = false) Long partId,
                                            @PathVariable(value="postId", required = false) Long postId){
-        System.out.println("teamPage");
+
         if(partId==null && postId==null){
-            System.out.println("/1");
+
             List<Map<String, Object>> teamInfo = teamService.getTeamInfo(teamId);
             List<Part2> partList = partService.getPartList(teamId);
             partId = partService.getFirstPartId(teamId);
@@ -52,7 +52,7 @@ public class ApiTeamController {
             return map;
 
         } else if(partId != null && postId == null){
-            System.out.println("/1/1");
+
             List<Map<String, Object>> teamInfo = teamService.getTeamInfo(teamId);
             List<Part2> partList = partService.getPartList(teamId);
             List<Map<String,Object>> postList = partService.getPostList(partId);
@@ -64,7 +64,7 @@ public class ApiTeamController {
 
             return map;
         } else{
-            System.out.println("/1/1/1");
+
             List<Map<String, Object>> teamInfo = teamService.getTeamInfo(teamId);
             List<Part2> partList = partService.getPartList(teamId);
             List<Map<String,Object>> postList = partService.getPostList(partId);
@@ -94,7 +94,6 @@ public class ApiTeamController {
     @GetMapping("/accept/{teamId}")
     public String acceptTeam(@PathVariable("teamId") Long teamId, @Login Member authUser){
         teamService.acceptTeam(teamId,authUser.getId());
-        //teamService.acceptTeam(teamId,2L);
         return "success";
     }
 
@@ -103,7 +102,6 @@ public class ApiTeamController {
     public JsonResult getTeamList(@Login Member authUser){
 
         List<Map<String, Object>> teamList = teamService.getTeamList(authUser.getId());
-        //List<Map<String, Object>> teamList = teamService.getTeamList(2L);
         HashMap<String,Object> map = new HashMap<>();
         map.put("teamList",teamList);
         return JsonResult.success(map);
@@ -120,7 +118,6 @@ public class ApiTeamController {
     @GetMapping("/searchUser/{teamId}")
     public JsonResult findUser( @PathVariable("teamId") Long teamId, @RequestBody String userName){
         List<Map<String, Object>> list = teamService.findUser(userName,teamId);
-        //System.out.println("list.get(0).getName() = " + list.get(0).getName());
         HashMap<String,Object> map = new HashMap<>();
         map.put("findUserList",list);
         return JsonResult.success(map);

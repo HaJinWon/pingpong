@@ -25,7 +25,7 @@ public class ApiPostController {
     // 게시글 목록 불러오기
     @RequestMapping("/list/{partId}")
     public JsonResult getPostList(@PathVariable("partId") Long partId){
-        System.out.println("getPostList");
+
         List<Map<String,Object>> list = partService.getPostList(partId);
         HashMap<String,Object> map = new HashMap<>();
         map.put("postList", list);
@@ -35,7 +35,7 @@ public class ApiPostController {
 
     @RequestMapping("/listtest/{partId}")
     public JsonResult getPostListtest(@PathVariable("partId") Long partId){
-        System.out.println("getPostList");
+
         List<Map<String,Object>> list = partService.getPostList(partId);
         HashMap<String,Object> map = new HashMap<>();
         map.put("postList", list);

@@ -1,4 +1,4 @@
-package com.douzone.pingpong.controller.api.dto;
+package com.douzone.pingpong.controller.api.dto.member;
 
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.domain.member.MemberStatus;

@@ -8,6 +8,7 @@ import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,7 +18,7 @@ import java.time.LocalDateTime;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
-public class Chat {
+public class Chat implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chat_id")
     private Long id;
@@ -36,11 +37,11 @@ public class Chat {
     @Column(name = "not_read_count")
     private Integer notReadCount;
 
-    private MessageType type;
-
-    public enum MessageType {
-        ENTER, TALK, EXIT
-    }
+//    private MessageType type;
+//
+//    public enum MessageType {
+//        ENTER, TALK, EXIT
+//    }
     @Builder
     public Chat (Room room, Member member, String message) {
         this.room = room;

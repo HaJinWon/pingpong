@@ -4,14 +4,16 @@ import com.douzone.pingpong.domain.team.Team;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "team_member")
-@Getter
+@Getter @Setter
 @NoArgsConstructor
-public class TeamMember {
+public class TeamMember implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "team_member_id")
     private Long id;
@@ -25,8 +27,14 @@ public class TeamMember {
     private Team team;
 
     @Builder
-    public TeamMember(Member member, Team team) {
+    public TeamMember(Member member) {
         this.member = member;
-        this.team = team;
+    }
+
+    public static TeamMember createTeamMember(Member member) {
+        TeamMember teamMember = TeamMember.builder()
+                .member(member)
+                .build();
+        return teamMember;
     }
 }

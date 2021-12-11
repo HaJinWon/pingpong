@@ -1,6 +1,6 @@
 package com.douzone.pingpong.service.member;
 
-import com.douzone.pingpong.controller.api.dto.UpdateMemberRequest;
+import com.douzone.pingpong.controller.api.dto.member.UpdateMemberRequest;
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service

@@ -20,7 +20,7 @@ public class TeamRepository {
     private final SqlSession sqlSession;
 
     //팀에 멤버 초대
-    public void inviteMember(String teamId, Long userId) {
+    public void inviteMember(Long teamId, Long userId) {
         Map<String,Object> map = new HashMap<>();
         map.put("teamId",teamId);
         map.put("userId",userId);
@@ -28,9 +28,8 @@ public class TeamRepository {
         sqlSession.insert("team.inviteMember",map);
     }
 
-    public void saveTeam(Team team, TeamMember teamMember) {
+    public void saveTeam(Team team) {
         em.persist(team);
-        em.persist(teamMember);
     }
 
     public List<Map<String, Object>> findUser(String userName, Long teamId) {

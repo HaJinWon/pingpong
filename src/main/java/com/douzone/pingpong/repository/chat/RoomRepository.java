@@ -25,8 +25,29 @@ public class RoomRepository {
                 .getResultList();
     }
 
-    public Room findRoomById(Long roomId) {
+    // 팀에 속한 모든채팅방 찾기 (접속자ID, TeamId 사용)
+    public List<Room> findRoomsByTeamId(Long memberId, Long teamId) {
+        return em.createQuery("select distinct r from Room r" +
+                              " join fetch r.team t" +
+                              " join fetch r.roomMembers rm" +
+                              " join fetch rm.member m" +
+                              " where t.id = :teamId" +
+                              " and  m.id = :memberId"
+                              ,Room.class  )
+                .setParameter("teamId", teamId)
+                .setParameter("memberId", memberId)
+                .getResultList();
+    }
+
+    public Room findById(Long roomId) {
         return em.find(Room.class, roomId);
+    }
+
+    public List<Room> findByTeam(Long teamId) {
+        return em.createQuery("select distinct r from Room r" +
+                                        " join fetch r.team t" +
+                                       " where t.id = :teamId",Room.class)
+                .getResultList();
     }
 
     public Long createChatRoom(Room room) {

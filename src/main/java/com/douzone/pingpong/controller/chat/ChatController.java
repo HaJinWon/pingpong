@@ -2,12 +2,12 @@ package com.douzone.pingpong.controller.chat;
 
 import com.douzone.pingpong.pubsub.RedisPublisher;
 import com.douzone.pingpong.repository.chat.RedisRoomRepository;
-import com.douzone.pingpong.domain.chat.ChatMessage;
+import com.douzone.pingpong.domain.chat.ChatDto;
+import com.douzone.pingpong.service.chat.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
 
 
 @RequiredArgsConstructor
@@ -16,45 +16,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class ChatController {
     private final RedisPublisher redisPublisher;
     private final RedisRoomRepository redisRoomRepository;
-
-    @MessageMapping("/chat/message")
-    public void message(ChatMessage message) {
-        if(ChatMessage.MessageType.ENTER.equals(message.getType())){
-            redisRoomRepository.enterChatRoom(message.getRoomId());
-            message.setMessage(message.getSender() + "님이 입장하셨습니다.");
-        }
-        redisPublisher.publish(redisRoomRepository.getTopic(message.getRoomId()), message);
-    }
-
-
-
-    /*
-    private final SimpMessageSendingOperations messagingTemplate;
     private final ChatService chatService;
 
-    @MessageMapping("{roomId}")
-    public void test(@DestinationVariable Long roomId, ChatMessage message) {
-        Chat chat = chatService.createChat(roomId, message.getSenderId(), message.getMessage());
-        ChatMessage chatMessage = ChatMessage.builder()
-                .roomId(roomId)
-                .senderId(chat.getMember().getId())
-                .message(chat.getMessage())
-                .sender(message.getSender())
-                .build();
-        messagingTemplate.convertAndSend("/sub/" + roomId, chatMessage);
+    @MessageMapping("/chat/message")
+    public void message(ChatDto chatDto) {
+        if(ChatDto.MessageType.ENTER.equals(chatDto.getType())){
+            redisRoomRepository.enterChatRoom(chatDto.getRoomId());
+            chatDto.setMessage(chatDto.getSender() + "님이 입장하셨습니다.");
+        }
+        log.info("!!!!!id: {} / chatDTd: {}",redisRoomRepository.getTopic(chatDto.getRoomId()),chatDto);
+        redisPublisher.publish(redisRoomRepository.getTopic(chatDto.getRoomId()), chatDto);
+        chatService.saveChat(chatDto.getRoomId(), chatDto.getSenderId(), chatDto.getMessage());
     }
-     */
 }
-
-
-
-
-
-
-
-
-
-
 
 /**
  * 발행자 (Publisher) 역할

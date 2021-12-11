@@ -19,7 +19,7 @@
     <tr th:each="room : ${rooms}">
         <td th:text="${room.title}"></td>
             <td>
-                <a href="#" th:href="@{/chat/room/enter/{id} (id=${room.roomId})}"
+                <a href="#" th:href="@{/chat/room/enter/{id} (id=${room.id})}"
                class="btn btn-primary" role="button">join</a>
         </td>
     </tr>

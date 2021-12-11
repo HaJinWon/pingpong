@@ -1,28 +1,19 @@
 package com.douzone.pingpong.controller.api;
 
-import com.douzone.pingpong.controller.api.dto.*;
+import com.douzone.pingpong.controller.api.dto.member.*;
 import com.douzone.pingpong.domain.member.Member;
-import com.douzone.pingpong.domain.member.TeamMember;
 import com.douzone.pingpong.dto.JsonResult;
 import com.douzone.pingpong.security.argumentresolver.Login;
 import com.douzone.pingpong.service.member.MemberService;
 import com.douzone.pingpong.web.SessionConstants;
-import lombok.Data;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import java.net.http.HttpRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;

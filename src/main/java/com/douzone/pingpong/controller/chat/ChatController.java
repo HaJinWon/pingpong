@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RequiredArgsConstructor
@@ -19,7 +20,7 @@ public class ChatController {
     private final ChatService chatService;
 
     @MessageMapping("/chat/message")
-    public void message(ChatDto chatDto) {
+    public void message(@RequestBody ChatDto chatDto) {
         if(ChatDto.MessageType.ENTER.equals(chatDto.getType())){
             redisRoomRepository.enterChatRoom(chatDto.getRoomId());
             chatDto.setMessage(chatDto.getSender() + "님이 입장하셨습니다.");

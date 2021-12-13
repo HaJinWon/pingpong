@@ -145,14 +145,14 @@ public class ApiMemberController {
         return new PartnerProfileResponse(member);
     }
 
-    /*
+
     @GetMapping("/emailcheck/{email}")
     public JsonResult joinEmailCheck(@PathVariable("email") String email){
         Member member = memberService.checkEmail(email);
 
         return JsonResult.success(member);
     }
-    */
+
 }
 
 

@@ -124,7 +124,7 @@ public class ApiTeamController {
     public String acceptTeam(@PathVariable("teamId") Long teamId,
                              @Login Member loginMember){
         // 해당팀의 단체대화방 ID 찾기
-        Long memberId = 8L;
+        Long memberId = loginMember.getId();
 
         List<Room> roomList = roomService.findRoomsByTeamId(teamId);
         Room groupRoom = roomList.stream().findFirst().get();
@@ -154,7 +154,7 @@ public class ApiTeamController {
     }
 
     // 전체 유저 검색 우리팀에 속해있는 유저 제외
-    @GetMapping("/searchUser/{teamId}")
+    @PostMapping("/searchUser/{teamId}")
     public JsonResult findUser( @PathVariable("teamId") Long teamId, @RequestBody String memberName){
         List<Map<String, Object>> list = teamService.findUser(memberName,teamId);
         HashMap<String,Object> map = new HashMap<>();

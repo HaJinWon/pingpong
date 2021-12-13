@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/api/room")
+@CrossOrigin("*")
 public class ApiRoomController {
     private final RoomService roomService;
     private final MemberService memberService;
@@ -30,7 +31,7 @@ public class ApiRoomController {
      * 대화방에 입장
      * => 대화방을 Click 한 상황, 즉 클라이언트는 대화방을 보고 있음 => pub/sub 필요
      */
-    @GetMapping("/{roomId}")
+    //@GetMapping("/{roomId}")
     public String seeRoom(
             @PathVariable Long roomId
     ) {

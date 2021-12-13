@@ -20,12 +20,8 @@ public class TeamRepository {
     private final SqlSession sqlSession;
 
     //팀에 멤버 초대
-    public void inviteMember(Long teamId, Long userId) {
-        Map<String,Object> map = new HashMap<>();
-        map.put("teamId",teamId);
-        map.put("userId",userId);
-
-        sqlSession.insert("team.inviteMember",map);
+    public void inviteMember(TeamMember teamMember) {
+        em.persist(teamMember);
     }
 
     public void saveTeam(Team team) {

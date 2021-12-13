@@ -4,9 +4,11 @@ import com.douzone.pingpong.domain.chat.Room;
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.domain.member.TeamMember;
 import com.douzone.pingpong.domain.team.Team;
+import com.douzone.pingpong.repository.chat.RedisRoomRepository;
 import com.douzone.pingpong.repository.chat.RoomRepository;
 import com.douzone.pingpong.repository.member.MemberRepository;
 import com.douzone.pingpong.repository.team.TeamRepository;
+import com.douzone.pingpong.service.chat.RoomService;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +29,8 @@ public class TeamService {
     private final TeamRepository teamRepository;
     private final MemberRepository memberRepository;
     private final RoomRepository roomRepository;
+    private final RedisRoomRepository redisRoomRepository;
 
-    private final EntityManager em;
 
     @Transactional
     public Long createTeam(String name, Long memberId) {
@@ -46,8 +48,13 @@ public class TeamService {
     }
 
     // 맴버초대 서비스
-    public void inviteMember(Long teamId, Long userId){
-        teamRepository.inviteMember(teamId,userId);
+    @Transactional
+    public void inviteMember(Long teamId, Long memberId){
+        Team team = teamRepository.findById(teamId);
+        Member member = memberRepository.findById(memberId);
+        TeamMember teamMember = TeamMember.inviteTeamMember(team, member);
+
+        teamRepository.inviteMember(teamMember);
     }
 
     public List<Map<String, Object>> findUser(String userName, Long teamId) {
@@ -73,9 +80,9 @@ public class TeamService {
     @Transactional
     public void acceptTeam(Long teamId, Long memberId) {
 
-        List<Room> roomList = roomRepository.findByTeam(teamId);
-        Room groupRoom = roomList.stream().findFirst().get();
-        log.info("groupRoom:{}", groupRoom);
+
+        // 단체대화방 구독하기
+
 
         teamRepository.acceptTeam(teamId,memberId);
     }

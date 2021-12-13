@@ -18,8 +18,6 @@ public class MemberRepository {
 
     // 멤버 저장
     public void save(Member member) {
-        System.out.println("reposi save");
-        System.out.println(member.getEmail());
         em.persist(member);
     }
 

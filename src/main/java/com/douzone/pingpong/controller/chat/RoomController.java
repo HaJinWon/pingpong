@@ -29,16 +29,6 @@ public class RoomController {
     private final RedisRoomRepository redisRoomRepository;
     private final ChatService chatService;
 
-    //  채팅 리스트 화면
-    @GetMapping("/room")
-    public String room(Model model) {
-        List<Room> rooms = roomService.findRooms();
-
-        log.info("rooms::::{}",rooms);
-        model.addAttribute("rooms", rooms);
-        model.addAttribute("roomForm", new RoomForm());
-        return "chat/roomList";
-    }
 
     //채팅 목록 반환
     @GetMapping("/rooms")
@@ -48,12 +38,12 @@ public class RoomController {
     }
 
     // 채팅방 생성
-    @PostMapping("/room")
-    @ResponseBody
-    public Room createRoom(@ModelAttribute RoomForm roomForm,
-                             @Login Member loginMember) {
-        return roomService.createRoom(loginMember.getId(), roomForm.getTitle());
-    }
+//    @PostMapping("/room")
+//    @ResponseBody
+//    public Room createRoom(@ModelAttribute RoomForm roomForm,
+//                             @Login Member loginMember) {
+//        return roomService.createRoom(loginMember.getId(), roomForm.getTitle());
+//    }
 
     // 채팅방 입장 화면
     @GetMapping("/room/enter/{roomId}")

@@ -76,8 +76,6 @@ public class MemberController {
     @PostMapping("/members/new")
     public String join(@ModelAttribute @Valid JoinForm joinForm,
                        BindingResult bindingResult) {
-        System.out.println("여기 됨");
-        System.out.println(joinForm.getEmail());
 //        if (bindingResult.hasErrors()) {
 //            return "members/joinForm";
 //        }
@@ -90,7 +88,6 @@ public class MemberController {
                 .company(joinForm.getCompany())
                 .date(LocalDateTime.now())
                 .build();
-        log.info("MEMBER {}", member);
         memberService.join(member);
         return "redirect:/";
     }

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -26,8 +27,8 @@ public class RoomService {
     private final TeamRepository teamRepository;
     private final RedisRoomRepository redisRoomRepository;
 
-    public List<Room> findRooms() {
-        return roomRepository.findAllRoom();
+    public List<Room> findRoomsByTeamId(Long teamId) {
+        return roomRepository.findByTeam(teamId);
     }
 
     // 팀에 속한 모든 채팅방 찾기
@@ -36,37 +37,60 @@ public class RoomService {
     }
 
     @Transactional
-    public Room createRoom(Long memberId, String roomTitle) {
+    public Room createRoom(Long memberId, Long teamId, String roomTitle) {
         Member member = memberRepository.findById(memberId);
-        return saveRoom(roomTitle, member);
+        return saveRoom(roomTitle, teamId, member);
     }
 
     /**
      * 대화방을 저장하는 메서드
      * 1. DataBase에 저장
-     * 2. 레디스 구독 메서드 (대화방이 만들어지면 만든사람은 바로 구독해야하기 때문)
-     * 3. 레디스 Cache에 저장
+     * 2. 레디스 Cache에 저장
      */
-    private Room saveRoom(String roomTitle, Member member) {
-        Team team = teamRepository.findById(1L);
+    private Room saveRoom(String roomTitle,Long teamId ,Member member) {
+        Team team = teamRepository.findById(teamId);
 
         // 다대다 매핑 테이블 RoomMember 생성
-        RoomMember roomMember = RoomMember.createRoomMember(member);
+        RoomMember roomMember = RoomMember.mappingRoomMember(member);
         log.info("roommaker:::{}",member.getId());
 
         // 대화방 생성
         Room room = Room.createRoom(roomMember, team, roomTitle);
 
         roomRepository.createChatRoom(room);                // 디비에 저장
-        redisRoomRepository.enterChatRoom(room.getId());    // 레디스 구독
         return redisRoomRepository.createChatRoom(room);    // 레디스에 저장
     }
 
-    public void enterRoom(Long roomId) {
-        redisRoomRepository.enterChatRoom(roomId);
+    @Transactional
+    public void enterRoom(Long roomId, Long memberId) {
+        Member member = memberRepository.findById(memberId);
+        Room room = roomRepository.findById(roomId);
+
+        RoomMember roomMember = RoomMember.createRoomMember(member, room);
+        roomRepository.enterChatRoom(roomMember);
     }
 
     public Room findRoom(Long roomId) {
         return roomRepository.findById(roomId);
+    }
+
+    @Transactional
+    public void updateNotice(Long roomId, String notice) {
+        Room room = roomRepository.findById(roomId);
+        room.updateNotice(notice);
+    }
+
+    @Transactional
+    public void exitRoom(Long memberId, Long roomId) {
+        Room room = roomRepository.findById(roomId);
+
+        // team_member 테이블 찾기
+        RoomMember findRoomMember = room.getRoomMembers()
+                        .stream().filter(
+                                roomMember -> roomMember.getMember().getId().equals(memberId))
+                        .findFirst().get();
+
+        // 찾은 팀멤버를 삭제하기 team_member DELETE
+        room.getRoomMembers().remove(findRoomMember);
     }
 }

@@ -26,15 +26,39 @@ public class TeamMember implements Serializable {
     @JoinColumn(name = "team_id")
     private Team team;
 
-    @Builder
+    @Enumerated(EnumType.STRING)
+    private Include include;
+
     public TeamMember(Member member) {
-        this.member = member;
     }
 
+    // == 생성자 메서드 == //
+    // 팀 "생성"시 호출
     public static TeamMember createTeamMember(Member member) {
-        TeamMember teamMember = TeamMember.builder()
-                .member(member)
-                .build();
+        TeamMember teamMember = new TeamMember();
+        teamMember.setMember(member);
+        teamMember.setInclude(Include.Y);
         return teamMember;
     }
+
+    // 팀 초대받았을때 호출
+    public static TeamMember inviteTeamMember(Team team, Member member) {
+        TeamMember teamMember = new TeamMember();
+        teamMember.setTeam(team);
+        teamMember.setMember(member);
+        teamMember.setInclude(Include.N);
+        return teamMember;
+    }
+
+    // == 연관관계 메서드 == //
+    public void setTeam(Team team) {
+        this.team = team;
+        team.getTeamMembers().add(this);
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+        member.getTeamMembers().add(this);
+    }
+
 }

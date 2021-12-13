@@ -1,5 +1,6 @@
 package com.douzone.pingpong.controller.api;
 
+import com.douzone.pingpong.controller.api.dto.PartnerProfileResponse;
 import com.douzone.pingpong.controller.api.dto.member.*;
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.dto.JsonResult;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 @CrossOrigin("*")
-@RequestMapping("/api")
+@RequestMapping("/api/member")
 public class ApiMemberController {
     private final MemberService memberService;
 
@@ -32,7 +33,7 @@ public class ApiMemberController {
      * 클라이언트에게 CreateMemberResponse에 정의된 필드를 반환
      * @return : memberId
      */
-    @PostMapping("/members")
+    @PostMapping()
     public JsonResult saveMember(
             @RequestBody CreateMemberRequest request
     ) {
@@ -54,7 +55,7 @@ public class ApiMemberController {
      * 회원 로그인
      * @return 리턴없음
      */
-    @PostMapping("/members/login")
+    @PostMapping("/login")
     public LoginMemberResponse loginMember(
             @RequestBody @Valid LoginMemberRequest request,
             BindingResult bindingResult,
@@ -75,16 +76,31 @@ public class ApiMemberController {
     }
 
     /**
+     * 로그아웃
+     */
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();   // 세션 날림
+        }
+        return "logout Complete";
+    }
+
+    /**
      * 회원 정보 수정
      * @return : memberId, name
      */
-    @PostMapping("/members/edit")
+    @PostMapping("/edit")
     public JsonResult editMember(
                 @Login Member loginMember,
                 @RequestBody UpdateMemberRequest request) {
-        System.out.println("updateForm");
         Long memberId = loginMember.getId();
+
+        //멤버 업데이트 하기
         memberService.update(memberId, request);
+
+        // 업데이트한 멤버 조회 (JSON 으로 리턴해주기 위해서)
         memberService.findMember(memberId);
 
         return JsonResult.success(new UpdateMemberResponse(memberId, request.getName()));
@@ -93,9 +109,9 @@ public class ApiMemberController {
     /**
      *  회원 정보 수정 페이지 ( 원래 정보를 띄우기 위한 메서드)
      */
-    @GetMapping("/members/edit")
-    public JsonResult userUpdate(@Login Member member){
-        Member updateMemeber = memberService.getUpdateUser(1L);
+    @GetMapping("/edit")
+    public JsonResult userUpdate(@Login Member loginMember){
+        Member updateMemeber = memberService.getUpdateUser(loginMember.getId());
         return JsonResult.success(updateMemeber);
     }
 
@@ -104,7 +120,7 @@ public class ApiMemberController {
      * 1대1 채팅할때 사용
      * @return
      */
-    @GetMapping("/members/{teamId}")
+    @GetMapping("/team/{teamId}")
     public List<MemberDto> findByTeamMembers(
             @PathVariable Long teamId
     ) {
@@ -115,13 +131,28 @@ public class ApiMemberController {
         return result;
     }
 
+    /**
+     * 상대방 프로필 조회
+     * 대화방에서 상대방 프로필 사진 클릭시 나오는 화면
+     * ( Avatar, Status, Name, 1대1대화방만들기버튼 )
+     */
+    @GetMapping("/{partnerId}")
+    public PartnerProfileResponse partnerProfile(
+            @PathVariable Long partnerId,
+            @Login Member loginMember
+    ) {
+        Member member = memberService.findMember(partnerId);
+        return new PartnerProfileResponse(member);
+    }
 
-    @GetMapping("/members/emailcheck/{email}")
+    /*
+    @GetMapping("/emailcheck/{email}")
     public JsonResult joinEmailCheck(@PathVariable("email") String email){
         Member member = memberService.checkEmail(email);
 
         return JsonResult.success(member);
     }
+    */
 }
 
 

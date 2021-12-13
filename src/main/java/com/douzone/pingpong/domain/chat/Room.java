@@ -3,12 +3,15 @@ package com.douzone.pingpong.domain.chat;
 import com.douzone.pingpong.domain.team.Team;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.tomcat.jni.Local;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
@@ -27,19 +30,22 @@ public class Room implements Serializable {
     @JoinColumn(name = "team_id")
     private Team team;
 
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RoomMember> roomMembers = new ArrayList<>();
 
     @OneToMany(mappedBy = "room")
     private List<Chat> chats = new ArrayList<>();
 
     private String title;
+    private String notice;
+    private LocalDateTime date;
 
 
     public static Room createRoom(RoomMember roomMember, Team team, String title ) {
         Room chatRoom = new Room();
         chatRoom.title = title;
         chatRoom.team = team;
+        chatRoom.date = LocalDateTime.now();
         chatRoom.addRoomMember(roomMember);
         return chatRoom;
     }
@@ -48,6 +54,14 @@ public class Room implements Serializable {
     public void addRoomMember(RoomMember roomMember) {
         roomMembers.add(roomMember);
         roomMember.setRoom(this);
+    }
+
+    // == 비지니스 로직 == //
+    /**
+     * 공지사항(Notice) 등록
+     */
+    public void updateNotice(String notice) {
+        this.notice = notice;
     }
 
 }

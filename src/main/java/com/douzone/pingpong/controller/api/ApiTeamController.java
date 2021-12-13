@@ -1,6 +1,8 @@
 package com.douzone.pingpong.controller.api;
 
 import com.douzone.pingpong.controller.api.dto.member.CreateTeamResponse;
+import com.douzone.pingpong.controller.api.dto.team.RequestInviteTeam;
+import com.douzone.pingpong.domain.chat.Room;
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.domain.post.Part2;
 import com.douzone.pingpong.dto.JsonResult;
@@ -11,13 +13,15 @@ import com.douzone.pingpong.service.part.PartService;
 import com.douzone.pingpong.service.team.TeamService;
 import com.douzone.pingpong.web.team.CreateTeamForm;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/team")
@@ -27,18 +31,19 @@ public class ApiTeamController {
     private final TeamService teamService;
     private final RoomService roomService;
 
-    @GetMapping("/team/create")
-    public String createForm(Model model) {
-        model.addAttribute("createTeamForm", new CreateTeamForm());
-        return "team/createTeamForm";
-    }
-
-
+    /**
+     * 팀 생성
+     * 1. Team 생성 ( 다대다 테이블 TeamMember Insert)
+     * 2. ChatRoom 생성 ( 팀에서 사용할 전체 대화방 생성 title : 팀이름)
+     */
     @PostMapping("/create")
     public CreateTeamResponse create(@Login Member loginMember,
                          @RequestBody String teamName) {
-        roomService.createRoom(loginMember.getId(), teamName);
+        // 팀생성
         Long teamId = teamService.createTeam(teamName, loginMember.getId());
+
+        // 단체 대화방 생성
+        roomService.createRoom(loginMember.getId(),teamId, teamName);
         return new CreateTeamResponse(teamId);
     }
 
@@ -92,29 +97,51 @@ public class ApiTeamController {
         }
     }
 
-    // 팀 초대
+    /**
+     * 초대장 보내기 (복수 가능)
+     * ex)
+     * {
+     *     members: [ 4, 5]
+     * }
+     * => 멤버ID 4,5 에게 초대장 보내기
+     */
     @PostMapping("/invite/{teamId}")
-    public String invite(@PathVariable("teamId") Long teamId, @RequestBody List<Long> userId){
-        for(int i =0; i<userId.size();i++){
-            teamService.inviteMember(teamId,userId.get(i));
-        }
+    public String inviteMember( @PathVariable Long teamId,
+                                @RequestBody RequestInviteTeam request){
+        request.getMembers().forEach(memberId -> teamService.inviteMember(teamId, memberId));
         return "success";
     }
 
-    // 팀 초대장 수락
-    @GetMapping("/accept/{teamId}")
-    public String acceptTeam(@PathVariable("teamId") Long teamId, @Login Member authUser){
+    /**
+     * 팀 초대장 수락하기
+     * 로그인한 멤버가 초대장 수락을 누르면 호출되는 메서드
+     * 1.team_member 테이블의 상태값(include)이 UPDATE됨
+     * 2.팀 단체대화방에 참가됨
+     *
+     * PatchMapping : 멱등하다, 똑같은 값으로 업데이트 요청시 요청되지않음.
+     */
+    @PatchMapping("/accept/{teamId}")
+    public String acceptTeam(@PathVariable("teamId") Long teamId,
+                             @Login Member loginMember){
+        // 해당팀의 단체대화방 ID 찾기
+        Long memberId = 8L;
 
-        teamService.acceptTeam(teamId,authUser.getId());
+        List<Room> roomList = roomService.findRoomsByTeamId(teamId);
+        Room groupRoom = roomList.stream().findFirst().get();
+        log.info("groupRoom:{}", groupRoom.getId());
+
+        roomService.enterRoom(groupRoom.getId(), memberId);
+        
+       teamService.acceptTeam(teamId, memberId );
 
         return "success";
     }
 
     // 로그인 사용자가 속한 팀 정보 불러오기
     @GetMapping("/list")
-    public JsonResult getTeamList(@Login Member authUser){
+    public JsonResult getTeamList(@Login Member loginMember){
 
-        List<Map<String, Object>> teamList = teamService.getTeamList(authUser.getId());
+        List<Map<String, Object>> teamList = teamService.getTeamList(loginMember.getId());
         //List<Map<String, Object>> teamList = teamService.getTeamList(2L);
         HashMap<String,Object> map = new HashMap<>();
         map.put("teamList",teamList);
@@ -123,15 +150,15 @@ public class ApiTeamController {
 
     //팀 나가기
     @GetMapping("/team/exit/{teamId}")
-    public JsonResult teamExit(@PathVariable("teamId") String teamId, @Login Member member){
-        teamService.teamExit(teamId,member.getId());
+    public JsonResult teamExit(@PathVariable("teamId") String teamId, @Login Member loginMember){
+        teamService.teamExit(teamId,loginMember.getId());
         return JsonResult.success("success");
     }
 
     // 전체 유저 검색 우리팀에 속해있는 유저 제외
     @GetMapping("/searchUser/{teamId}")
-    public JsonResult findUser( @PathVariable("teamId") Long teamId, @RequestBody String userName){
-        List<Map<String, Object>> list = teamService.findUser(userName,teamId);
+    public JsonResult findUser( @PathVariable("teamId") Long teamId, @RequestBody String memberName){
+        List<Map<String, Object>> list = teamService.findUser(memberName,teamId);
         //System.out.println("list.get(0).getName() = " + list.get(0).getName());
         HashMap<String,Object> map = new HashMap<>();
         map.put("findUserList",list);

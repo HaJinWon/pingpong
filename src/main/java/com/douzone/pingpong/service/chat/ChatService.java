@@ -37,4 +37,10 @@ public class ChatService {
         List<Chat> chatList = chatRepository.findChatsByRoomId(roomId);
         return chatList;
     }
+
+    @Transactional
+    public void deleteChat (Long chatId) {
+        Chat chat = chatRepository.findById(chatId);
+        chat.deleteChat();
+    }
 }

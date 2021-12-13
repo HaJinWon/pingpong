@@ -4,6 +4,7 @@ package com.douzone.pingpong.domain.chat;
 import lombok.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Getter @Setter
 @NoArgsConstructor
@@ -19,12 +20,16 @@ public class ChatDto implements Serializable{
     private String message;
     private String sender;
     private Long senderId;
+    private LocalDateTime date;
+    private String avatar;
 
     public ChatDto(Chat chat) {
         roomId = chat.getRoom().getId();
         message = chat.getMessage();
         sender = chat.getMember().getName();
         senderId = chat.getMember().getId();
+        date = chat.getDate();
+        avatar = chat.getMember().getAvatar();
     }
 
     //    public ChatMessage(String roomId, Long senderId, String message, String sender, MessageType type) {

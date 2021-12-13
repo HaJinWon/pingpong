@@ -78,6 +78,10 @@ public class Chat implements Serializable {
         room.getChats().add(this);
     }
 
+    // == 비지니스 로직 == //
+    public void deleteChat() {
+        this.message = "삭제된 메시지 입니다.";
+    }
 
 
 }

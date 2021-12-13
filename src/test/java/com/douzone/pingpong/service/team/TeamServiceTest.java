@@ -28,6 +28,7 @@ public class TeamServiceTest {
     MemberService memberService;
 
 
+
     @Test
     public void 팀생성() throws Exception {
         // given
@@ -69,7 +70,17 @@ public class TeamServiceTest {
         teamRepository.acceptTeam(team.getId(), member.getId());
 
         // then
+    }
+
+    @Test
+    public void 단체톡방찾기() throws Exception {
+        // given
 
 
+        // when
+
+
+
+        // then
     }
 }

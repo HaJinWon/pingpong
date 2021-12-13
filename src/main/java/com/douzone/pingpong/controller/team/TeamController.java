@@ -30,13 +30,13 @@ public class TeamController {
     }
 
 
-    @PostMapping("/team/create")
-    public String create(@Login Member loginMember,
-                         @ModelAttribute CreateTeamForm createTeamForm) {
-        roomService.createRoom(loginMember.getId(), createTeamForm.getName());
-        teamService.createTeam(createTeamForm.getName(), loginMember.getId());
-        return "redirect:/";
-    }
+//    @PostMapping("/team/create")
+//    public String create(@Login Member loginMember,
+//                         @ModelAttribute CreateTeamForm createTeamForm) {
+//        roomService.createRoom(loginMember.getId(), createTeamForm.getName());
+//        teamService.createTeam(createTeamForm.getName(), loginMember.getId());
+//        return "redirect:/";
+//    }
 }
 
     /**

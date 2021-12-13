@@ -87,7 +87,7 @@ public class ApiPostController {
 
     //게시글 업데이트
     @PostMapping("/update/{postId}")
-    public JsonResult postUpdate(@PathVariable("postId") Long postId, String title, String contents, @Login Member loginMember
+    public JsonResult postUpdate(@PathVariable("postId") Long postId, @RequestBody Post2 postVo/*,String title, String contents,*/, @Login Member loginMember
             /*, MultipartFile file, MultipartFile image*/){
 
         Post2 vo = new Post2();
@@ -95,11 +95,11 @@ public class ApiPostController {
         //String imageUrl = fileuploadService.restoreFile(image);
         String fileUrl ="test수정";
         String imageUrl ="test수정";
-        vo.setPost_id(postId);
-        vo.setTitle(title);
-        vo.setContents(contents);
-        vo.setFile(fileUrl);
-        vo.setImage(imageUrl);
+        vo.setPost_id(postVo.getPost_id());
+        vo.setTitle(postVo.getTitle());
+        vo.setContents(postVo.getContents());
+        vo.setFile(postVo.getFile());
+        vo.setImage(postVo.getImage());
         vo.setMember_id(loginMember.getId());
         partService.updatePost(vo);
         return JsonResult.success("success");

@@ -94,16 +94,17 @@ public class ApiTeamController {
 
     // 팀 초대
     @PostMapping("/invite/{teamId}")
-    public String invite(@PathVariable("teamId") Long teamId, @RequestBody List<Long> userId){
-        for(int i =0; i<userId.size();i++){
-            teamService.inviteMember(teamId,userId.get(i));
-        }
+    public String invite(@PathVariable("teamId") Long teamId/*, @RequestBody List<Long> userId*/){
+//        for(int i =0; i<userId.size();i++){
+//            teamService.inviteMember(teamId,userId.get(i));
+//        }
+        teamService.inviteMember(teamId,4L);
+
         return "success";
     }
 
     // 팀 초대장 수락
     @GetMapping("/accept/{teamId}")
-
     public String acceptTeam(@PathVariable("teamId") Long teamId, @Login Member loginMember){
         teamService.acceptTeam(teamId,loginMember.getId());
         

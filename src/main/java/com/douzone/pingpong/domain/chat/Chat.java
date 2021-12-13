@@ -82,6 +82,4 @@ public class Chat implements Serializable {
     public void deleteChat() {
         this.message = "삭제된 메시지 입니다.";
     }
-
-
 }

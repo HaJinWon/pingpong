@@ -22,7 +22,7 @@ public class ApiPartController {
     @ResponseBody
     @RequestMapping("/list/{teamId:(?!assets$|images$).*}")
     public JsonResult getPartList(@PathVariable("teamId") String teamId){
-        System.out.println("partList controller");
+
         Long tId = Long.parseLong(teamId);
         List<Part2> list = partService.getPartList(tId);
         HashMap<String, Object> map = new HashMap<>();

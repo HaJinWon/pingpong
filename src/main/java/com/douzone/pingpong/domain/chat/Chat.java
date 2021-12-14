@@ -37,11 +37,6 @@ public class Chat implements Serializable {
     @Column(name = "not_read_count")
     private Integer notReadCount;
 
-//    private MessageType type;
-//
-//    public enum MessageType {
-//        ENTER, TALK, EXIT
-//    }
     @Builder
     public Chat (Room room, Member member, String message) {
         this.room = room;
@@ -60,11 +55,6 @@ public class Chat implements Serializable {
         chat.setDate(LocalDateTime.now());
         chat.setNotReadCount(1);
         return chat;
-//        return Chat.builder()
-//                .room(room)
-//                .member(member)
-//                .message(message)
-//                .build();
     }
 
     // == 연관관계 메서드 == //

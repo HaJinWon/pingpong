@@ -41,7 +41,7 @@ public class RoomRepository {
                               " join fetch r.roomMembers rm" +
                               " join fetch rm.member m" +
                               " where t.id = :teamId" +
-                              " and  m.id = :memberId"
+                              " and  rm.member.id = :memberId"
                               ,Room.class  )
                 .setParameter("teamId", teamId)
                 .setParameter("memberId", memberId)

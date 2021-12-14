@@ -17,5 +17,4 @@ public class PingpongApplication {
 		Hibernate5Module hibernate5Module = new Hibernate5Module();
 		return hibernate5Module;
 	}
-
 }

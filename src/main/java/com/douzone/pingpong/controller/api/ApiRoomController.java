@@ -3,6 +3,7 @@ package com.douzone.pingpong.controller.api;
 import com.douzone.pingpong.controller.api.dto.chatroom.NoticeRequest;
 import com.douzone.pingpong.controller.api.dto.chatroom.NoticeResponse;
 import com.douzone.pingpong.controller.api.dto.chatroom.RoomDto;
+import com.douzone.pingpong.controller.api.dto.chatroom.RoomListResponse;
 import com.douzone.pingpong.domain.chat.Chat;
 import com.douzone.pingpong.domain.chat.ChatDto;
 import com.douzone.pingpong.domain.chat.Room;
@@ -27,33 +28,20 @@ public class ApiRoomController {
     private final MemberService memberService;
 
     /**
-     * 대화방에 입장
-     * => 대화방을 Click 한 상황, 즉 클라이언트는 대화방을 보고 있음 => pub/sub 필요
-     */
-    @GetMapping("/{roomId}")
-    public String seeRoom(
-            @PathVariable Long roomId
-    ) {
-        Room room = roomService.findRoom(roomId);
-        return "clickRoom";
-    }
-
-    /**
      * 팀에 속한 모든 대화방 출력
      * loginMemberId, TeamId 를 사용하여 사용자가 선택한 팀에 대한 모든 대화방을 출력
      * JSON 반환 : 대화방ID, 대화방타이틀
      *
      */
     @GetMapping("/{teamId}")
-    public List<RoomDto> roomList(
+    public RoomListResponse roomList(
             @PathVariable Long teamId,
             @Login Member loginMember
     ) {
-        List<Room> rooms = roomService.findRoomsByTeamId(loginMember.getId(), teamId);
-        List<RoomDto> roomDtoList = rooms.stream()
-                .map(room -> new RoomDto(room))
-                .collect(Collectors.toList());
-        return roomDtoList;
+        Long memberId = loginMember.getId();
+        List<Room> rooms = roomService.findRoomsByTeamId(memberId, teamId);
+
+        return new RoomListResponse(rooms);
     }
 
     /**
@@ -68,11 +56,14 @@ public class ApiRoomController {
             @PathVariable Long teamId,
             @Login Member loginMember
     ) {
+        Long memberId = loginMember.getId();
+//        Long memberId = 8L;
+
         // 대화 상대방 조회
         Member partner = memberService.findMember(partnerId);
 
         // 대화방 생성 ( 대화방이름 : 상대방이름 )
-        Room room = roomService.createRoom(loginMember.getId(), teamId, partner.getName());
+        Room room = roomService.createRoom(memberId, teamId, partner.getName());
 
         // 파트너가 만들어진 대화방에 참여
         roomService.enterRoom(room.getId(), partnerId);
@@ -125,9 +116,23 @@ public class ApiRoomController {
      * team_member (다대다 매핑 테이블) Insert
      * ❌ 사용하지 않음. 혹시 몰라서 안지우는중 ❌
      */
-    @PostMapping("/{roomId}")
-    public void enterRoom(@PathVariable Long roomId,
+    @GetMapping("/enter/{roomId}")
+    public Room enterRoom(@PathVariable Long roomId,
                           @Login Member loginMember) {
-        roomService.enterRoom(roomId, loginMember.getId());
+        Room room = roomService.findRoom(roomId);
+        return room;
+    }
+
+    /**
+     * 대화방에 입장
+     * => 대화방을 Click 한 상황, 즉 클라이언트는 대화방을 보고 있음 => pub/sub 필요
+     *  ❌ 사용하지 않음. 혹시 몰라서 안지우는중 ❌
+     */
+//    @GetMapping("/{roomId}")
+    public String seeRoom(
+            @PathVariable Long roomId
+    ) {
+        Room room = roomService.findRoom(roomId);
+        return "clickRoom";
     }
 }

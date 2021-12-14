@@ -1,9 +1,14 @@
 package com.douzone.pingpong.controller.member;
 
+import com.douzone.pingpong.controller.api.dto.member.UpdateMemberRequest;
+import com.douzone.pingpong.domain.file.File;
+import com.douzone.pingpong.domain.file.FileDto;
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.security.argumentresolver.Login;
+import com.douzone.pingpong.service.file.FileService;
 import com.douzone.pingpong.service.member.EditMemberDto;
 import com.douzone.pingpong.service.member.MemberService;
+import com.douzone.pingpong.util.MD5Generator;
 import com.douzone.pingpong.web.member.JoinForm;
 import com.douzone.pingpong.web.member.LoginForm;
 import com.douzone.pingpong.web.SessionConstants;
@@ -15,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -28,6 +34,7 @@ import java.util.List;
 @CrossOrigin("*")
 public class MemberController {
     private final MemberService memberService;
+    private final FileService fileService;
 
     @GetMapping("/members/login")
     public String loginForm(Model model) {
@@ -108,30 +115,49 @@ public class MemberController {
         return "members/editForm";
     }
 
-    /*
-    화면용 멤버수정 현재 필요없음.
     @PostMapping("/members/edit")
     public String edit(@Login Member loginMember,
-                       @ModelAttribute EditForm editForm,
+                       @RequestBody UpdateMemberRequest request,
+                       @RequestParam("file") MultipartFile files,
                        BindingResult bindingResult
                        ) {
 
-        if (bindingResult.hasErrors()) {
-            return "members/editForm";
+        try {
+            String origFilename = files.getOriginalFilename();
+            String filename = new MD5Generator(origFilename).toString();
+            /* 실행되는 위치의 'files' 폴더에 파일이 저장됩니다. */
+            String savePath = System.getProperty("user.dir") + "\\files";
+            /* 파일이 저장되는 폴더가 없으면 폴더를 생성합니다. */
+//            if (!new File(savePath).exists()) {
+//                try {
+//                    new File(savePath).mkdir();
+//                } catch (Exception e) {
+//                    e.getStackTrace();
+//                }
+//            }
+//            String filePath = savePath + "\\" + filename;
+//            files.transferTo(new File(filePath));
+
+            FileDto fileDto = new FileDto();
+            fileDto.setOrigFilename(origFilename);
+            fileDto.setFilename(filename);
+//            fileDto.setFilePath(filePath);
+
+            Long fileId = fileService.saveFile(fileDto);
+
+            Long memberId = loginMember.getId();
+
+            EditMemberDto editMemberDto = EditMemberDto.builder()
+                    .id(memberId)
+                    .name(request.getName())
+                    .avatar(String.valueOf(fileId))
+                    .status(request.getStatus())
+                    .build();
+
+            memberService.update(loginMember.getId(),request);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        Long memberId = loginMember.getId();
-
-        EditMemberDto editMemberDto = EditMemberDto.builder()
-                            .id(memberId)
-                            .name(editForm.getName())
-                            .avatar(editForm.getAvatar())
-                            .status(editForm.getStatus())
-                            .build();
-
-        memberService.editMember(editMemberDto);
         return "redirect:/";
     }
-
-     */
 }

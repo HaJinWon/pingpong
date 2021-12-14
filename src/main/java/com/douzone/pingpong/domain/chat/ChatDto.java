@@ -15,7 +15,7 @@ public class ChatDto implements Serializable{
     public enum MessageType {
         ENTER, TALK, EXIT
     }
-
+    private Long chatId;
     private Long roomId;
     private String message;
     private String sender;
@@ -24,6 +24,7 @@ public class ChatDto implements Serializable{
     private String avatar;
 
     public ChatDto(Chat chat) {
+        chatId = chat.getId();
         roomId = chat.getRoom().getId();
         message = chat.getMessage();
         sender = chat.getMember().getName();
@@ -31,12 +32,4 @@ public class ChatDto implements Serializable{
         date = chat.getDate();
         avatar = chat.getMember().getAvatar();
     }
-
-    //    public ChatMessage(String roomId, Long senderId, String message, String sender, MessageType type) {
-//        this.roomId = roomId;
-//        this.senderId = senderId;
-//        this.message = message;
-//        this.sender = sender;
-//        this.type = type;
-//    }
 }

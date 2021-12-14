@@ -1,23 +1,21 @@
 package com.douzone.pingpong.controller.api;
 
+import com.douzone.pingpong.controller.api.dto.chatroom.CreateTeamRequest;
 import com.douzone.pingpong.controller.api.dto.member.CreateTeamResponse;
 import com.douzone.pingpong.controller.api.dto.team.RequestInviteTeam;
 import com.douzone.pingpong.domain.chat.Room;
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.domain.post.Part2;
-import com.douzone.pingpong.dto.JsonResult;
+import com.douzone.pingpong.util.JsonResult;
 import com.douzone.pingpong.security.argumentresolver.Login;
 import com.douzone.pingpong.service.chat.RoomService;
 import com.douzone.pingpong.service.fileupload.FileuploadService;
 import com.douzone.pingpong.service.part.PartService;
 import com.douzone.pingpong.service.team.TeamService;
-import com.douzone.pingpong.web.team.CreateTeamForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,12 +36,14 @@ public class ApiTeamController {
      */
     @PostMapping("/create")
     public CreateTeamResponse create(@Login Member loginMember,
-                         @RequestBody String teamName) {
+                         @RequestBody CreateTeamRequest request) {
+        Long memberId = loginMember.getId();
+//        Long memberId = 8L;
         // 팀생성
-        Long teamId = teamService.createTeam(teamName, loginMember.getId());
+        Long teamId = teamService.createTeam(request.getTeamName(), memberId);
 
         // 단체 대화방 생성
-        roomService.createRoom(loginMember.getId(),teamId, teamName);
+        roomService.createRoom(memberId,teamId, request.getTeamName());
         return new CreateTeamResponse(teamId);
     }
 
@@ -124,7 +124,11 @@ public class ApiTeamController {
     public String acceptTeam(@PathVariable("teamId") Long teamId,
                              @Login Member loginMember){
         // 해당팀의 단체대화방 ID 찾기
-        Long memberId = 8L;
+//        Long memberId = loginMember.getId();
+        Long memberId = 7L;
+        //테스트 하려면 아래에 멤버아이디 넣으세요.
+
+
 
         List<Room> roomList = roomService.findRoomsByTeamId(teamId);
         Room groupRoom = roomList.stream().findFirst().get();

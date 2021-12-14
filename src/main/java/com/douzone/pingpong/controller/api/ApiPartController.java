@@ -1,7 +1,7 @@
 package com.douzone.pingpong.controller.api;
 
 import com.douzone.pingpong.domain.post.Part2;
-import com.douzone.pingpong.dto.JsonResult;
+import com.douzone.pingpong.util.JsonResult;
 import com.douzone.pingpong.service.part.PartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

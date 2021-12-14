@@ -3,7 +3,7 @@ package com.douzone.pingpong.controller.api;
 import com.douzone.pingpong.controller.api.dto.PartnerProfileResponse;
 import com.douzone.pingpong.controller.api.dto.member.*;
 import com.douzone.pingpong.domain.member.Member;
-import com.douzone.pingpong.dto.JsonResult;
+import com.douzone.pingpong.util.JsonResult;
 import com.douzone.pingpong.security.argumentresolver.Login;
 import com.douzone.pingpong.service.member.MemberService;
 import com.douzone.pingpong.web.SessionConstants;

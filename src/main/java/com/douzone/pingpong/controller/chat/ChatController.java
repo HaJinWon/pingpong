@@ -22,10 +22,9 @@ public class ChatController {
     @MessageMapping("/chat/message")
     public void message(@RequestBody ChatDto chatDto) {
         if(ChatDto.MessageType.ENTER.equals(chatDto.getType())){
-//            redisRoomRepository.enterChatRoom(chatDto.getRoomId());
+            redisRoomRepository.enterChatRoom(chatDto.getRoomId());
             chatDto.setMessage(chatDto.getSender() + "님이 입장하셨습니다.");
         }
-        redisRoomRepository.enterChatRoom(chatDto.getRoomId());
         log.info("!!!!!id: {} / chatDTd: {}",redisRoomRepository.getTopic(chatDto.getRoomId()),chatDto);
         redisPublisher.publish(redisRoomRepository.getTopic(chatDto.getRoomId()), chatDto);
         chatService.saveChat(chatDto.getRoomId(), chatDto.getSenderId(), chatDto.getMessage());

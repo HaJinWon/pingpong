@@ -50,7 +50,7 @@ public class ApiPostController {
     }
 
     // 게시글 작성
-    @PostMapping("/post/write/{partId}")
+    @PostMapping("/write/{partId}")
     public JsonResult writePost(@PathVariable("partId") Long partId, @Login Member loginMember,
                             @RequestBody Post2 postVo /*, MultipartFile file, MultipartFile image*/) throws FileUploadException {
         System.out.println("addPost");
@@ -64,8 +64,11 @@ public class ApiPostController {
         vo.setContents(contents);
         vo.setFile(fileUrl);
         vo.setImage(imageUrl);
-        vo.setMember_id(loginMember.getId());
-        */
+
+         */
+        postVo.setPart_id(partId);
+        postVo.setMember_id(loginMember.getId());
+
         partService.addPost(postVo);
 
         return JsonResult.success("success");
@@ -92,8 +95,8 @@ public class ApiPostController {
         Post2 vo = new Post2();
         //String fileUrl = fileuploadService.restoreFile(file);
         //String imageUrl = fileuploadService.restoreFile(image);
-        String fileUrl ="test수정";
-        String imageUrl ="test수정";
+        //String fileUrl ="test수정";
+        //String imageUrl ="test수정";
         vo.setPost_id(postVo.getPost_id());
         vo.setTitle(postVo.getTitle());
         vo.setContents(postVo.getContents());

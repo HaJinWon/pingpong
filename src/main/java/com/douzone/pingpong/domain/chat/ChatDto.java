@@ -15,6 +15,7 @@ public class ChatDto implements Serializable{
     public enum MessageType {
         ENTER, TALK, EXIT
     }
+
     private Long chatId;
     private Long roomId;
     private String message;

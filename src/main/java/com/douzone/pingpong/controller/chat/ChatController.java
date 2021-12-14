@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RequiredArgsConstructor
@@ -19,15 +20,13 @@ public class ChatController {
     private final ChatService chatService;
 
     @MessageMapping("/chat/message")
-    public void message(ChatDto chatDto) {
+    public void message(@RequestBody ChatDto chatDto) {
         if(ChatDto.MessageType.ENTER.equals(chatDto.getType())){
             redisRoomRepository.enterChatRoom(chatDto.getRoomId());
             chatDto.setMessage(chatDto.getSender() + "님이 입장하셨습니다.");
         }
-//        redisRoomRepository.enterChatRoom(chatDto.getRoomId());
 
-        log.info("id: {},message:{}",redisRoomRepository.getTopic(chatDto.getRoomId()),chatDto.getMessage());
-        log.info("sender:{}, senderId:{}, data:{}", chatDto.getSender(), chatDto.getSenderId(), chatDto.getDate());
+        log.info("!!!!!id: {} / chatDTd: {}",redisRoomRepository.getTopic(chatDto.getRoomId()),chatDto);
         redisPublisher.publish(redisRoomRepository.getTopic(chatDto.getRoomId()), chatDto);
         chatService.saveChat(chatDto.getRoomId(), chatDto.getSenderId(), chatDto.getMessage());
     }

@@ -47,6 +47,7 @@ public class RoomController {
 
     // 채팅방 입장 화면
     @GetMapping("/room/enter/{roomId}")
+    @ResponseBody
     public String roomDetail(Model model,
                              @PathVariable Long roomId,
                              @Login Member loginMember) {
@@ -61,7 +62,7 @@ public class RoomController {
         model.addAttribute("room", room);
         model.addAttribute("chatList", chatList);     // 채팅기록 로드하기.. 에러가 너무많이뜬다 ㅠㅠ
 
-        return "chat/room";
+        return "chatgg";
     }
 
     // 특정 대화방 반환

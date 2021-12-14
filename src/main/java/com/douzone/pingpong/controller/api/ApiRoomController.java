@@ -23,9 +23,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/api/room")
+@CrossOrigin("*")
 public class ApiRoomController {
     private final RoomService roomService;
     private final MemberService memberService;
+
+
 
     /**
      * 팀에 속한 모든 대화방 출력

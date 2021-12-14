@@ -14,6 +14,7 @@ import com.douzone.pingpong.service.team.TeamService;
 import com.douzone.pingpong.web.team.CreateTeamForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.minidev.json.parser.JSONParser;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -156,6 +157,8 @@ public class ApiTeamController {
     // 전체 유저 검색 우리팀에 속해있는 유저 제외
     @PostMapping("/searchUser/{teamId}")
     public JsonResult findUser( @PathVariable("teamId") Long teamId, @RequestBody String memberName){
+
+        System.out.println(memberName);
         List<Map<String, Object>> list = teamService.findUser(memberName,teamId);
         HashMap<String,Object> map = new HashMap<>();
         map.put("findUserList",list);

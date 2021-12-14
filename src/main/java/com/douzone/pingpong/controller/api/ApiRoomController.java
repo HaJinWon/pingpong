@@ -50,7 +50,8 @@ public class ApiRoomController {
             @PathVariable Long teamId,
             @Login Member loginMember
     ) {
-        List<Room> rooms = roomService.findRoomsByTeamId(loginMember.getId(), teamId);
+        Long memberId = loginMember.getId(); // loginMember.getId()
+        List<Room> rooms = roomService.findRoomsByTeamId(memberId, teamId);
         List<RoomDto> roomDtoList = rooms.stream()
                 .map(room -> new RoomDto(room))
                 .collect(Collectors.toList());

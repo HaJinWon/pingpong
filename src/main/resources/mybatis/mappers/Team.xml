@@ -22,6 +22,7 @@
                 or b.team_id is null
             ) t
             where name like concat('%',#{userName},'%')
+            group by t.member_id, t.email, t.name, t.phone, t.status, t.avatar, t.company
 		]]>
     </select>
 

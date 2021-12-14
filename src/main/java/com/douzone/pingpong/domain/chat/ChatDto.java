@@ -16,6 +16,7 @@ public class ChatDto implements Serializable{
         ENTER, TALK, EXIT
     }
 
+    private Long chatId;
     private Long roomId;
     private String message;
     private String sender;
@@ -24,6 +25,7 @@ public class ChatDto implements Serializable{
     private String avatar;
 
     public ChatDto(Chat chat) {
+        chatId = chat.getId();
         roomId = chat.getRoom().getId();
         message = chat.getMessage();
         sender = chat.getMember().getName();

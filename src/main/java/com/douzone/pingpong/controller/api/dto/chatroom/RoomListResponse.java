@@ -11,9 +11,9 @@ public class RoomListResponse {
     private List<RoomDto> roomDtoList;
 
 
-    public RoomListResponse(List<Room> rooms) {
+    public RoomListResponse(List<Room> rooms, Long memberId) {
         roomDtoList = rooms.stream()
-                .map(room -> new RoomDto(room))
+                .map(room -> new RoomDto(room, memberId))
                 .collect(Collectors.toList());
     }
 }

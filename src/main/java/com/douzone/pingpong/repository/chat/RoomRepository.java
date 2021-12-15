@@ -37,16 +37,27 @@ public class RoomRepository {
      */
     public List<Room> findRoomsByTeamId(Long memberId, Long teamId) {
         return em.createQuery("select distinct r from Room r" +
-                              " join fetch r.team t" +
-                              " join fetch r.roomMembers rm" +
-                              " join fetch rm.member m" +
-                              " where t.id = :teamId" +
-                              " and  rm.member.id = :memberId"
-                              ,Room.class  )
-                .setParameter("teamId", teamId)
-                .setParameter("memberId", memberId)
+                                " join fetch r.team t" +
+                                " join fetch r.roomMembers rm" +
+                                " join fetch rm.member m"
+                        ,Room.class  )
                 .getResultList();
     }
+//    public List<Room> findRoomsByTeamId(Long memberId, Long teamId) {
+//        return em.createQuery("select distinct r from Room r" +
+//                              " join fetch r.team t" +
+//                              " join fetch r.roomMembers rm" +
+//                              " join fetch rm.member m" +
+//                              " where t.id = :teamId" +
+//                              " and  m.id = :memberId"
+////                              " and  rm.member.id = :memberId"
+//                              ,Room.class  )
+//                .setParameter("teamId", teamId)
+//                .setParameter("memberId", memberId)
+//                .getResultList();
+//    }
+
+//    public List<Room> findInRoomMembers(Long memberId, Long teamId);
 
     public Room findById(Long roomId) {
         return em.find(Room.class, roomId);

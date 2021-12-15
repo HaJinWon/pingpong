@@ -38,7 +38,7 @@ public class ApiTeamController {
     public CreateTeamResponse create(@Login Member loginMember,
                          @RequestBody CreateTeamRequest request) {
         Long memberId = loginMember.getId();
-//        Long memberId = 8L;
+//        Long memberId = 2L;
         // 팀생성
         Long teamId = teamService.createTeam(request.getTeamName(), memberId);
 

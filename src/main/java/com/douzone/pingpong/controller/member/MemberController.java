@@ -1,32 +1,29 @@
 package com.douzone.pingpong.controller.member;
 
-import com.douzone.pingpong.controller.api.dto.member.UpdateMemberRequest;
-import com.douzone.pingpong.domain.file.File;
-import com.douzone.pingpong.domain.file.FileDto;
+
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.security.argumentresolver.Login;
 import com.douzone.pingpong.service.file.FileService;
-import com.douzone.pingpong.service.member.EditMemberDto;
 import com.douzone.pingpong.service.member.MemberService;
-import com.douzone.pingpong.util.MD5Generator;
 import com.douzone.pingpong.web.member.JoinForm;
 import com.douzone.pingpong.web.member.LoginForm;
 import com.douzone.pingpong.web.SessionConstants;
 import com.douzone.pingpong.web.member.EditForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,6 +32,10 @@ import java.util.List;
 public class MemberController {
     private final MemberService memberService;
     private final FileService fileService;
+
+    @Value("${file.dir}")
+    private String fileDir;
+
 
     @GetMapping("/members/login")
     public String loginForm(Model model) {
@@ -115,49 +116,23 @@ public class MemberController {
         return "members/editForm";
     }
 
+    @ResponseBody
     @PostMapping("/members/edit")
-    public String edit(@Login Member loginMember,
-                       @RequestBody UpdateMemberRequest request,
-                       @RequestParam("file") MultipartFile files,
-                       BindingResult bindingResult
-                       ) {
+    public String uploadFile(@RequestParam MultipartFile file,
+                             @RequestParam String name,
+                             HttpServletRequest request)
+            throws IOException {
 
-        try {
-            String origFilename = files.getOriginalFilename();
-            String filename = new MD5Generator(origFilename).toString();
-            /* 실행되는 위치의 'files' 폴더에 파일이 저장됩니다. */
-            String savePath = System.getProperty("user.dir") + "\\files";
-            /* 파일이 저장되는 폴더가 없으면 폴더를 생성합니다. */
-//            if (!new File(savePath).exists()) {
-//                try {
-//                    new File(savePath).mkdir();
-//                } catch (Exception e) {
-//                    e.getStackTrace();
-//                }
-//            }
-//            String filePath = savePath + "\\" + filename;
-//            files.transferTo(new File(filePath));
+        log.info("request={}", request);
+        log.info("name={}", name);
+        log.info("multipartFile={}", file);
 
-            FileDto fileDto = new FileDto();
-            fileDto.setOrigFilename(origFilename);
-            fileDto.setFilename(filename);
-//            fileDto.setFilePath(filePath);
+        if (!file.isEmpty()) {
+            String fullPath = fileDir + file.getOriginalFilename();
+            log.info("파일 저장 fullPath={}", fullPath);
+            file.transferTo(new File(fullPath));
 
-            Long fileId = fileService.saveFile(fileDto);
-
-            Long memberId = loginMember.getId();
-
-            EditMemberDto editMemberDto = EditMemberDto.builder()
-                    .id(memberId)
-                    .name(request.getName())
-                    .avatar(String.valueOf(fileId))
-                    .status(request.getStatus())
-                    .build();
-
-            memberService.update(loginMember.getId(),request);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        return "redirect:/";
+        return "success";
+        }
     }
-}

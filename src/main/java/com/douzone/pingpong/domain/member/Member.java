@@ -24,7 +24,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@ToString
 @DynamicInsert
 @NoArgsConstructor
 @JsonIdentityInfo(

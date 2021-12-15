@@ -19,9 +19,11 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     #spring.jackson.serialization.fail-on-empty-beans=false
+
   redis:
     host: pingpongdz.synology.me
     port: 6379
+
   jackson:
     serialization:
       fail-on-empty-beans: false
@@ -32,12 +34,24 @@ spring:
       enabled: true
     restart:
       enabled: true
+  ## 파일 업로드 제한 : 파일하나의 최대 사이즈1MB, 요청 하나에 총 10MB
+  servlet:
+    multipart:
+      max-file-size: 1MB
+      max-request-size: 10MB
+file:
+  dir: /Users/jinyoung/project/pingpong/file/
+
+
 Dsun:
   io:
     serialization:
       extendedDebugInfo: true
 logging.level:
-  org.hibernate.SQL: debug
+  org:
+    hibernate.SQL: debug
+    apache.coyote.http11: debug
+
 
 server:
   servlet:

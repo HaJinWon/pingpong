@@ -57,6 +57,10 @@ public class MemberService {
         return memberRepository.findByTeamMembers(teamId);
     }
 
+    public List<Member> findByTeamMembers(Long memberId, Long teamId) {
+        return memberRepository.findByTeamMembers(memberId, teamId);
+    }
+
 
     public Member checkEmail(String email) {
         return memberRepository.checkEmail(email);

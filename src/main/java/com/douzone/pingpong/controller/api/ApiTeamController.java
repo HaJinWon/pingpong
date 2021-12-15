@@ -38,7 +38,8 @@ public class ApiTeamController {
     public CreateTeamResponse create(@Login Member loginMember,
                          @RequestBody CreateTeamRequest request) {
         Long memberId = loginMember.getId();
-//        Long memberId = 2L;
+//        Long memberId = 3L;
+
         // 팀생성
         Long teamId = teamService.createTeam(request.getTeamName(), memberId);
 
@@ -101,7 +102,7 @@ public class ApiTeamController {
      * 초대장 보내기 (복수 가능)
      * ex)
      * {
-     *     members: [ 4, 5]
+     *     "members": [ 4, 5]
      * }
      * => 멤버ID 4,5 에게 초대장 보내기
      */
@@ -126,8 +127,8 @@ public class ApiTeamController {
     public String acceptTeam(@PathVariable("teamId") Long teamId,
                              @Login Member loginMember){
         // 해당팀의 단체대화방 ID 찾기
-        Long memberId = loginMember.getId();
-//        Long memberId = 7L;
+//        Long memberId = loginMember.getId();
+        Long memberId = 5L;
 
         List<Room> roomList = roomService.findRoomsByTeamId(teamId);
         Room groupRoom = roomList.stream().findFirst().get();

@@ -44,6 +44,17 @@ public class MemberRepository {
                 .getResultList();
     }
 
+    public List<Member> findByTeamMembers(Long memberId, Long teamId) {
+        return em.createQuery("select distinct m from Member m" +
+                        " join fetch m.teamMembers tm" +
+                        " join fetch tm.team t" +
+                        " where t.id = :teamId" +
+                        "   and m.id <> :memberId",Member.class)
+                .setParameter("teamId", teamId)
+                .setParameter("memberId", memberId)
+                .getResultList();
+    }
+
     public Member checkEmail(String email) {
         return sqlSession.selectOne("member.checkEmail",email);
     }

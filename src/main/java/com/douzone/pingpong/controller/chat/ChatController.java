@@ -25,7 +25,6 @@ public class ChatController {
             redisRoomRepository.enterChatRoom(chatDto.getRoomId());
             chatDto.setMessage(chatDto.getSender() + "님이 입장하셨습니다.");
         }
-
         log.info("!!!!!id: {} / chatDTd: {}",redisRoomRepository.getTopic(chatDto.getRoomId()),chatDto);
         redisPublisher.publish(redisRoomRepository.getTopic(chatDto.getRoomId()), chatDto);
         chatService.saveChat(chatDto.getRoomId(), chatDto.getSenderId(), chatDto.getMessage());

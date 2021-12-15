@@ -41,10 +41,15 @@ public class ApiRoomController {
             @PathVariable Long teamId,
             @Login Member loginMember
     ) {
-        Long memberId = loginMember.getId();
+//        Long memberId = loginMember.getId();
+        Long memberId = 2L;
         List<Room> rooms = roomService.findRoomsByTeamId(memberId, teamId);
+        List<Room> roomList =rooms.stream().filter(room ->
+                                room.getTeam().getId().equals(teamId))
+                                .collect(Collectors.toList());
 
-        return new RoomListResponse(rooms);
+
+        return new RoomListResponse(roomList, memberId);
     }
 
     /**
@@ -104,14 +109,14 @@ public class ApiRoomController {
      * ❌ 사용하지 않음. 혹시 몰라서 안지우는중 ❌
      * JSON 반환 : 대화방ID, 대화방타이틀
      */
-    @PostMapping("/{teamId}")
+//    @PostMapping("/{teamId}")
     public RoomDto createRoom(
             @RequestBody String title,
             @PathVariable Long teamId,
             @Login Member loginMember
     ) {
         Room room = roomService.createRoom(loginMember.getId(), teamId, title);
-        return new RoomDto(room);
+        return new RoomDto(room, 1L);
     }
 
     /**
@@ -119,7 +124,7 @@ public class ApiRoomController {
      * team_member (다대다 매핑 테이블) Insert
      * ❌ 사용하지 않음. 혹시 몰라서 안지우는중 ❌
      */
-    @GetMapping("/enter/{roomId}")
+//    @GetMapping("/enter/{roomId}")
     public Room enterRoom(@PathVariable Long roomId,
                           @Login Member loginMember) {
         Room room = roomService.findRoom(roomId);

@@ -35,7 +35,7 @@ public class TeamRepository {
         return sqlSession.selectList("team.findUser",map);
     }
 
-    public void teamExit(String teamId, Long memberId) {
+    public void teamExit(Long teamId, Long memberId) {
         Map<String,Object> map = new HashMap<>();
         map.put("teamId",teamId);
         map.put("memberId",memberId);

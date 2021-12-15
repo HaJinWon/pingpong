@@ -108,6 +108,8 @@ public class ApiTeamController {
     @PostMapping("/invite/{teamId}")
     public String inviteMember( @PathVariable Long teamId,
                                 @RequestBody RequestInviteTeam request){
+        System.out.println("invite");
+        System.out.println("request"+request.getMembers());
         request.getMembers().forEach(memberId -> teamService.inviteMember(teamId, memberId));
         return "success";
     }
@@ -148,8 +150,8 @@ public class ApiTeamController {
     }
 
     //팀 나가기
-    @GetMapping("/team/exit/{teamId}")
-    public JsonResult teamExit(@PathVariable("teamId") String teamId, @Login Member loginMember){
+    @GetMapping("/exit/{teamId}")
+    public JsonResult teamExit(@PathVariable("teamId") Long teamId, @Login Member loginMember){
         teamService.teamExit(teamId,loginMember.getId());
         return JsonResult.success("success");
     }

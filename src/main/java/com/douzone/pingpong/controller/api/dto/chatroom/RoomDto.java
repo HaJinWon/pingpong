@@ -19,7 +19,7 @@ public class RoomDto {
         this.title = room.getTitle();
         this.notice = room.getNotice();
         roomMembers = room.getRoomMembers().stream()
-                .filter(roomMember -> roomMember.g`)
+                .filter(roomMember -> roomMember.getMember().getId().equals(memberId))
                 .map(roomMember -> new RoomMemberDto(roomMember))
                 .collect(Collectors.toList());
     }

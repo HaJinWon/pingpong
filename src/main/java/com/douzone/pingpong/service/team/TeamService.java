@@ -28,9 +28,6 @@ import java.util.Optional;
 public class TeamService {
     private final TeamRepository teamRepository;
     private final MemberRepository memberRepository;
-    private final RoomRepository roomRepository;
-    private final RedisRoomRepository redisRoomRepository;
-
 
     @Transactional
     public Long createTeam(String name, Long memberId) {
@@ -62,14 +59,12 @@ public class TeamService {
         return  list;
     }
 
+    @Transactional
     public void teamExit(String teamId, Long memberId) {
-
         teamRepository.teamExit(teamId,memberId);
     }
 
-
     public List<Map<String, Object>> getTeamInfo(Long teamId) {
-
         return teamRepository.getTeamInfo(teamId);
     }
 
@@ -79,11 +74,6 @@ public class TeamService {
 
     @Transactional
     public void acceptTeam(Long teamId, Long memberId) {
-
-
-        // 단체대화방 구독하기
-
-
         teamRepository.acceptTeam(teamId,memberId);
     }
 }

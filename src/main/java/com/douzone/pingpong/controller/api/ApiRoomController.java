@@ -41,8 +41,9 @@ public class ApiRoomController {
             @PathVariable Long teamId,
             @Login Member loginMember
     ) {
-//        Long memberId = loginMember.getId();
-        Long memberId = 2L;
+        Long memberId = loginMember.getId();
+//        Long memberId = 2L;
+
         List<Room> rooms = roomService.findRoomsByTeamId(memberId, teamId);
         List<Room> roomList =rooms.stream().filter(room ->
                                 room.getTeam().getId().equals(teamId))
@@ -65,7 +66,7 @@ public class ApiRoomController {
             @Login Member loginMember
     ) {
         Long memberId = loginMember.getId();
-//        Long memberId = 8L;
+//        Long memberId = 3L;
 
         // 대화 상대방 조회
         Member partner = memberService.findMember(partnerId);
@@ -87,8 +88,23 @@ public class ApiRoomController {
             @RequestBody NoticeRequest noticeRequest
             ) {
         roomService.updateNotice(roomId, noticeRequest.getNotice());
-        return new NoticeResponse(roomId);
+
+        return new NoticeResponse(roomId, noticeRequest.getNotice());
     }
+
+    /**
+     * 공지사항 조회하기
+     */
+    @GetMapping("/notice/{roomId}")
+    public NoticeResponse notice(
+            @PathVariable Long roomId
+    ) {
+        Room room = roomService.findRoom(roomId);
+        return new NoticeResponse(roomId, room.getNotice());
+    }
+
+
+
 
     /**
      * 대화방 나가기

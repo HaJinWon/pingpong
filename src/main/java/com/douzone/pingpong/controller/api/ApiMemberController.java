@@ -116,11 +116,11 @@ public class ApiMemberController {
     }
 
     /**
-     * 팀에 소속된 멤버 검색
-     * 1대1 채팅할때 사용
+     * (1). 팀에 소속된 멤버 검색 - 본인포함 (teamId 필요)
+     * 사용 :
      * @return
      */
-    @GetMapping("/team/{teamId}")
+    @GetMapping("/team/v2/{teamId}")
     public List<MemberDto> findByTeamMembers(
             @PathVariable Long teamId
     ) {
@@ -130,6 +130,24 @@ public class ApiMemberController {
                 .collect(Collectors.toList());
         return result;
     }
+    /**
+     * (2). 팀에 소속된 멤버 검색 - 본인제외 (teamId, memberId 필요)
+     * 사용 : NavLeft 팀에 소속된 멤버 리스트, 1대1 대화방 만들때
+     */
+    @GetMapping("/team/{teamId}")
+    public List<MemberDto> findByTeamMembers(
+            @PathVariable Long teamId,
+            @Login Member loginMember
+    ) {
+        Long memberId = loginMember.getId();
+
+        List<Member> members = memberService.findByTeamMembers(memberId, teamId);
+        List<MemberDto> result = members.stream()
+                .map(m -> new MemberDto(m))
+                .collect(Collectors.toList());
+        return result;
+    }
+
 
     /**
      * 상대방 프로필 조회

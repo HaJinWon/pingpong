@@ -31,33 +31,31 @@ public class RoomRepository {
         return em.find(RoomMember.class, memberId);
     }
 
+//    public List<Room> findRoomsByTeamId(Long memberId, Long teamId) {
+//        return em.createQuery("select distinct r from Room r" +
+//                                " join fetch r.team t" +
+//                                " join fetch r.roomMembers rm" +
+//                                " join fetch rm.member m"
+//                        ,Room.class  )
+//                .getResultList();
+//    }
 
     /**
      * 팀에 속한 모든채팅방 찾기 (접속자ID, TeamId 사용)
      */
+//
     public List<Room> findRoomsByTeamId(Long memberId, Long teamId) {
         return em.createQuery("select distinct r from Room r" +
-                                " join fetch r.team t" +
-                                " join fetch r.roomMembers rm" +
-                                " join fetch rm.member m"
-                        ,Room.class  )
+                              " join fetch r.team t" +
+                              " join fetch r.roomMembers rm" +
+                              " join fetch rm.member m" +
+                              " where t.id = :teamId" +
+                              " and  m.id = :memberId"
+                              ,Room.class  )
+                .setParameter("teamId", teamId)
+                .setParameter("memberId", memberId)
                 .getResultList();
     }
-//    public List<Room> findRoomsByTeamId(Long memberId, Long teamId) {
-//        return em.createQuery("select distinct r from Room r" +
-//                              " join fetch r.team t" +
-//                              " join fetch r.roomMembers rm" +
-//                              " join fetch rm.member m" +
-//                              " where t.id = :teamId" +
-//                              " and  m.id = :memberId"
-////                              " and  rm.member.id = :memberId"
-//                              ,Room.class  )
-//                .setParameter("teamId", teamId)
-//                .setParameter("memberId", memberId)
-//                .getResultList();
-//    }
-
-//    public List<Room> findInRoomMembers(Long memberId, Long teamId);
 
     public Room findById(Long roomId) {
         return em.find(Room.class, roomId);
@@ -74,6 +72,7 @@ public class RoomRepository {
                 .setParameter("teamId", teamId)
                 .getResultList();
     }
+
 
     /**
      * 대화방 저장 (Insert)

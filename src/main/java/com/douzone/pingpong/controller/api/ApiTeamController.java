@@ -2,7 +2,6 @@ package com.douzone.pingpong.controller.api;
 
 import com.douzone.pingpong.controller.api.dto.chatroom.CreateTeamRequest;
 import com.douzone.pingpong.controller.api.dto.member.CreateTeamResponse;
-import com.douzone.pingpong.controller.api.dto.member.MemberDto;
 import com.douzone.pingpong.controller.api.dto.member.InviteMemberDto;
 import com.douzone.pingpong.controller.api.dto.team.RequestInviteTeam;
 import com.douzone.pingpong.domain.chat.Room;
@@ -155,8 +154,8 @@ public class ApiTeamController {
 
     //팀 나가기
     @GetMapping("/exit/{teamId}")
-    public JsonResult teamExit(@PathVariable("teamId") String teamId, @Login Member loginMember) {
-        teamService.teamExit(teamId, loginMember.getId());
+    public JsonResult teamExit(@PathVariable("teamId") Long teamId, @Login Member loginMember){
+        teamService.teamExit(teamId,loginMember.getId());
         return JsonResult.success("success");
     }
 

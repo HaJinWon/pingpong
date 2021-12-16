@@ -60,7 +60,8 @@ public class TeamService {
     }
 
     @Transactional
-    public void teamExit(String teamId, Long memberId) {
+    public void teamExit(Long teamId, Long memberId) {
+
         teamRepository.teamExit(teamId,memberId);
     }
 

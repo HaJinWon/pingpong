@@ -1,8 +1,8 @@
 package com.douzone.pingpong.service.file;
 
 
-import com.douzone.pingpong.domain.file.File;
-import com.douzone.pingpong.domain.file.FileDto;
+import com.douzone.pingpong.domain.file.UploadFile;
+import com.douzone.pingpong.domain.file.UploadFileDto;
 import com.douzone.pingpong.repository.file.FileRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,15 +16,15 @@ public class FileService {
     }
 
     @Transactional
-    public Long saveFile(FileDto fileDto) {
-        return fileRepository.save(fileDto.toEntity()).getId();
+    public Long saveFile(UploadFile uploadFile) {
+        return fileRepository.save(uploadFile).getId();
     }
 
     @Transactional
-    public FileDto getFile(Long id) {
-        File file = fileRepository.findById(id).get();
+    public UploadFileDto getFile(Long id) {
+        UploadFile file = fileRepository.findById(id).get();
 
-        FileDto fileDto = FileDto.builder()
+        UploadFileDto fileDto = UploadFileDto.builder()
                 .id(id)
                 .origFilename(file.getOrigFilename())
                 .filename(file.getFilename())

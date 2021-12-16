@@ -1,6 +1,7 @@
 package com.douzone.pingpong.repository.member;
 
 import com.douzone.pingpong.domain.member.Member;
+import com.douzone.pingpong.domain.member.TeamMember;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -39,21 +40,38 @@ public class MemberRepository {
         return em.createQuery("select distinct m from Member m" +
                         " join fetch m.teamMembers tm" +
                         " join fetch tm.team t" +
-                        " where t.id = :teamId",Member.class)
+                        " where t.id = :teamId" +
+                        "  and  tm.include = 'Y'",Member.class)
                 .setParameter("teamId", teamId)
                 .getResultList();
     }
 
+    // 팀에 속한 멤버 검색
     public List<Member> findByTeamMembers(Long memberId, Long teamId) {
         return em.createQuery("select distinct m from Member m" +
                         " join fetch m.teamMembers tm" +
                         " join fetch tm.team t" +
                         " where t.id = :teamId" +
-                        "   and m.id <> :memberId",Member.class)
+                        "   and m.id <> :memberId" +
+                        "   and tm.include = 'Y' ",Member.class)
                 .setParameter("teamId", teamId)
                 .setParameter("memberId", memberId)
                 .getResultList();
     }
+
+    /**
+     * 초대장 리스트 뽑기
+     */
+    public Member invitationList (Long memberId) {
+        return em.createQuery(" select distinct m from Member m " +
+                        "join fetch m.teamMembers tm " +
+                        "join fetch tm.team t " +
+                        "where tm.include = 'N' " +
+                        " and       m.id  = :memberId", Member.class)
+                .setParameter("memberId", memberId)
+                .getSingleResult();
+    }
+
 
     public Member checkEmail(String email) {
         return sqlSession.selectOne("member.checkEmail",email);
@@ -62,4 +80,6 @@ public class MemberRepository {
     public Member getUpdateUser(Long id) {
         return sqlSession.selectOne("member.getUpdateUser",id);
     }
+
+
 }

@@ -50,7 +50,7 @@ Dsun:
 logging.level:
   org:
     hibernate.SQL: debug
-    apache.coyote.http11: debug
+#    apache.coyote.http11: debug
 
 
 server:

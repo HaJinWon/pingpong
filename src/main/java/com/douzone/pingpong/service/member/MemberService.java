@@ -1,7 +1,10 @@
 package com.douzone.pingpong.service.member;
 
+import com.douzone.pingpong.controller.api.dto.member.UpdateMemberDto;
 import com.douzone.pingpong.controller.api.dto.member.UpdateMemberRequest;
+import com.douzone.pingpong.domain.chat.RoomMember;
 import com.douzone.pingpong.domain.member.Member;
+import com.douzone.pingpong.domain.member.TeamMember;
 import com.douzone.pingpong.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,9 +51,9 @@ public class MemberService {
     }
 
     @Transactional
-    public void update(Long memberId, UpdateMemberRequest request) {
+    public void update(Long memberId, UpdateMemberDto updateMemberDto) {
         Member findMember = em.find(Member.class, memberId);
-        findMember.updateMember(request.getName(), request.getStatus(), request.getAvatar());
+        findMember.updateMember(updateMemberDto.getName(), updateMemberDto.getStatus(), updateMemberDto.getAvatar());
     }
 
     public List<Member> findByTeamMembers(Long teamId) {
@@ -60,6 +63,11 @@ public class MemberService {
     public List<Member> findByTeamMembers(Long memberId, Long teamId) {
         return memberRepository.findByTeamMembers(memberId, teamId);
     }
+
+    public Member invitationList (Long memberId) {
+        return memberRepository.invitationList(memberId);
+    }
+
 
 
     public Member checkEmail(String email) {

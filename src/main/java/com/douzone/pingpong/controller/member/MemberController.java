@@ -1,10 +1,16 @@
 package com.douzone.pingpong.controller.member;
 
 
+import com.douzone.pingpong.controller.api.dto.member.MemberDto;
+import com.douzone.pingpong.controller.api.dto.member.UpdateMemberDto;
+import com.douzone.pingpong.controller.api.dto.member.UpdateMemberRequest;
+import com.douzone.pingpong.domain.file.UploadFile;
 import com.douzone.pingpong.domain.member.Member;
+import com.douzone.pingpong.domain.member.MemberStatus;
 import com.douzone.pingpong.security.argumentresolver.Login;
 import com.douzone.pingpong.service.file.FileService;
 import com.douzone.pingpong.service.member.MemberService;
+import com.douzone.pingpong.util.FileStore;
 import com.douzone.pingpong.web.member.JoinForm;
 import com.douzone.pingpong.web.member.LoginForm;
 import com.douzone.pingpong.web.SessionConstants;
@@ -12,17 +18,18 @@ import com.douzone.pingpong.web.member.EditForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.time.LocalDateTime;
 
 @Controller
@@ -31,11 +38,8 @@ import java.time.LocalDateTime;
 @CrossOrigin("*")
 public class MemberController {
     private final MemberService memberService;
+    private final FileStore fileStore;
     private final FileService fileService;
-
-    @Value("${file.dir}")
-    private String fileDir;
-
 
     @GetMapping("/members/login")
     public String loginForm(Model model) {
@@ -118,21 +122,29 @@ public class MemberController {
 
     @ResponseBody
     @PostMapping("/members/edit")
-    public String uploadFile(@RequestParam MultipartFile file,
-                             @RequestParam String name,
-                             HttpServletRequest request)
+    public String uploadFile(@ModelAttribute UpdateMemberRequest request,
+                             @Login Member loginMember)
             throws IOException {
 
+        UploadFile profileImage = fileStore.storeFile(request.getAvatar());
+        fileService.saveFile(profileImage);
+
+        UpdateMemberDto updateMemberDto =
+                new UpdateMemberDto(request.getName(), request.getStatus(), profileImage.getFilePath());
+
+
         log.info("request={}", request);
-        log.info("name={}", name);
-        log.info("multipartFile={}", file);
+        memberService.update(loginMember.getId(), updateMemberDto);
 
-        if (!file.isEmpty()) {
-            String fullPath = fileDir + file.getOriginalFilename();
-            log.info("파일 저장 fullPath={}", fullPath);
-            file.transferTo(new File(fullPath));
-
-        }
         return "success";
-        }
     }
+
+    @ResponseBody
+    @GetMapping("/images/{filename}")
+    public Resource downloadImage(@PathVariable String filename) throws IOException
+    {
+        return new UrlResource("file:" + fileStore.getPathToday(filename));
+    }
+
+
+}

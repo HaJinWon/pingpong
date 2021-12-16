@@ -26,9 +26,6 @@ import java.util.List;
 @Getter
 @DynamicInsert
 @NoArgsConstructor
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
 public class Member implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
@@ -61,6 +58,7 @@ public class Member implements Serializable {
 
     private LocalDateTime date;
     private String avatar;
+
 
     @Builder
     public Member (String email, String password, String name, String phone, String company, LocalDateTime date) {

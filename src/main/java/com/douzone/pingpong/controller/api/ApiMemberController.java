@@ -98,7 +98,7 @@ public class ApiMemberController {
         Long memberId = loginMember.getId();
 
         //멤버 업데이트 하기
-        memberService.update(memberId, request);
+//        memberService.update(memberId, request);
 
         // 업데이트한 멤버 조회 (JSON 으로 리턴해주기 위해서)
         memberService.findMember(memberId);
@@ -134,6 +134,7 @@ public class ApiMemberController {
      * (2). 팀에 소속된 멤버 검색 - 본인제외 (teamId, memberId 필요)
      * 사용 : NavLeft 팀에 소속된 멤버 리스트, 1대1 대화방 만들때
      */
+    // 우리팀이아닌애가
     @GetMapping("/team/{teamId}")
     public List<MemberDto> findByTeamMembers(
             @PathVariable Long teamId,

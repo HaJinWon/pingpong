@@ -1,9 +1,9 @@
 package com.douzone.pingpong.controller.api;
 
-import com.douzone.pingpong.domain.post.Part2;
+import com.douzone.pingpong.domain.part.Part2;
 import com.douzone.pingpong.util.JsonResult;
 import com.douzone.pingpong.service.part.PartService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,16 +11,15 @@ import java.util.HashMap;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/api/part")
 @CrossOrigin("*")
 public class ApiPartController {
-
-    @Autowired
-    private PartService partService;
+    private final PartService partService;
 
     //해당 팀 아이디 part 조회
     @ResponseBody
-    @RequestMapping("/list/{teamId:(?!assets$|images$).*}")
+    @GetMapping("/{teamId}")
     public JsonResult getPartList(@PathVariable("teamId") String teamId){
 
         Long tId = Long.parseLong(teamId);
@@ -34,20 +33,17 @@ public class ApiPartController {
 
     //새 파트 추가
     @ResponseBody
-    @PostMapping("/add/{teamId:(?!assets$|images$).*}")
+    @PostMapping("/{teamId}")
     public JsonResult addPart(@PathVariable("teamId") Long teamId, @RequestBody String partName ){
-
         partService.addPart(teamId,partName);
-
         return JsonResult.success("success");
 
     }
 
     //파트 삭제
     @ResponseBody
-    @RequestMapping("/del/{partId}")
+    @DeleteMapping("/{partId}")
     public JsonResult delPart(@PathVariable("partId") Long partId){
-
         partService.delPart(partId);
         return JsonResult.success("success");
     }

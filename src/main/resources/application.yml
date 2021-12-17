@@ -51,11 +51,8 @@ spring:
   thymeleaf:
     prefix:${project.base-dir}/src/main/resources/templates/
 
-
-
 file:
   dir: /Users/jinyoung/project/pingpong/file/
-
 
 Dsun:
   io:
@@ -78,9 +75,3 @@ server:
 # mybatis
 mybatis:
   config-location: classpath:mybatis/configuration.xml
-
-
-#mybatis:
-#  mapper-location: mapper/**/*.xml # Mybatis mapper.xml 위치 설정
-#  type-aliases-package: com.douzone.pingpong.domain #mapper에서 resultType 간략하게
-#  configuration: map-underscore-to-camel-case=true #java vo 클래스의 카멜케이서를 언더스코어로 바꾸어줌

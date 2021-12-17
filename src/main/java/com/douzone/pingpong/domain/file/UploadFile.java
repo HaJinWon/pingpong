@@ -1,13 +1,12 @@
 package com.douzone.pingpong.domain.file;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.douzone.pingpong.domain.member.Member;
+import com.douzone.pingpong.domain.post.Post;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Getter
+@Getter @Setter
 @Entity
 @Table(name = "upload_file")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -15,6 +14,7 @@ public class UploadFile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "upload_file_id")
     private Long id;
 
     @Column(nullable = false)
@@ -26,10 +26,22 @@ public class UploadFile {
     @Column(nullable = false)
     private String filePath;
 
-    public UploadFile(String origFilename, String filename, String filePath) {
-        this.origFilename = origFilename;
-        this.filename = filename;
-        this.filePath = filePath;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
+
+    @OneToOne(mappedBy = "uploadFile", fetch = FetchType.LAZY)
+    private Member member;
+
+
+
+    public static UploadFile makeUploadFile(String origFilename, String filename, String filePath) {
+        UploadFile uploadFile = new UploadFile();
+        uploadFile.setOrigFilename(origFilename);
+        uploadFile.setFilename(filename);
+        uploadFile.setFilePath(filePath);
+
+        return uploadFile;
     }
 
 }

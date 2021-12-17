@@ -1,9 +1,8 @@
 package com.douzone.pingpong.domain.team;
 
-import com.douzone.pingpong.domain.chat.Room;
-import com.douzone.pingpong.domain.member.Member;
+import com.douzone.pingpong.domain.room.Room;
 import com.douzone.pingpong.domain.member.TeamMember;
-import com.douzone.pingpong.domain.post.Part;
+import com.douzone.pingpong.domain.part.Part;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

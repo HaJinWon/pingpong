@@ -1,19 +1,13 @@
 package com.douzone.pingpong.domain.member;
 
+import com.douzone.pingpong.controller.api.dto.member.UpdateMemberDto;
 import com.douzone.pingpong.domain.chat.Chat;
-import com.douzone.pingpong.domain.chat.RoomMember;
-import com.douzone.pingpong.domain.post.Comment;
-import com.douzone.pingpong.domain.post.PostMember;
+import com.douzone.pingpong.domain.file.UploadFile;
+import com.douzone.pingpong.domain.comment.Comment;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
@@ -27,9 +21,29 @@ import java.util.List;
 @DynamicInsert
 @NoArgsConstructor
 public class Member implements Serializable {
+    private static final long serialVersionUID = 11531664L;
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
+
+    private String email;
+    private String password;
+    private String name;
+    private String phone;
+    private String company;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "upload_file_id")
+    private UploadFile uploadFile;
+
+    @Enumerated(EnumType.STRING)
+    private MemberStatus status;
+
+    private LocalDateTime date;
+
+    private String avatar;
+
 
     @OneToMany(mappedBy = "member")
     private List<TeamMember> teamMembers = new ArrayList<>();
@@ -47,19 +61,6 @@ public class Member implements Serializable {
     @OneToMany(mappedBy = "member")
     private List<Chat> chats = new ArrayList<>();
 
-    private String email;
-    private String password;
-    private String name;
-    private String phone;
-    private String company;
-
-    @Enumerated(EnumType.STRING)
-    private MemberStatus status;
-
-    private LocalDateTime date;
-    private String avatar;
-
-
     @Builder
     public Member (String email, String password, String name, String phone, String company, LocalDateTime date) {
         this.email = email;
@@ -70,10 +71,20 @@ public class Member implements Serializable {
         this.date = date;
     }
 
-    public void updateMember(String name, MemberStatus status, String avatar) {
-        this.name = name;
-        this.status = status;
-        this.avatar = avatar;
+    public void updateMember(UpdateMemberDto memberDto) {
+        this.name = memberDto.getName();
+        this.company= memberDto.getCompany();
+        this.phone = memberDto.getPhone();
+        this.status = memberDto.getStatus();
+        this.setImage(memberDto.getImage());
     }
+
+    // == 연관관계 메서드 == //
+    public void setImage(UploadFile image) {
+        this.uploadFile=image;
+        image.setMember(this);
+    }
+
+
 
 }

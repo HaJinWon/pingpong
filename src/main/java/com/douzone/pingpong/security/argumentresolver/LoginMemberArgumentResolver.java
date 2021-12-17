@@ -1,7 +1,7 @@
 package com.douzone.pingpong.security.argumentresolver;
 
 import com.douzone.pingpong.domain.member.Member;
-import com.douzone.pingpong.web.SessionConstants;
+import com.douzone.pingpong.security.SessionConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -11,7 +11,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.net.http.HttpRequest;
 
 @Slf4j
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {

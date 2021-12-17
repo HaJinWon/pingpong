@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -81,5 +82,8 @@ public class MemberRepository {
         return sqlSession.selectOne("member.getUpdateUser",id);
     }
 
+    public List<Map<String, Object>> getPostReadMemberList(Long postId) {
+        return sqlSession.selectList("part.getPostReadMemberList",postId);
+    }
 
 }

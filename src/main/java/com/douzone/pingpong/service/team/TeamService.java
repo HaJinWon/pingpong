@@ -1,25 +1,17 @@
 package com.douzone.pingpong.service.team;
 
-import com.douzone.pingpong.domain.chat.Room;
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.domain.member.TeamMember;
 import com.douzone.pingpong.domain.team.Team;
-import com.douzone.pingpong.repository.chat.RedisRoomRepository;
-import com.douzone.pingpong.repository.chat.RoomRepository;
 import com.douzone.pingpong.repository.member.MemberRepository;
 import com.douzone.pingpong.repository.team.TeamRepository;
-import com.douzone.pingpong.service.chat.RoomService;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Slf4j
 @Service

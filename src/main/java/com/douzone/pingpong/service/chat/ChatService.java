@@ -1,18 +1,16 @@
 package com.douzone.pingpong.service.chat;
 
 import com.douzone.pingpong.domain.chat.Chat;
-import com.douzone.pingpong.domain.chat.ChatDto;
-import com.douzone.pingpong.domain.chat.Room;
+import com.douzone.pingpong.domain.room.Room;
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.repository.chat.ChatRepository;
-import com.douzone.pingpong.repository.chat.RoomRepository;
+import com.douzone.pingpong.repository.room.RoomRepository;
 import com.douzone.pingpong.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

@@ -2,11 +2,13 @@ package com.douzone.pingpong.controller.api;
 
 import com.douzone.pingpong.controller.api.dto.PartnerProfileResponse;
 import com.douzone.pingpong.controller.api.dto.member.*;
+import com.douzone.pingpong.domain.file.UploadFile;
 import com.douzone.pingpong.domain.member.Member;
+import com.douzone.pingpong.util.FileStore;
 import com.douzone.pingpong.util.JsonResult;
 import com.douzone.pingpong.security.argumentresolver.Login;
 import com.douzone.pingpong.service.member.MemberService;
-import com.douzone.pingpong.web.SessionConstants;
+import com.douzone.pingpong.security.SessionConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +29,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/member")
 public class ApiMemberController {
     private final MemberService memberService;
+    private final FileStore fileStore;
 
     /**
      * 회원가입
@@ -91,14 +95,18 @@ public class ApiMemberController {
      * 회원 정보 수정
      * @return : memberId, name
      */
-    @PostMapping("/edit")
+    @PatchMapping("/edit")
     public JsonResult editMember(
                 @Login Member loginMember,
-                @RequestBody UpdateMemberRequest request) {
+                @RequestBody UpdateMemberRequest request) throws IOException {
         Long memberId = loginMember.getId();
 
+        UploadFile imageFile = fileStore.storeFile(request.getImageFile());
+        UpdateMemberDto updateMemberDto =
+                new UpdateMemberDto(memberId, request.getName(), request.getPhone(), request.getCompany(), request.getStatus(), imageFile);
+
         //멤버 업데이트 하기
-//        memberService.update(memberId, request);
+        memberService.update(updateMemberDto);
 
         // 업데이트한 멤버 조회 (JSON 으로 리턴해주기 위해서)
         memberService.findMember(memberId);
@@ -116,9 +124,8 @@ public class ApiMemberController {
     }
 
     /**
-     * (1). 팀에 소속된 멤버 검색 - 본인포함 (teamId 필요)
-     * 사용 :
-     * @return
+     * (1). 팀에 소속된 멤버 검색 - 본인이 포함되어 조회됨 (teamId 필요)
+     * ❌ 사용하지 않음. 혹시 몰라서 안지우는중 ❌
      */
     @GetMapping("/team/v2/{teamId}")
     public List<MemberDto> findByTeamMembers(
@@ -134,7 +141,6 @@ public class ApiMemberController {
      * (2). 팀에 소속된 멤버 검색 - 본인제외 (teamId, memberId 필요)
      * 사용 : NavLeft 팀에 소속된 멤버 리스트, 1대1 대화방 만들때
      */
-    // 우리팀이아닌애가
     @GetMapping("/team/{teamId}")
     public List<MemberDto> findByTeamMembers(
             @PathVariable Long teamId,

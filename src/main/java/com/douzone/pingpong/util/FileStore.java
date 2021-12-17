@@ -24,19 +24,10 @@ public class FileStore {
     private static final String FORMAT_YYYYMMDD = "yyyy/MM/dd"; // 1)
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern(FORMAT_YYYYMMDD);
 
-    public Path getPathToday() throws IOException {
-        String basePath = fileDir ;
-        String todayPath = LocalDateTime.now().format(dtf);	 // 2)
-        Path pathToday = Paths.get(basePath, todayPath);	 // 3)
-        if (Files.notExists(pathToday)) {			 // 4)
-            Files.createDirectories(pathToday);
-        }
-        return pathToday;   // 디렉토리경로+yyyy/mm/dd
-    }
 
     // 파일 경로 얻기
-    public Path getPathToday(String filename) throws IOException{
-        return Paths.get(getPathToday().toString() , filename);
+    public String getFullPath(String filename) throws IOException{
+        return fileDir + filename;
     }
 
     // 파일 여러개 저장하기
@@ -58,10 +49,14 @@ public class FileStore {
         }
         String originalFilename = multipartFile.getOriginalFilename();
         String storeFileName = createStoreFileName(originalFilename);
-        Path targetPath = getPathToday(storeFileName);
 
-        multipartFile.transferTo(new File(targetPath.toString()));
-        return new UploadFile(originalFilename, storeFileName, targetPath.toString());
+        multipartFile.transferTo(new File(getFullPath(storeFileName)));
+
+        return UploadFile.makeUploadFile(
+                    originalFilename,
+                    storeFileName,
+                    getFullPath(storeFileName)
+                );
     }
 
     /**

@@ -7,8 +7,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class UpdateMemberRequest {
+    private Long id;
     private String name;
-    private MultipartFile avatar;
-    private MemberStatus status;
+    private String company;
+    private String phone;
+    private MultipartFile imageFile;
 
+    private MemberStatus status;
 }

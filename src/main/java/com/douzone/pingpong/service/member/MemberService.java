@@ -1,10 +1,7 @@
 package com.douzone.pingpong.service.member;
 
 import com.douzone.pingpong.controller.api.dto.member.UpdateMemberDto;
-import com.douzone.pingpong.controller.api.dto.member.UpdateMemberRequest;
-import com.douzone.pingpong.domain.chat.RoomMember;
 import com.douzone.pingpong.domain.member.Member;
-import com.douzone.pingpong.domain.member.TeamMember;
 import com.douzone.pingpong.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -51,9 +49,11 @@ public class MemberService {
     }
 
     @Transactional
-    public void update(Long memberId, UpdateMemberDto updateMemberDto) {
-        Member findMember = em.find(Member.class, memberId);
-        findMember.updateMember(updateMemberDto.getName(), updateMemberDto.getStatus(), updateMemberDto.getAvatar());
+    public Long update(UpdateMemberDto updateMemberDto) {
+        Member findMember = em.find(Member.class, updateMemberDto.getMemberId());
+
+        findMember.updateMember(updateMemberDto);
+        return findMember.getId();
     }
 
     public List<Member> findByTeamMembers(Long teamId) {
@@ -76,5 +76,9 @@ public class MemberService {
 
     public Member getUpdateUser(Long id) {
         return memberRepository.getUpdateUser(id);
+    }
+
+    public List<Map<String, Object>> getPostReadMemberList(Long postId) {
+        return memberRepository.getPostReadMemberList(postId);
     }
 }

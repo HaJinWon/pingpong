@@ -4,13 +4,10 @@ import com.douzone.pingpong.controller.api.dto.chatroom.NoticeRequest;
 import com.douzone.pingpong.controller.api.dto.chatroom.NoticeResponse;
 import com.douzone.pingpong.controller.api.dto.chatroom.RoomDto;
 import com.douzone.pingpong.controller.api.dto.chatroom.RoomListResponse;
-import com.douzone.pingpong.domain.chat.Chat;
-import com.douzone.pingpong.domain.chat.ChatDto;
-import com.douzone.pingpong.domain.chat.Room;
+import com.douzone.pingpong.domain.room.Room;
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.security.argumentresolver.Login;
-import com.douzone.pingpong.service.chat.ChatService;
-import com.douzone.pingpong.service.chat.RoomService;
+import com.douzone.pingpong.service.room.RoomService;
 import com.douzone.pingpong.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +24,6 @@ import java.util.stream.Collectors;
 public class ApiRoomController {
     private final RoomService roomService;
     private final MemberService memberService;
-
-
 
     /**
      * 팀에 속한 모든 대화방 출력
@@ -48,7 +43,6 @@ public class ApiRoomController {
         List<Room> roomList =rooms.stream().filter(room ->
                                 room.getTeam().getId().equals(teamId))
                                 .collect(Collectors.toList());
-
 
         return new RoomListResponse(roomList, memberId);
     }
@@ -102,9 +96,6 @@ public class ApiRoomController {
         Room room = roomService.findRoom(roomId);
         return new NoticeResponse(roomId, room.getNotice());
     }
-
-
-
 
     /**
      * 대화방 나가기

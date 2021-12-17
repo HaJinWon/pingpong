@@ -1,8 +1,8 @@
 package com.douzone.pingpong.domain.chat;
 
 import com.douzone.pingpong.domain.member.Member;
+import com.douzone.pingpong.domain.room.Room;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;

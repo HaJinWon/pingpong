@@ -1,25 +1,13 @@
 package com.douzone.pingpong.controller.member;
 
 
-import com.douzone.pingpong.controller.api.dto.member.MemberDto;
-import com.douzone.pingpong.controller.api.dto.member.UpdateMemberDto;
-import com.douzone.pingpong.controller.api.dto.member.UpdateMemberRequest;
-import com.douzone.pingpong.domain.file.UploadFile;
 import com.douzone.pingpong.domain.member.Member;
-import com.douzone.pingpong.domain.member.MemberStatus;
-import com.douzone.pingpong.security.argumentresolver.Login;
-import com.douzone.pingpong.service.file.FileService;
 import com.douzone.pingpong.service.member.MemberService;
-import com.douzone.pingpong.util.FileStore;
 import com.douzone.pingpong.web.member.JoinForm;
 import com.douzone.pingpong.web.member.LoginForm;
-import com.douzone.pingpong.web.SessionConstants;
-import com.douzone.pingpong.web.member.EditForm;
+import com.douzone.pingpong.security.SessionConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,8 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.time.LocalDateTime;
 
 @Controller
@@ -38,8 +24,6 @@ import java.time.LocalDateTime;
 @CrossOrigin("*")
 public class MemberController {
     private final MemberService memberService;
-    private final FileStore fileStore;
-    private final FileService fileService;
 
     @GetMapping("/members/login")
     public String loginForm(Model model) {
@@ -51,7 +35,7 @@ public class MemberController {
     public String login(@ModelAttribute @Valid LoginForm loginForm,
                         BindingResult bindingResult,
                         HttpServletRequest request
-                        ) {
+    ) {
 
         if (bindingResult.hasErrors()) {
             return "members/loginForm";
@@ -102,48 +86,6 @@ public class MemberController {
                 .build();
         memberService.join(member);
         return "redirect:/";
-    }
-
-    // == 프로필수정 == //
-    @GetMapping("/members/edit")
-    public String editForm(@Login Member loginMember,
-                             Model model) {
-
-        Member findMember = memberService.findMember(loginMember.getId());
-
-        EditForm editForm = EditForm.builder()
-                .name(findMember.getName())
-                .avatar(findMember.getAvatar())
-                .status(findMember.getStatus()).build();
-
-        model.addAttribute("editForm", editForm);
-        return "members/editForm";
-    }
-
-    @ResponseBody
-    @PostMapping("/members/edit")
-    public String uploadFile(@ModelAttribute UpdateMemberRequest request,
-                             @Login Member loginMember)
-            throws IOException {
-
-        UploadFile profileImage = fileStore.storeFile(request.getAvatar());
-        fileService.saveFile(profileImage);
-
-        UpdateMemberDto updateMemberDto =
-                new UpdateMemberDto(request.getName(), request.getStatus(), profileImage.getFilePath());
-
-
-        log.info("request={}", request);
-        memberService.update(loginMember.getId(), updateMemberDto);
-
-        return "success";
-    }
-
-    @ResponseBody
-    @GetMapping("/images/{filename}")
-    public Resource downloadImage(@PathVariable String filename) throws IOException
-    {
-        return new UrlResource("file:" + fileStore.getPathToday(filename));
     }
 
 

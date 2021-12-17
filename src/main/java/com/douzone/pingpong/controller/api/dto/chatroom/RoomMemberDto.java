@@ -1,6 +1,6 @@
 package com.douzone.pingpong.controller.api.dto.chatroom;
 
-import com.douzone.pingpong.domain.chat.RoomMember;
+import com.douzone.pingpong.domain.member.RoomMember;
 import lombok.Data;
 
 @Data

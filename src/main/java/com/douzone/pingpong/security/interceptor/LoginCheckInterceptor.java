@@ -1,6 +1,6 @@
 package com.douzone.pingpong.security.interceptor;
 
-import com.douzone.pingpong.web.SessionConstants;
+import com.douzone.pingpong.security.SessionConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 

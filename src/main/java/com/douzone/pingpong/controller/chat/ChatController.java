@@ -1,7 +1,7 @@
 package com.douzone.pingpong.controller.chat;
 
 import com.douzone.pingpong.pubsub.RedisPublisher;
-import com.douzone.pingpong.repository.chat.RedisRoomRepository;
+import com.douzone.pingpong.repository.room.RedisRoomRepository;
 import com.douzone.pingpong.domain.chat.ChatDto;
 import com.douzone.pingpong.service.chat.ChatService;
 import lombok.RequiredArgsConstructor;

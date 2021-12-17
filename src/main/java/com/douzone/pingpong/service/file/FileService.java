@@ -4,10 +4,12 @@ package com.douzone.pingpong.service.file;
 import com.douzone.pingpong.domain.file.UploadFile;
 import com.douzone.pingpong.domain.file.UploadFileDto;
 import com.douzone.pingpong.repository.file.FileRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 public class FileService {
     private FileRepository fileRepository;
 

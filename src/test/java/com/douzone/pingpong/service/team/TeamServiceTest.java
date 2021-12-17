@@ -4,7 +4,7 @@ import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.domain.member.TeamMember;
 import com.douzone.pingpong.domain.team.Team;
 import com.douzone.pingpong.repository.team.TeamRepository;
-import com.douzone.pingpong.service.chat.RoomService;
+import com.douzone.pingpong.service.room.RoomService;
 import com.douzone.pingpong.service.member.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
@@ -13,8 +13,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

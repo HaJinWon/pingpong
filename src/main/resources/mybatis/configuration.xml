@@ -5,9 +5,9 @@
     <typeAliases>
         <typeAlias type="com.douzone.pingpong.domain.team.Team2" alias="team"/>
         <typeAlias type="com.douzone.pingpong.domain.member.Member" alias="member"/>
-        <typeAlias type="com.douzone.pingpong.domain.post.Part2" alias="part"/>
+        <typeAlias type="com.douzone.pingpong.domain.part.Part2" alias="part"/>
         <typeAlias type="com.douzone.pingpong.domain.post.Post2" alias="post"/>
-        <typeAlias type="com.douzone.pingpong.domain.post.Comment2" alias="comment"/>
+        <typeAlias type="com.douzone.pingpong.domain.comment.Comment2" alias="comment"/>
     </typeAliases>
 
     <mappers>

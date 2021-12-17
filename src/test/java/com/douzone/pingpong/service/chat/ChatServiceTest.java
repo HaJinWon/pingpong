@@ -1,8 +1,6 @@
 package com.douzone.pingpong.service.chat;
 
 import com.douzone.pingpong.domain.chat.Chat;
-import com.douzone.pingpong.domain.chat.Room;
-import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.repository.chat.ChatRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -13,8 +11,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

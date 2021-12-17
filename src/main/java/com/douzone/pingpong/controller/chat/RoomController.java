@@ -2,18 +2,15 @@ package com.douzone.pingpong.controller.chat;
 
 import com.douzone.pingpong.domain.chat.Chat;
 import com.douzone.pingpong.domain.chat.ChatDto;
-import com.douzone.pingpong.domain.chat.Room;
+import com.douzone.pingpong.domain.room.Room;
 import com.douzone.pingpong.domain.member.Member;
-import com.douzone.pingpong.repository.chat.RedisRoomRepository;
+import com.douzone.pingpong.repository.room.RedisRoomRepository;
 import com.douzone.pingpong.security.argumentresolver.Login;
-import com.douzone.pingpong.domain.chat.ChatRoom;
 import com.douzone.pingpong.service.chat.ChatService;
-import com.douzone.pingpong.service.chat.RoomService;
-import com.douzone.pingpong.web.chat.RoomForm;
+import com.douzone.pingpong.service.room.RoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,14 +33,6 @@ public class RoomController {
     public List<Room> room() {
         return redisRoomRepository.findAllRoom();
     }
-
-    // 채팅방 생성
-//    @PostMapping("/room")
-//    @ResponseBody
-//    public Room createRoom(@ModelAttribute RoomForm roomForm,
-//                             @Login Member loginMember) {
-//        return roomService.createRoom(loginMember.getId(), roomForm.getTitle());
-//    }
 
     // 채팅방 입장 화면
     @GetMapping("/room/enter/{roomId}")

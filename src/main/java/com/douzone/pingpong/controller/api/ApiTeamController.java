@@ -4,14 +4,15 @@ import com.douzone.pingpong.controller.api.dto.chatroom.CreateTeamRequest;
 import com.douzone.pingpong.controller.api.dto.member.CreateTeamResponse;
 import com.douzone.pingpong.controller.api.dto.member.InviteMemberDto;
 import com.douzone.pingpong.controller.api.dto.team.RequestInviteTeam;
-import com.douzone.pingpong.domain.chat.Room;
+import com.douzone.pingpong.domain.room.Room;
 import com.douzone.pingpong.domain.member.Member;
-import com.douzone.pingpong.domain.member.TeamMember;
-import com.douzone.pingpong.domain.post.Part2;
+import com.douzone.pingpong.domain.part.Part2;
+import com.douzone.pingpong.service.comment.CommentService;
 import com.douzone.pingpong.service.member.MemberService;
+import com.douzone.pingpong.service.post.PostService;
 import com.douzone.pingpong.util.JsonResult;
 import com.douzone.pingpong.security.argumentresolver.Login;
-import com.douzone.pingpong.service.chat.RoomService;
+import com.douzone.pingpong.service.room.RoomService;
 import com.douzone.pingpong.service.part.PartService;
 import com.douzone.pingpong.service.team.TeamService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/team")
 public class ApiTeamController {
     private final PartService partService;
+    private final PostService postService;
+    private final CommentService commentService;
     private final TeamService teamService;
     private final RoomService roomService;
     private final MemberService memberService;
@@ -65,7 +68,7 @@ public class ApiTeamController {
             List<Map<String, Object>> teamInfo = teamService.getTeamInfo(teamId);
             List<Part2> partList = partService.getPartList(teamId);
             partId = partService.getFirstPartId(teamId);
-            List<Map<String, Object>> postList = partService.getPostList(partId);
+            List<Map<String, Object>> postList = postService.getPostList(partId);
 
             HashMap<String, Object> map = new HashMap<>();
             map.put("teamInfo", teamInfo);
@@ -78,7 +81,7 @@ public class ApiTeamController {
 
             List<Map<String, Object>> teamInfo = teamService.getTeamInfo(teamId);
             List<Part2> partList = partService.getPartList(teamId);
-            List<Map<String, Object>> postList = partService.getPostList(partId);
+            List<Map<String, Object>> postList = postService.getPostList(partId);
 
             HashMap<String, Object> map = new HashMap<>();
             map.put("teamInfo", teamInfo);
@@ -90,8 +93,8 @@ public class ApiTeamController {
 
             List<Map<String, Object>> teamInfo = teamService.getTeamInfo(teamId);
             List<Part2> partList = partService.getPartList(teamId);
-            List<Map<String, Object>> postList = partService.getPostList(partId);
-            List<Map<String, Object>> commentList = partService.getCommentList(postId);
+            List<Map<String, Object>> postList = postService.getPostList(partId);
+            List<Map<String, Object>> commentList = commentService.getCommentList(postId);
 
             HashMap<String, Object> map = new HashMap<>();
             map.put("partList", partList);
@@ -178,8 +181,8 @@ public class ApiTeamController {
             @Login Member loginMember
     ) {
 
-//        Long memberId = loginMember.getId();
-        Long memberId = 5L;
+        Long memberId = loginMember.getId();
+//        Long memberId = 5L;
 
         Member member = memberService.invitationList(memberId);
 

@@ -10,18 +10,15 @@
     </insert>
     <select id="findUser" resultType="map" parameterType="map">
         <![CDATA[
-            select t.member_id, t.email, t.name, t.phone, t.status, t.avatar, t.company
-            from
-            (
-                select a.member_id, a.email, a.name, a.phone, a.status, a.avatar, a.company
-                from member a
-                left join team_member b
-                on a.member_id = b.member_id
-                where (b.team_id not in ( #{teamId} ))
-                or b.team_id is null
-            ) t
-            where name like concat('%',#{userName},'%')
-            group by t.member_id, t.email, t.name, t.phone, t.status, t.avatar, t.company
+            select x.member_id, x.email, x.name, x.phone, x.status, x.avatar, x.company
+            from member x
+            where x.member_id not in (
+            select a.member_id
+            from member a, team_member b
+            where a.member_id = b.member_id
+            and b.team_id = #{teamId}
+            )
+            and x.name like concat('%',#{userName},'%')
 		]]>
     </select>
 

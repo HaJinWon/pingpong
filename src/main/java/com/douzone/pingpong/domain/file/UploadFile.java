@@ -30,8 +30,8 @@ public class UploadFile {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    @OneToOne(mappedBy = "uploadFile", fetch = FetchType.LAZY)
-    private Member member;
+//    @OneToOne(mappedBy = "uploadFile", fetch = FetchType.LAZY)
+//    private Member member;
 
 
 

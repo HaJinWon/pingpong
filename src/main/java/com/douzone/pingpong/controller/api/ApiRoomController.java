@@ -9,6 +9,7 @@ import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.security.argumentresolver.Login;
 import com.douzone.pingpong.service.room.RoomService;
 import com.douzone.pingpong.service.member.MemberService;
+import com.douzone.pingpong.util.JsonResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -108,7 +109,6 @@ public class ApiRoomController {
         roomService.exitRoom(loginMember.getId(), roomId);
     }
 
-
     /**
      * 채팅방 만들기
      * 1. DB에 저장
@@ -150,4 +150,17 @@ public class ApiRoomController {
         Room room = roomService.findRoom(roomId);
         return "clickRoom";
     }
+
+    /**
+     *  대화방 참여자 리스트
+     */
+    @GetMapping("/participant/{roomId}")
+    public JsonResult participant(@PathVariable Long roomId){
+
+        List<Member> participant = roomService.getParticipant(roomId);
+
+        return JsonResult.success(participant);
+    }
+
+
 }

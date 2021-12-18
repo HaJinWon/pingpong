@@ -92,4 +92,8 @@ public class RoomService {
         // 찾은 팀멤버를 삭제하기 team_member DELETE
         room.getRoomMembers().remove(findRoomMember);
     }
+
+    public List<Member> getParticipant(Long roomId) {
+        return roomRepository.getParticipant(roomId);
+    }
 }

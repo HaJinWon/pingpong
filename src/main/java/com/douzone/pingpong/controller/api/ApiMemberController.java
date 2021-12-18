@@ -119,8 +119,8 @@ public class ApiMemberController {
      */
     @GetMapping("/edit")
     public JsonResult userUpdate(@Login Member loginMember){
-        Member updateMemeber = memberService.getUpdateUser(loginMember.getId());
-        return JsonResult.success(updateMemeber);
+        Member member = memberService.findMember(loginMember.getId());
+        return JsonResult.success(member);
     }
 
     /**

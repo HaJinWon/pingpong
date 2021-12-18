@@ -33,9 +33,9 @@ public class Member implements Serializable {
     private String phone;
     private String company;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "upload_file_id")
-    private UploadFile uploadFile;
+//    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "upload_file_id")
+//    private UploadFile uploadFile;
 
     @Enumerated(EnumType.STRING)
     private MemberStatus status;
@@ -76,14 +76,14 @@ public class Member implements Serializable {
         this.company= memberDto.getCompany();
         this.phone = memberDto.getPhone();
         this.status = memberDto.getStatus();
-        this.setImage(memberDto.getImage());
+//        this.setImage(memberDto.getImage());
     }
 
     // == 연관관계 메서드 == //
-    public void setImage(UploadFile image) {
-        this.uploadFile=image;
-        image.setMember(this);
-    }
+//    public void setImage(UploadFile image) {
+//        this.uploadFile=image;
+//        image.setMember(this);
+//    }
 
 
 

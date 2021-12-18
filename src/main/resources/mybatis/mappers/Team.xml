@@ -18,7 +18,6 @@
                 left join team_member b
                 on a.member_id = b.member_id
                 where (b.team_id not in ( #{teamId} ))
-                or b.include = 'N'
                 or b.team_id is null
             ) t
             where name like concat('%',#{userName},'%')

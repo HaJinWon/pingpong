@@ -1,8 +1,10 @@
 package com.douzone.pingpong.repository.room;
 
+import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.domain.room.Room;
 import com.douzone.pingpong.domain.member.RoomMember;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -12,6 +14,7 @@ import java.util.*;
 @Repository
 public class RoomRepository {
     private final EntityManager em;
+    private final SqlSession sqlSession;
 
     public List<Room> findAllRoom() {
         return em.createQuery("select r from Room r", Room.class)
@@ -70,6 +73,11 @@ public class RoomRepository {
      */
     public void enterChatRoom(RoomMember roomMember) {
         em.persist(roomMember);
+    }
+
+    public List<Member> getParticipant(Long roomId) {
+
+        return sqlSession.selectList("room.getParticipant",roomId);
     }
 }
 

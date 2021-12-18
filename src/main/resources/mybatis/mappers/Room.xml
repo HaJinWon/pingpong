@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="room">
+
+    <select id="getParticipant" resultType="member" parameterType="long">
+        <![CDATA[
+            select b.name, b.status
+            from room_member a, member b
+            where a.member_id = b.member_id
+            and a.room_id = #{roomId};
+		]]>
+    </select>
+</mapper>

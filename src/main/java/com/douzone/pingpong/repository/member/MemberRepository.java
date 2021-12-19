@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -86,4 +87,10 @@ public class MemberRepository {
         return sqlSession.selectList("part.getPostReadMemberList",postId);
     }
 
+    public Member findMemberEmail(String name, String phone) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("name",name);
+        map.put("phone",phone);
+        return sqlSession.selectOne("member.findMemberEmail",map);
+    }
 }

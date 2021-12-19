@@ -81,4 +81,8 @@ public class MemberService {
     public List<Map<String, Object>> getPostReadMemberList(Long postId) {
         return memberRepository.getPostReadMemberList(postId);
     }
+
+    public Member findMemberEmail(String name, String phone) {
+        return memberRepository.findMemberEmail(name,phone);
+    }
 }

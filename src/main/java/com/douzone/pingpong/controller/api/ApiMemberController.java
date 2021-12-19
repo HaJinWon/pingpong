@@ -170,10 +170,28 @@ public class ApiMemberController {
         return new PartnerProfileResponse(member);
     }
 
-
+    /**
+     *
+     *  이메일 중복확인 검사
+     */
     @GetMapping("/emailcheck/{email}")
     public JsonResult joinEmailCheck(@PathVariable("email") String email){
         Member member = memberService.checkEmail(email);
+
+        return JsonResult.success(member);
+    }
+
+    /**
+     *  회원 ID 찾기
+     *  require : name, phone
+     */
+    @PostMapping("/findId")
+    public JsonResult findId(@RequestBody FindMemberEmail findMemberId){
+        System.out.println("99999999999999999999999999999999999");
+        String name = findMemberId.getName();
+        String phone = findMemberId.getPhone();
+        System.out.println("name:"+name+"phone"+phone);
+        Member member = memberService.findMemberEmail(name,phone);
 
         return JsonResult.success(member);
     }

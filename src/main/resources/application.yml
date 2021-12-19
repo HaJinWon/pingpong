@@ -74,6 +74,6 @@ server:
     session:
       tracking-modes: cookie #URL로 쿠키(JSESSION)을 보내지 않겠다는 설정
 
-# mybatis
+# mybatisweek
 mybatis:
   config-location: classpath:mybatis/configuration.xml

@@ -33,17 +33,12 @@ public class Member implements Serializable {
     private String phone;
     private String company;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "upload_file_id")
-    private UploadFile uploadFile;
-
     @Enumerated(EnumType.STRING)
     private MemberStatus status;
 
     private LocalDateTime date;
 
     private String avatar;
-
 
     @OneToMany(mappedBy = "member")
     private List<TeamMember> teamMembers = new ArrayList<>();
@@ -61,6 +56,11 @@ public class Member implements Serializable {
     @OneToMany(mappedBy = "member")
     private List<Chat> chats = new ArrayList<>();
 
+//    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "upload_file_id")
+//    private UploadFile uploadFile;
+
+
     @Builder
     public Member (String email, String password, String name, String phone, String company, LocalDateTime date) {
         this.email = email;
@@ -76,14 +76,14 @@ public class Member implements Serializable {
         this.company= memberDto.getCompany();
         this.phone = memberDto.getPhone();
         this.status = memberDto.getStatus();
-        this.setImage(memberDto.getImage());
+        this.avatar = memberDto.getAvatar();
     }
 
     // == 연관관계 메서드 == //
-    public void setImage(UploadFile image) {
-        this.uploadFile=image;
-        image.setMember(this);
-    }
+//    public void setImage(UploadFile image) {
+//        this.uploadFile=image;
+//        image.setMember(this);
+//    }
 
 
 

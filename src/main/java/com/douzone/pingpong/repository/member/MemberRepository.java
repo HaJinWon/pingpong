@@ -86,4 +86,12 @@ public class MemberRepository {
         return sqlSession.selectList("part.getPostReadMemberList",postId);
     }
 
+    public Member findEmailByInfo(String name, String phone) {
+        return em.createQuery("select m from Member m " +
+                                "where m.name=:name " +
+                                "  and m.phone=:phone", Member.class)
+                .setParameter("name", name)
+                .setParameter("phone", phone)
+                .getSingleResult();
+    }
 }

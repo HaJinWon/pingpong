@@ -45,7 +45,7 @@ public class ApiTeamController {
     public CreateTeamResponse create(@Login Member loginMember,
                                      @RequestBody CreateTeamRequest request) {
         Long memberId = loginMember.getId();
-//        Long memberId = 3L;
+//        Long memberId = 1L;
 
         // 팀생성
         Long teamId = teamService.createTeam(request.getTeamName(), memberId);
@@ -132,8 +132,8 @@ public class ApiTeamController {
     public String acceptTeam(@PathVariable("teamId") Long teamId,
                              @Login Member loginMember) {
         // 해당팀의 단체대화방 ID 찾기
-        Long memberId = loginMember.getId();
-//        Long memberId = 5L;
+//        Long memberId = loginMember.getId();
+        Long memberId = 3L;
 
         List<Room> roomList = roomService.findRoomsByTeamId(teamId);
         Room groupRoom = roomList.stream().findFirst().get();
@@ -148,8 +148,10 @@ public class ApiTeamController {
     // 로그인 사용자가 속한 팀 정보 불러오기
     @GetMapping("/list")
     public JsonResult getTeamList(@Login Member loginMember) {
+//        Long memberId = loginMember.getId();
+        Long memberId = 1L;
 
-        List<Map<String, Object>> teamList = teamService.getTeamList(loginMember.getId());
+        List<Map<String, Object>> teamList = teamService.getTeamList(memberId);
         HashMap<String, Object> map = new HashMap<>();
         map.put("teamList", teamList);
         return JsonResult.success(map);

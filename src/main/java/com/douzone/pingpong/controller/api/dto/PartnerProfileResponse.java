@@ -15,7 +15,7 @@ public class PartnerProfileResponse {
     public PartnerProfileResponse(Member member) {
         this.partnerId = member.getId();
         this.name = member.getName();
-        this.avatar = member.getAvatar();
+//        this.avatar = member.getAvatar();
         this.status = member.getStatus();
     }
 }

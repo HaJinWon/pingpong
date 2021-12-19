@@ -1,5 +1,6 @@
 package com.douzone.pingpong.controller.api;
 
+import com.douzone.pingpong.controller.api.dto.part.addPartRequest;
 import com.douzone.pingpong.domain.part.Part2;
 import com.douzone.pingpong.util.JsonResult;
 import com.douzone.pingpong.service.part.PartService;
@@ -34,7 +35,8 @@ public class ApiPartController {
     //새 파트 추가
     @ResponseBody
     @PostMapping("/{teamId}")
-    public JsonResult addPart(@PathVariable("teamId") Long teamId, @RequestBody String partName ){
+    public JsonResult addPart(@PathVariable("teamId") Long teamId, @RequestBody addPartRequest request ){
+        String partName = request.getPartName();
         partService.addPart(teamId,partName);
         return JsonResult.success("success");
 

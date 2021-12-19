@@ -30,10 +30,8 @@ public class UploadFile {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    @OneToOne(mappedBy = "uploadFile", fetch = FetchType.LAZY)
-    private Member member;
-
-
+//    @OneToOne(mappedBy = "uploadFile", fetch = FetchType.LAZY)
+//    private Member member;
 
     public static UploadFile makeUploadFile(String origFilename, String filename, String filePath) {
         UploadFile uploadFile = new UploadFile();

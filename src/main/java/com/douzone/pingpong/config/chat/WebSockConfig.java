@@ -14,7 +14,7 @@ import java.util.Collections;
 @EnableWebSocketMessageBroker
 @RequiredArgsConstructor
 public class WebSockConfig implements WebSocketMessageBrokerConfigurer {
-    private final StompHandler stompHandler;
+//    private final StompHandler stompHandler;
 
     /**
      * SockJs란? => 낮은 브라우저에서도 webSocket을 사용할 수 있게끔 하는 라이브러리
@@ -35,10 +35,10 @@ public class WebSockConfig implements WebSocketMessageBrokerConfigurer {
         config.enableSimpleBroker("/sub");      // room 구독 : 대화방
     }
 
-    @Override
-    public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors(stompHandler); // 핸들러 등록
-    }
+//    @Override
+//    public void configureClientInboundChannel(ChannelRegistration registration) {
+//        registration.interceptors(stompHandler); // 핸들러 등록
+//    }
 }
 
 /**

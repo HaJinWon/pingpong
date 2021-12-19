@@ -87,4 +87,8 @@ public class MemberService {
     public Member findEmailByInfo(String name, String phone) {
         return memberRepository.findEmailByInfo(name, phone);
     }
+
+    public Member findMemberEmail(String name, String phone) {
+        return memberRepository.findMemberEmail(name,phone);
+    }
 }

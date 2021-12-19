@@ -18,4 +18,13 @@
 		]]>
     </select>
 
+    <select id="findMemberEmail" resultType="member" parameterType="map">
+        <![CDATA[
+            select email
+            from member
+            where name = #{name}
+            and phone = #{phone}
+		]]>
+    </select>
+
 </mapper>

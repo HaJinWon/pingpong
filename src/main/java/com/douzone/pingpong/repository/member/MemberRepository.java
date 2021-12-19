@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -88,10 +89,17 @@ public class MemberRepository {
 
     public Member findEmailByInfo(String name, String phone) {
         return em.createQuery("select m from Member m " +
-                                "where m.name=:name " +
-                                "  and m.phone=:phone", Member.class)
+                        "where m.name=:name " +
+                        "  and m.phone=:phone", Member.class)
                 .setParameter("name", name)
                 .setParameter("phone", phone)
                 .getSingleResult();
+    }
+
+    public Member findMemberEmail(String name, String phone) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("name",name);
+        map.put("phone",phone);
+        return sqlSession.selectOne("member.findMemberEmail",map);
     }
 }

@@ -67,7 +67,11 @@ Dsun:
 logging.level:
   org:
     hibernate.SQL: debug
+
+
+
 #    apache.coyote.http11: debug  #파일 업로드 로그
+
 
 server:
   servlet:

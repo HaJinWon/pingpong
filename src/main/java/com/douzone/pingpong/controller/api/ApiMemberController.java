@@ -190,7 +190,9 @@ public class ApiMemberController {
         return new forgetEmailResponse(member.getEmail());
     }
 
-
+    /**
+     *  이메일 중복확인 검사
+     */
     @GetMapping("/emailcheck/{email}")
     public JsonResult joinEmailCheck(@PathVariable("email") String email){
         Member member = memberService.checkEmail(email);
@@ -198,6 +200,19 @@ public class ApiMemberController {
         return JsonResult.success(member);
     }
 
+    /**
+     *  회원 ID 찾기
+     *  require : name, phone
+     */
+    @PostMapping("/findId")
+    public JsonResult findId(@RequestBody FindMemberEmail findMemberId){
+        String name = findMemberId.getName();
+        String phone = findMemberId.getPhone();
+        System.out.println("name:"+name+"phone"+phone);
+        Member member = memberService.findMemberEmail(name,phone);
+
+        return JsonResult.success(member);
+    }
 }
 
 

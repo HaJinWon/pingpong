@@ -43,25 +43,4 @@ public class ApiFileController {
         return new UrlResource("file:" + fileStore.getFullPath(filename));
     }
 
-
-//
-//    @GetMapping("/api/download/{filename}")
-//    public ResponseEntity<Object> download(@PathVariable("filename") String filename) {
-//        System.out.println("파일 다운로드");
-//        String path = "C:"+filename;
-//
-//        try {
-//            Path filePath = Paths.get(path);
-//            Resource resource = new InputStreamResource(Files.newInputStream(filePath)); // 파일 resource 얻기
-//
-//            File file = new File(path);
-//
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.setContentDisposition(ContentDisposition.builder("attachment").filename(file.getName()).build());  // 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를 알려주는 헤더
-//
-//            return new ResponseEntity<Object>(resource, headers, HttpStatus.OK);
-//        } catch(Exception e) {
-//            return new ResponseEntity<Object>(null, HttpStatus.CONFLICT);
-//        }
-//    }
 }

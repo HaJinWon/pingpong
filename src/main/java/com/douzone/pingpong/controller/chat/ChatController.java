@@ -29,6 +29,9 @@ public class ChatController {
         redisPublisher.publish(redisRoomRepository.getTopic(chatDto.getRoomId()), chatDto);
         chatService.saveChat(chatDto.getRoomId(), chatDto.getSenderId(), chatDto.getMessage());
     }
+
+//    @MessageMapping("/pingpong")
+//    public void notice(@RequestBody )
 }
 
 /**

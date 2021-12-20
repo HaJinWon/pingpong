@@ -1,6 +1,8 @@
 package com.douzone.pingpong.controller.api;
 
 import com.douzone.pingpong.controller.api.dto.PartnerProfileResponse;
+import com.douzone.pingpong.controller.api.dto.forgetEmailRequest;
+import com.douzone.pingpong.controller.api.dto.forgetEmailResponse;
 import com.douzone.pingpong.controller.api.dto.member.*;
 import com.douzone.pingpong.domain.file.UploadFile;
 import com.douzone.pingpong.domain.member.Member;
@@ -13,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -97,13 +100,13 @@ public class ApiMemberController {
      */
     @PatchMapping("/edit")
     public JsonResult editMember(
-                @Login Member loginMember,
-                @RequestBody UpdateMemberRequest request) throws IOException {
+            @Login Member loginMember,
+            @RequestBody UpdateMemberRequest request
+            ) throws IOException {
         Long memberId = loginMember.getId();
 
-        UploadFile imageFile = fileStore.storeFile(request.getImageFile());
         UpdateMemberDto updateMemberDto =
-                new UpdateMemberDto(memberId, request.getName(), request.getPhone(), request.getCompany(), request.getStatus(), imageFile);
+                new UpdateMemberDto(memberId, request.getName(), request.getPhone(), request.getCompany(), request.getStatus(), request.getAvatar());
 
         //멤버 업데이트 하기
         memberService.update(updateMemberDto);
@@ -113,6 +116,8 @@ public class ApiMemberController {
 
         return JsonResult.success(new UpdateMemberResponse(memberId, request.getName()));
     }
+
+
 
     /**
      *  회원 정보 수정 페이지 ( 원래 정보를 띄우기 위한 메서드)
@@ -171,7 +176,21 @@ public class ApiMemberController {
     }
 
     /**
+     * ID찾기 ( name, phone )
+     * request : member의 name, phone
+     * response : member의 email
+     * name, phone에 일치하는 멤버가 있으면 response 을 json으로 응답
      *
+     */
+    @PostMapping("/forget")
+    public forgetEmailResponse forgetEmail(
+            @RequestBody forgetEmailRequest request
+    ) {
+        Member member = memberService.findEmailByInfo(request.getName(), request.getPhone());
+        return new forgetEmailResponse(member.getEmail());
+    }
+
+    /**
      *  이메일 중복확인 검사
      */
     @GetMapping("/emailcheck/{email}")
@@ -187,7 +206,6 @@ public class ApiMemberController {
      */
     @PostMapping("/findId")
     public JsonResult findId(@RequestBody FindMemberEmail findMemberId){
-        System.out.println("99999999999999999999999999999999999");
         String name = findMemberId.getName();
         String phone = findMemberId.getPhone();
         System.out.println("name:"+name+"phone"+phone);
@@ -195,7 +213,6 @@ public class ApiMemberController {
 
         return JsonResult.success(member);
     }
-
 }
 
 

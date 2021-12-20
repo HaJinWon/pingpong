@@ -52,6 +52,8 @@ public class MemberService {
     public Long update(UpdateMemberDto updateMemberDto) {
         Member findMember = em.find(Member.class, updateMemberDto.getMemberId());
 
+        log.info("findMember:{}", findMember);
+
         findMember.updateMember(updateMemberDto);
         return findMember.getId();
     }
@@ -80,6 +82,10 @@ public class MemberService {
 
     public List<Map<String, Object>> getPostReadMemberList(Long postId) {
         return memberRepository.getPostReadMemberList(postId);
+    }
+
+    public Member findEmailByInfo(String name, String phone) {
+        return memberRepository.findEmailByInfo(name, phone);
     }
 
     public Member findMemberEmail(String name, String phone) {

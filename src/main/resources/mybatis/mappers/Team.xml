@@ -38,7 +38,7 @@
 
     <select id="getTeamList" resultType="map" parameterType="long">
         <![CDATA[
-            select a.team_id, b.name
+            select a.team_id, b.name, b.host
             from team_member a, team b
             where a.team_id = b. team_id
             and a.member_id =#{memberId}

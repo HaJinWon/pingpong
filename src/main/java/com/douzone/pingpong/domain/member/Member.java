@@ -44,7 +44,6 @@ public class Member implements Serializable {
 
     private String avatar;
 
-
     @OneToMany(mappedBy = "member")
     private List<TeamMember> teamMembers = new ArrayList<>();
 
@@ -61,6 +60,11 @@ public class Member implements Serializable {
     @OneToMany(mappedBy = "member")
     private List<Chat> chats = new ArrayList<>();
 
+//    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "upload_file_id")
+//    private UploadFile uploadFile;
+
+
     @Builder
     public Member (String email, String password, String name, String phone, String company, LocalDateTime date) {
         this.email = email;
@@ -76,6 +80,7 @@ public class Member implements Serializable {
         this.company= memberDto.getCompany();
         this.phone = memberDto.getPhone();
         this.status = memberDto.getStatus();
+        this.avatar = memberDto.getAvatar();
 //        this.setImage(memberDto.getImage());
     }
 

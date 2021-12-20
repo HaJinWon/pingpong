@@ -11,7 +11,8 @@ public class UpdateMemberRequest {
     private String name;
     private String company;
     private String phone;
-    private MultipartFile imageFile;
+    private String avatar;
+//    private MultipartFile imageFile;
 
     private MemberStatus status;
 }

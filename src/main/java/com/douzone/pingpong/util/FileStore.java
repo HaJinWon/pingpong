@@ -21,8 +21,8 @@ public class FileStore {
     @Value("${file.dir}")
     private String fileDir;
 
-    private static final String FORMAT_YYYYMMDD = "yyyy/MM/dd"; // 1)
-    private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern(FORMAT_YYYYMMDD);
+//    private static final String FORMAT_YYYYMMDD = "yyyy/MM/dd"; // 1)
+//    private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern(FORMAT_YYYYMMDD);
 
 
     // 파일 경로 얻기

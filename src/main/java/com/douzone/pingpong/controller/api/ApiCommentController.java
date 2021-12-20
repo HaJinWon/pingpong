@@ -1,5 +1,6 @@
 package com.douzone.pingpong.controller.api;
 
+import com.douzone.pingpong.controller.api.dto.AddCommentRequest;
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.domain.comment.Comment2;
 import com.douzone.pingpong.security.argumentresolver.Login;
@@ -31,10 +32,12 @@ public class ApiCommentController {
 
     //새 댓글 작성
     @PostMapping("/{postId}")
-    public JsonResult addComment(@PathVariable("postId") Long postId, @Login Member loginMember, @RequestBody String contents){
-
+    public JsonResult addComment(
+            @PathVariable("postId") Long postId,
+            @Login Member loginMember,
+            @RequestBody AddCommentRequest request){
         Comment2 vo = new Comment2();
-        vo.setContents(contents);
+        vo.setContents(request.getContents());
         vo.setPost_id(postId);
         //vo.setMember_id(1L);
 

@@ -51,8 +51,13 @@ spring:
   thymeleaf:
     prefix:${project.base-dir}/src/main/resources/templates/
 
+#file:
+#  dir: /Users/jinyoung/project/pingpong/file/
+
 file:
+
   dir: C:/douzone2021/eclipse-workspace/pingpong-frontend2/frontend/src/assets/images/
+
 
 Dsun:
   io:
@@ -72,6 +77,6 @@ server:
     session:
       tracking-modes: cookie #URL로 쿠키(JSESSION)을 보내지 않겠다는 설정
 
-# mybatis
+# mybatisweek
 mybatis:
   config-location: classpath:mybatis/configuration.xml

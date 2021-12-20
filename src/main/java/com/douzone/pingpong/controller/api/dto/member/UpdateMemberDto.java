@@ -11,14 +11,14 @@ public class UpdateMemberDto {
     private String phone;
     private String company;
     private MemberStatus status;
-    private UploadFile image;
+    private String avatar;
 
-    public UpdateMemberDto(Long memberId, String name, String phone, String company, MemberStatus status, UploadFile image) {
+    public UpdateMemberDto(Long memberId, String name, String phone, String company, MemberStatus status, String avatar) {
         this.memberId = memberId;
         this.name = name;
         this.phone = phone;
         this.company = company;
         this.status = status;
-        this.image = image;
+        this.avatar = avatar;
     }
 }

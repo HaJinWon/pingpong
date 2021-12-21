@@ -26,10 +26,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'
 	implementation 'org.webjars:webjars-locator-core'
-//	implementation 'org.springframework.boot:spring-boot-starter-security'
-//	implementation 'io.jsonwebtoken:jjwt:0.9.1'
-
-
 
 	//devtools
 	implementation group: 'org.springframework.boot', name: 'spring-boot-devtools'
@@ -49,11 +45,15 @@ dependencies {
 	//jackson databind
 	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
 
+	// DateTime 라이브러리
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
 	//common-io
 	implementation group: 'commons-io', name: 'commons-io', version: '1.4'
 
 	//fileupload
 	implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.2.1'
+
 
 
 	// SQL 실행 파라미터 보는 라이브러리
@@ -62,7 +62,7 @@ dependencies {
 	implementation 'org.webjars.bower:axios:0.17.1'
 	implementation 'org.webjars:sockjs-client:1.1.2'
 	implementation 'org.webjars:stomp-websocket:2.3.3-1'
-	implementation 'com.google.code.gson:gson:2.8.0'
+//	implementation 'com.google.code.gson:gson:2.8.0'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.3.1.RELEASE'
 	implementation 'org.webjars.bower:bootstrap:4.3.1'
 	implementation 'org.webjars.bower:vue:2.5.16'

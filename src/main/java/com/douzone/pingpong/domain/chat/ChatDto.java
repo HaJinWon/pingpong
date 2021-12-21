@@ -1,7 +1,13 @@
 package com.douzone.pingpong.domain.chat;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -21,7 +27,12 @@ public class ChatDto implements Serializable{
     private String message;
     private String sender;
     private Long senderId;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime date;
+
     private String avatar;
 
     public ChatDto(Chat chat) {
@@ -30,7 +41,7 @@ public class ChatDto implements Serializable{
         message = chat.getMessage();
         sender = chat.getMember().getName();
         senderId = chat.getMember().getId();
-        date = chat.getDate();
+        date = LocalDateTime.now();
 //        avatar = chat.getMember().getUploadFile();
     }
 }

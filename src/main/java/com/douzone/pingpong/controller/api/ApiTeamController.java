@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -132,8 +133,8 @@ public class ApiTeamController {
     public String acceptTeam(@PathVariable("teamId") Long teamId,
                              @Login Member loginMember) {
         // 해당팀의 단체대화방 ID 찾기
-//        Long memberId = loginMember.getId();
-        Long memberId = 3L;
+        Long memberId = loginMember.getId();
+//        Long memberId = 3L;
 
         List<Room> roomList = roomService.findRoomsByTeamId(teamId);
         Room groupRoom = roomList.stream().findFirst().get();
@@ -148,8 +149,8 @@ public class ApiTeamController {
     // 로그인 사용자가 속한 팀 정보 불러오기
     @GetMapping("/list")
     public JsonResult getTeamList(@Login Member loginMember) {
-//        Long memberId = loginMember.getId();
-        Long memberId = 1L;
+        Long memberId = loginMember.getId();
+//        Long memberId = 1L;
 
         List<Map<String, Object>> teamList = teamService.getTeamList(memberId);
         HashMap<String, Object> map = new HashMap<>();
@@ -178,20 +179,24 @@ public class ApiTeamController {
     /**
      * 초대장 리스트
      */
-    @GetMapping("/invite/{memberId}")
-    public List<InviteMemberDto> invitationList(
+    @GetMapping("/invite")
+    public JsonResult invitationList(
             @Login Member loginMember
     ) {
 
         Long memberId = loginMember.getId();
 //        Long memberId = 5L;
 
-        Member member = memberService.invitationList(memberId);
+        List<Member> member = memberService.invitationList(memberId);
 
+        if (member.isEmpty()) {
+            return JsonResult.success(member);
+        }
+        Member findMember = member.stream().findFirst().get();
 
-        List<InviteMemberDto> result = member.getTeamMembers().stream()
+        List<InviteMemberDto> result = findMember.getTeamMembers().stream()
                 .map(teamMember -> new InviteMemberDto(teamMember))
                 .collect(Collectors.toList());
-        return result;
+        return JsonResult.success(result);
     }
 }

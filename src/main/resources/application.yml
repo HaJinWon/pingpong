@@ -31,6 +31,7 @@ spring:
 
   jackson:
     serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
       fail-on-empty-beans: false
 
   # static 파일 서버 재시작 안해도 되게끔 하는 설정
@@ -51,11 +52,11 @@ spring:
   thymeleaf:
     prefix:${project.base-dir}/src/main/resources/templates/
 
-#file:
-#  dir: /Users/jinyoung/project/pingpong/file/
-
 file:
-  dir: /Users/jinyoung/project/pingpong-frontend/frontend/src/assets/images/
+  dir: /Users/jinyoung/project/pingpong/file/
+
+#file:
+#  dir: /Users/jinyoung/project/pingpong-frontend/frontend/src/assets/images/
 
 jwt:
   secret: govlepel@$&

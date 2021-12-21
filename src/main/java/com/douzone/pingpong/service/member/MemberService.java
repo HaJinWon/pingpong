@@ -5,12 +5,14 @@ import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -26,14 +28,6 @@ public class MemberService {
         return member.getId();
     }
 
-    // 회원 체크 (이메일 중복 체크)
-    private void validateDuplicateMember(Member member) {
-        Member findMember = memberRepository.findByEmail(member.getEmail()).get();
-        if (findMember != null) {
-            throw new IllegalStateException("이미 존재하는 이메일입니다.");
-        }
-    }
-
     public Member findMember(Long memberId) {
         return memberRepository.findById(memberId);
     }
@@ -42,10 +36,10 @@ public class MemberService {
      * 로그인 메서드 : 실패시 null 반환
      */
     public Member login(String email, String password) {
-        Member member = memberRepository.findByEmail(email)
-                .filter(m -> m.getPassword().equals(password))
-                .orElse(null);
-        return member;
+        return memberRepository.findByEmail(email)
+                .stream()
+                .filter(member -> member.getPassword().equals(password))
+                .findAny().orElse(null);
     }
 
     @Transactional
@@ -66,7 +60,7 @@ public class MemberService {
         return memberRepository.findByTeamMembers(memberId, teamId);
     }
 
-    public Member invitationList (Long memberId) {
+    public List<Member> invitationList (Long memberId) {
         return memberRepository.invitationList(memberId);
     }
 

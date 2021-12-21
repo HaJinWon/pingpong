@@ -40,6 +40,7 @@ public class ApiFileController {
     @GetMapping("/images/{filename}")
     public Resource downloadImage(@PathVariable String filename) throws
             IOException {
+        System.out.println("file:" + fileStore.getFullPath(filename));
         return new UrlResource("file:" + fileStore.getFullPath(filename));
     }
 

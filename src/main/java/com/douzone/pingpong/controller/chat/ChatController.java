@@ -1,37 +1,44 @@
 package com.douzone.pingpong.controller.chat;
 
+import com.douzone.pingpong.controller.api.dto.chatroom.NoticeRequest;
+import com.douzone.pingpong.domain.chat.Chat;
+import com.douzone.pingpong.domain.room.RoomDto;
 import com.douzone.pingpong.pubsub.RedisPublisher;
 import com.douzone.pingpong.repository.room.RedisRoomRepository;
 import com.douzone.pingpong.domain.chat.ChatDto;
 import com.douzone.pingpong.service.chat.ChatService;
+import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.time.LocalDateTime;
 
 
 @RequiredArgsConstructor
 @Controller
 @Slf4j
 public class ChatController {
+//    private final SimpleMessageSendingOperations messagingTemplate;
     private final RedisPublisher redisPublisher;
     private final RedisRoomRepository redisRoomRepository;
     private final ChatService chatService;
 
     @MessageMapping("/chat/message")
     public void message(@RequestBody ChatDto chatDto) {
-        if(ChatDto.MessageType.ENTER.equals(chatDto.getType())){
-            redisRoomRepository.enterChatRoom(chatDto.getRoomId());
-            chatDto.setMessage(chatDto.getSender() + "님이 입장하셨습니다.");
-        }
-        log.info("!!!!!id: {} / chatDTd: {}",redisRoomRepository.getTopic(chatDto.getRoomId()),chatDto);
+        chatDto.setDate(LocalDateTime.now());
         redisPublisher.publish(redisRoomRepository.getTopic(chatDto.getRoomId()), chatDto);
         chatService.saveChat(chatDto.getRoomId(), chatDto.getSenderId(), chatDto.getMessage());
     }
 
-//    @MessageMapping("/pingpong")
-//    public void notice(@RequestBody )
+    @MessageMapping("/chat/enter")
+    public void enter(@RequestBody RoomDto roomDto) {
+        redisRoomRepository.enterChatRoom(roomDto.getRoomId());
+    }
 }
 
 /**

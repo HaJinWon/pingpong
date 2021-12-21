@@ -23,6 +23,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -69,14 +70,13 @@ public class ApiMemberController {
             HttpServletRequest httpRequest
     ) {
 
-//        if (bindingResult.hasErrors()) {
-//            return new LoginMemberResponse();
-//        }
         Member loginMember = memberService.login(request.getEmail(), request.getPassword());
 
-        if (loginMember == null){
-            throw new IllegalStateException("일치멤버없음");
+        if (loginMember == null ){
+            log.info("ddddd");
         }
+
+
         HttpSession session = httpRequest.getSession();
         session.setAttribute(SessionConstants.LOGIN_MEMBER, loginMember);
         return new LoginMemberResponse(loginMember);

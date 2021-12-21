@@ -31,6 +31,7 @@ spring:
 
   jackson:
     serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
       fail-on-empty-beans: false
 
   # static 파일 서버 재시작 안해도 되게끔 하는 설정
@@ -53,6 +54,7 @@ spring:
 
 file:
   dir: C:/douzone2021/eclipse-workspace/pingpong/file/
+
 
 
 Dsun:

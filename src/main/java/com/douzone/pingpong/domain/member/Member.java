@@ -73,6 +73,7 @@ public class Member implements Serializable {
         this.phone = phone;
         this.company = company;
         this.date = date;
+        this.avatar = "avatar.jpg";
     }
 
     public void updateMember(UpdateMemberDto memberDto) {

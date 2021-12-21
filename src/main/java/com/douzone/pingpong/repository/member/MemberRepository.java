@@ -30,11 +30,10 @@ public class MemberRepository {
     }
 
     // 멤버 찾기 (이메일)
-    public Optional<Member> findByEmail(String email) {
-        Optional<Member> member = Optional.ofNullable(em.createQuery("select m from Member m where m.email=:email", Member.class)
+    public List<Member> findByEmail(String email) {
+        return em.createQuery("select m from Member m where m.email=:email", Member.class)
                         .setParameter("email", email)
-                        .getSingleResult());
-        return member;
+                        .getResultList();
     }
 
     // 팀에 속한 멤버 검색
@@ -64,14 +63,15 @@ public class MemberRepository {
     /**
      * 초대장 리스트 뽑기
      */
-    public Member invitationList (Long memberId) {
-        return em.createQuery(" select distinct m from Member m " +
+    public List<Member> invitationList (Long memberId) {
+        List<Member> member = em.createQuery(" select distinct m from Member m " +
                         "join fetch m.teamMembers tm " +
                         "join fetch tm.team t " +
                         "where tm.include = 'N' " +
                         " and       m.id  = :memberId", Member.class)
                 .setParameter("memberId", memberId)
-                .getSingleResult();
+                .getResultList();
+        return member;
     }
 
 

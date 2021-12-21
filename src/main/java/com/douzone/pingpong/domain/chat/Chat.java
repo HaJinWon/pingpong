@@ -2,10 +2,12 @@ package com.douzone.pingpong.domain.chat;
 
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.domain.room.Room;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -32,6 +34,8 @@ public class Chat implements Serializable {
     private Room room;                  // 대화방 정보
 
     private String message;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime date;
 
     @Column(name = "not_read_count")

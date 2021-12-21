@@ -148,8 +148,7 @@ public class ApiTeamController {
     // 로그인 사용자가 속한 팀 정보 불러오기
     @GetMapping("/list")
     public JsonResult getTeamList(@Login Member loginMember) {
-//        Long memberId = loginMember.getId();
-        Long memberId = 1L;
+        Long memberId = loginMember.getId();
 
         List<Map<String, Object>> teamList = teamService.getTeamList(memberId);
         HashMap<String, Object> map = new HashMap<>();

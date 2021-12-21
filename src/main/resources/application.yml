@@ -51,12 +51,8 @@ spring:
   thymeleaf:
     prefix:${project.base-dir}/src/main/resources/templates/
 
-#file:
-#  dir: /Users/jinyoung/project/pingpong/file/
-
 file:
-
-  dir: C:/douzone2021/eclipse-workspace/pingpong-frontend2/frontend/src/assets/images/
+  dir: C:/douzone2021/eclipse-workspace/pingpong/file/
 
 
 Dsun:

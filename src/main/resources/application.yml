@@ -53,7 +53,7 @@ spring:
     prefix:${project.base-dir}/src/main/resources/templates/
 
 file:
-  dir: C:/douzone2021/eclipse-workspace/pingpong/file/
+  dir: /Users/jinyoung/project/pingpong/file/
 
 
 

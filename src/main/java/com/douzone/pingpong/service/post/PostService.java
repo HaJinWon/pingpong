@@ -1,5 +1,8 @@
 package com.douzone.pingpong.service.post;
 
+import com.douzone.pingpong.controller.api.dto.post.WritePostRequest;
+import com.douzone.pingpong.domain.member.Member;
+import com.douzone.pingpong.domain.part.Part;
 import com.douzone.pingpong.domain.post.Post;
 import com.douzone.pingpong.domain.post.Post2;
 import com.douzone.pingpong.repository.post.PostRepository;
@@ -17,8 +20,27 @@ public class PostService {
     private final PostRepository postRepository;
 
     @Transactional
-    public void writePost(Post post) {
+    public void writePost(WritePostRequest request, Member member, Part part) {
+        Post post = Post.writePost( request.getTitle(),
+                request.getContents(),
+                request.getThumbnail(),
+                member,
+                part
+        );
         postRepository.writePost(post);
+    }
+
+    public Post findPostById(Long postId) {
+        return postRepository.findPostById(postId);
+    }
+
+//    public List<Post> findAllPost(Long partId) {
+//        return postRepository.findAllPost(partId);
+//    }
+
+    @Transactional
+    public void editPost(Post post, String title, String contents, String thumbnail) {
+        post.editPost(title,contents,thumbnail);
     }
 
     public List<Map<String,Object>> getPostList(Long partId) {

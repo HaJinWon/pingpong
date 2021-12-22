@@ -4,15 +4,18 @@ import com.douzone.pingpong.controller.api.dto.post.UpdatePostRequest;
 import com.douzone.pingpong.controller.api.dto.post.WritePostRequest;
 import com.douzone.pingpong.domain.file.UploadFile;
 import com.douzone.pingpong.domain.member.Member;
+import com.douzone.pingpong.domain.part.Part;
 import com.douzone.pingpong.domain.post.Post;
 import com.douzone.pingpong.domain.post.Post2;
 import com.douzone.pingpong.domain.post.PostDto;
 import com.douzone.pingpong.service.member.MemberService;
+import com.douzone.pingpong.service.part.PartService;
 import com.douzone.pingpong.service.post.PostService;
 import com.douzone.pingpong.util.FileStore;
 import com.douzone.pingpong.util.JsonResult;
 import com.douzone.pingpong.security.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,9 +28,11 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/api/post")
 @CrossOrigin("*")
+@Slf4j
 public class ApiPostController {
     private final PostService postService;
     private final MemberService memberService;
+    private final PartService partService;
     private final FileStore fileStore;
 
     // 게시글 목록 불러오기
@@ -46,15 +51,10 @@ public class ApiPostController {
             @PathVariable("partId") Long partId,
             @Login Member loginMember,
             @RequestBody WritePostRequest request) throws IOException {
+        Member member = memberService.findMember(loginMember.getId());
+        Part part = partService.getPart(partId);
 
-        UploadFile imageFile = fileStore.storeFile(request.getImageFile());
-        List<UploadFile> attachFiles = fileStore.storeFiles(request.getAttachFiles());
-
-        Post post = Post.writePost( request.getTitle(),
-                                    request.getContents(),
-                                    imageFile,
-                                    attachFiles);
-        postService.writePost(post);
+        postService.writePost(request, member, part);
 
         return JsonResult.success("success");
     }
@@ -63,11 +63,10 @@ public class ApiPostController {
     @GetMapping("/update/{postId}")
     public JsonResult movePostUpdatePage(@PathVariable("postId") Long postId){
 
-        Post2 postVo = postService.getPostById(postId);
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("postVo",postVo);
+        Post post = postService.findPostById(postId);
+        PostDto postDto = new PostDto(post);
 
-        return JsonResult.success(map);
+        return JsonResult.success(postDto);
     }
 
     //게시글 업데이트
@@ -75,15 +74,11 @@ public class ApiPostController {
     public JsonResult postUpdate(
             @PathVariable Long postId,
             @RequestBody UpdatePostRequest request,
-            @Login Member loginMember
-            /*,String title, String contents,*/
-            /*, MultipartFile file, MultipartFile image*/){
+            @Login Member loginMember){
 
-        Post2 post = new Post2();
-        post.setTitle( request.getTitle());
-        post.setContents( request.getContents());
-        post.setPost_id(postId);
-        postService.updatePost(post);
+        Post post = postService.findPostById(postId);
+
+        postService.editPost(post, request.getTitle(), request.getContents(), request.getThumbnail());
 
         return JsonResult.success("success");
     }

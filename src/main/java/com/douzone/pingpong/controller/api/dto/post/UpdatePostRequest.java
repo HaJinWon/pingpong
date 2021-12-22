@@ -9,6 +9,5 @@ import java.util.List;
 public class UpdatePostRequest {
     private String title;
     private String contents;
-    private MultipartFile imageFile;
-    private List<MultipartFile> attachFiles;
+    private String thumbnail;
 }

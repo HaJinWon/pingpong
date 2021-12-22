@@ -79,8 +79,12 @@ public class ApiPostController {
             /*,String title, String contents,*/
             /*, MultipartFile file, MultipartFile image*/){
 
-//        fileStore.storeFile()
-//        postService.updatePost(vo);
+        Post2 post = new Post2();
+        post.setTitle( request.getTitle());
+        post.setContents( request.getContents());
+        post.setPost_id(postId);
+        postService.updatePost(post);
+
         return JsonResult.success("success");
     }
 

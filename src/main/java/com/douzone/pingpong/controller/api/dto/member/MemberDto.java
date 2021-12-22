@@ -14,6 +14,7 @@ public class MemberDto {
     private Long memberId;
     private String name;
     private MemberStatus status;
+    private String avatar;
 
     private List<TeamMemberDto> teamMembers;
 
@@ -21,6 +22,7 @@ public class MemberDto {
         memberId = member.getId();
         name = member.getName();
         status = member.getStatus();
+        avatar = member.getAvatar();
         teamMembers = member.getTeamMembers()
                 .stream().map(teamMember -> new TeamMemberDto(teamMember))
                 .collect(Collectors.toList());

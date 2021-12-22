@@ -63,4 +63,10 @@ public class TeamRepository {
     }
 
 
+    public void rejectTeam(Long memberId, Long teamId) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("memberId",memberId);
+        map.put("teamId",teamId);
+        sqlSession.delete("team.rejectTeam",map);
+    }
 }

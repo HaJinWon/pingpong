@@ -69,4 +69,9 @@ public class TeamService {
     public void acceptTeam(Long teamId, Long memberId) {
         teamRepository.acceptTeam(teamId,memberId);
     }
+
+    @Transactional
+    public void rejectTeam(Long memberId, Long teamId) {
+        teamRepository.rejectTeam(memberId,teamId);
+    }
 }

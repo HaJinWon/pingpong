@@ -199,4 +199,14 @@ public class ApiTeamController {
                 .collect(Collectors.toList());
         return JsonResult.success(result);
     }
+
+    /**
+     *  초대장 수락 거부
+     *  team_member Table 에서 삭제
+     */
+    @DeleteMapping("/invite/{teamId}")
+    public JsonResult inviteReject(@Login Member loginMember, @PathVariable Long teamId){
+        teamService.rejectTeam(loginMember.getId(), teamId);
+        return JsonResult.success("success");
+    }
 }

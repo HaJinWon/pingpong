@@ -33,13 +33,13 @@
     <!-- ===================  Post =========================== -->
     <select id="getPostList" resultType="map" parameterType="long">
         <![CDATA[
-            select a.post_id, a.title, a.contents, a.date, a.part_id, a.member_id, a.file, a.image, b.name
+            select a.post_id, a.title, a.contents, a.date, a.part_id, a.member_id, a.thumbnail,  b.name
             from post a, member b
             where a.member_id = b.member_id
             and part_id = #{partId}
+            order by a.date desc
 		]]>
     </select>
-
     <delete id="delPost" parameterType="long" >
         <![CDATA[
             delete from post where post_id = #{postId}

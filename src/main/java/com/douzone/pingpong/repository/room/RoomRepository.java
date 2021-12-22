@@ -88,7 +88,7 @@ public class RoomRepository {
         return em.createQuery
                         ("select distinct r from Room r" +
                                 " join fetch r.roomMembers rm" +
-                                " where r.id = :roomId"
+                                " where r.id = :roomId "
                                  , Room.class)
                 .setParameter("roomId", roomId)
                 .getResultList();

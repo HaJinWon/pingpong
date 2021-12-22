@@ -1,9 +1,6 @@
 package com.douzone.pingpong.controller.api;
 
-import com.douzone.pingpong.controller.api.dto.chatroom.NoticeRequest;
-import com.douzone.pingpong.controller.api.dto.chatroom.NoticeResponse;
-import com.douzone.pingpong.controller.api.dto.chatroom.RoomDto;
-import com.douzone.pingpong.controller.api.dto.chatroom.RoomListResponse;
+import com.douzone.pingpong.controller.api.dto.chatroom.*;
 import com.douzone.pingpong.domain.room.Room;
 import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.repository.room.RoomRepository;
@@ -40,7 +37,7 @@ public class ApiRoomController {
             @Login Member loginMember
     ) {
         Long memberId = loginMember.getId();
-        //Long memberId = 1L;
+
 
         List<Room> rooms = roomService.findRoomsByTeamId(memberId, teamId);
         List<Room> roomList =rooms.stream().filter(room ->
@@ -53,6 +50,7 @@ public class ApiRoomController {
     @GetMapping("/test")
     public RoomListResponse partner() {
         List<Room> rooms = roomRepository.findPartnerId(35L);
+
         return new RoomListResponse(rooms);
 
 
@@ -75,9 +73,10 @@ public class ApiRoomController {
 
         // 대화 상대방 조회
         Member partner = memberService.findMember(partnerId);
+        Member member = memberService.findMember(memberId);
 
         // 대화방 생성 ( 대화방이름 : 상대방이름 )
-        Room room = roomService.createRoom(memberId, teamId, partner.getName());
+        Room room = roomService.createRoom(memberId, teamId, member.getName()+"/"+partner.getName());
 
         // 파트너가 만들어진 대화방에 참여
         roomService.enterRoom(room.getId(), partnerId);

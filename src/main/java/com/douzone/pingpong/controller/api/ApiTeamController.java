@@ -154,7 +154,7 @@ public class ApiTeamController {
     @GetMapping("/list")
     public JsonResult getTeamList(@Login Member loginMember) {
         Long memberId = loginMember.getId();
-//        Long memberId = 1L;
+
 
         List<Map<String, Object>> teamList = teamService.getTeamList(memberId);
         HashMap<String, Object> map = new HashMap<>();

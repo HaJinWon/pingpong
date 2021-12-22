@@ -37,9 +37,9 @@
             from post a, member b
             where a.member_id = b.member_id
             and part_id = #{partId}
+            order by a.date desc
 		]]>
     </select>
-
     <delete id="delPost" parameterType="long" >
         <![CDATA[
             delete from post where post_id = #{postId}

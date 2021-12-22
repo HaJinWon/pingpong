@@ -54,4 +54,10 @@
             and team_id = #{teamId}
 		]]>
     </update>
+
+    <delete id="rejectTeam" parameterType="map">
+        <![CDATA[
+            delete from team_member where member_id = ${memberId} and team_id =#{teamId}
+		]]>
+    </delete>
 </mapper>

@@ -10,13 +10,14 @@ import java.util.List;
 public class PostDto {
     private String title;
     private String contents;
-    private MultipartFile imageFile;
-    private List<MultipartFile> attachFiles;
+    private String thumbnail;
 
-    public PostDto(UpdatePostRequest request) {
-        this.title = request.getTitle();
-        this.contents = request.getContents();
-        this.imageFile = request.getImageFile();
-        this.attachFiles = request.getAttachFiles();
+    private Long partId;
+
+    public PostDto(Post post) {
+        this.title = post.getTitle();
+        this.contents = post.getContents();
+        this.thumbnail = post.getThumbnail();
+        this.partId = post.getPart().getId();
     }
 }

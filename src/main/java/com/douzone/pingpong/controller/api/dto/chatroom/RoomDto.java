@@ -13,6 +13,16 @@ public class RoomDto {
     private String notice;
     private List<RoomMemberDto> roomMembers;
 
+    public RoomDto(Room room) {
+
+        this.roomId = room.getId();
+        this.title = room.getTitle();
+        this.notice = room.getNotice();
+        roomMembers = room.getRoomMembers().stream()
+                .map(roomMember -> new RoomMemberDto(roomMember))
+                .collect(Collectors.toList());
+    }
+
     public RoomDto(Room room, Long memberId) {
 
         this.roomId = room.getId();

@@ -6,6 +6,7 @@ import com.douzone.pingpong.controller.api.dto.chatroom.RoomDto;
 import com.douzone.pingpong.controller.api.dto.chatroom.RoomListResponse;
 import com.douzone.pingpong.domain.room.Room;
 import com.douzone.pingpong.domain.member.Member;
+import com.douzone.pingpong.repository.room.RoomRepository;
 import com.douzone.pingpong.security.argumentresolver.Login;
 import com.douzone.pingpong.service.room.RoomService;
 import com.douzone.pingpong.service.member.MemberService;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 public class ApiRoomController {
     private final RoomService roomService;
     private final MemberService memberService;
+    private final RoomRepository roomRepository;
 
     /**
      * 팀에 속한 모든 대화방 출력
@@ -37,8 +39,8 @@ public class ApiRoomController {
             @PathVariable Long teamId,
             @Login Member loginMember
     ) {
-        Long memberId = loginMember.getId();
-//        Long memberId = 2L;
+//        Long memberId = loginMember.getId();
+        Long memberId = 1L;
 
         List<Room> rooms = roomService.findRoomsByTeamId(memberId, teamId);
         List<Room> roomList =rooms.stream().filter(room ->
@@ -46,6 +48,14 @@ public class ApiRoomController {
                                 .collect(Collectors.toList());
 
         return new RoomListResponse(roomList, memberId);
+    }
+
+    @GetMapping("/test")
+    public RoomListResponse partner() {
+        List<Room> rooms = roomRepository.findPartnerId(35L);
+        return new RoomListResponse(rooms);
+
+
     }
 
     /**
@@ -61,7 +71,7 @@ public class ApiRoomController {
             @Login Member loginMember
     ) {
         Long memberId = loginMember.getId();
-//        Long memberId = 3L;
+//        Long memberId = 1L;
 
         // 대화 상대방 조회
         Member partner = memberService.findMember(partnerId);
@@ -110,6 +120,17 @@ public class ApiRoomController {
     }
 
     /**
+     *  대화방 참여자 리스트
+     */
+    @GetMapping("/participant/{roomId}")
+    public JsonResult participant(@PathVariable Long roomId){
+
+        List<Member> participant = roomService.getParticipant(roomId);
+
+        return JsonResult.success(participant);
+    }
+
+    /**
      * 채팅방 만들기
      * 1. DB에 저장
      * 2. Redis Hash에 저장
@@ -151,16 +172,7 @@ public class ApiRoomController {
         return "clickRoom";
     }
 
-    /**
-     *  대화방 참여자 리스트
-     */
-    @GetMapping("/participant/{roomId}")
-    public JsonResult participant(@PathVariable Long roomId){
 
-        List<Member> participant = roomService.getParticipant(roomId);
-
-        return JsonResult.success(participant);
-    }
 
 
 }

@@ -4,6 +4,7 @@ import com.douzone.pingpong.controller.api.dto.member.UpdateMemberDto;
 import com.douzone.pingpong.domain.chat.Chat;
 import com.douzone.pingpong.domain.file.UploadFile;
 import com.douzone.pingpong.domain.comment.Comment;
+import com.douzone.pingpong.domain.post.Post;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
@@ -60,6 +61,9 @@ public class Member implements Serializable {
     @OneToMany(mappedBy = "member")
     private List<Chat> chats = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    private List<Post> posts = new ArrayList<>();
+
 //    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //    @JoinColumn(name = "upload_file_id")
 //    private UploadFile uploadFile;
@@ -73,6 +77,7 @@ public class Member implements Serializable {
         this.phone = phone;
         this.company = company;
         this.date = date;
+        this.avatar = "avatar.jpg";
     }
 
     public void updateMember(UpdateMemberDto memberDto) {

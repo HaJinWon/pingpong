@@ -79,5 +79,33 @@ public class RoomRepository {
 
         return sqlSession.selectList("room.getParticipant",roomId);
     }
+
+    /**
+     * 파트너 ID 구하기
+     */
+    public List<Room> findPartnerId(Long roomId) {
+
+        return em.createQuery
+                        ("select distinct r from Room r" +
+                                " join fetch r.roomMembers rm" +
+                                " where r.id = :roomId"
+                                 , Room.class)
+                .setParameter("roomId", roomId)
+                .getResultList();
+
+    }
+
+//        return em.createQuery(" select distinct m from Member m " +
+//                        "join fetch m.roomMember rm" +
+//                        "join fetch rm.room r" +
+//                        "join fetch r.team t" +
+//                        "where t.id = :teamId " +
+//                        "  and r.id = :roomId " +
+//                        "  and m.id = :memberId ", Member.class)
+//                .setParameter("teamId", teamId)
+//                .setParameter("roomId", roomId)
+//                .setParameter("memberId", memberId)
+//                .getResultList();
+//    }
 }
 

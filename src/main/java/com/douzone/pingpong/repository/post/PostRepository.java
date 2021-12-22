@@ -23,6 +23,10 @@ public class PostRepository {
         return list;
     }
 
+    public Post findPostById(Long postId) {
+        return em.find(Post.class, postId);
+    }
+
     public void delPost(Long postId) {
         sqlSession.delete("part.delPost",postId);
     }
@@ -57,4 +61,5 @@ public class PostRepository {
     public void writePost(Post post) {
         em.persist(post);
     }
+
 }

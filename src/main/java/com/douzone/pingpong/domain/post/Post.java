@@ -2,6 +2,7 @@ package com.douzone.pingpong.domain.post;
 
 import com.douzone.pingpong.domain.comment.Comment;
 import com.douzone.pingpong.domain.file.UploadFile;
+import com.douzone.pingpong.domain.member.Member;
 import com.douzone.pingpong.domain.member.PostMember;
 import com.douzone.pingpong.domain.part.Part;
 import lombok.Getter;
@@ -24,6 +25,10 @@ public class Post {
     @JoinColumn(name = "part_id")
     private Part part;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     @OneToMany(mappedBy = "post")
     List<PostMember> postMembers = new ArrayList<>();
 
@@ -37,9 +42,7 @@ public class Post {
 
     private LocalDateTime date;
 
-    private String file;
-
-    private String image;
+    private String thumbnail;
 
     private String title;
 
@@ -48,26 +51,35 @@ public class Post {
     }
 
     // == 생성 메소드 == //
-    public static Post writePost(String title, String contents, UploadFile imageFile, List<UploadFile> attachFiles) {
+    public static Post writePost(String title, String contents, String thumbnail, Member member, Part part) {
         Post post = new Post();
         post.setTitle(title);
         post.setContents(contents);
-        post.setImage(imageFile);
-        post.setAttachFiles(attachFiles);
+        post.setThumbnail(thumbnail);
+        post.setMember(member);
+        post.setPart(part);
 
         return post;
     }
 
     // == 연관관계 메서드 == //
-    public void setImage(UploadFile uploadFile) {
-        this.uploadFiles.add(uploadFile);
-        uploadFile.setPost(this);
+    public void setMember (Member member) {
+        this.member = member;
+        member.getPosts().add(this);
     }
 
-    public void setAttachFiles(List<UploadFile> uploadFiles) {
-        for (UploadFile uploadFile : uploadFiles) {
-            this.uploadFiles.add(uploadFile);
-            uploadFile.setPost(this);
-        }
+    public void setPart (Part part) {
+        this.part = part;
+        part.getPosts().add(this);
+    }
+
+    // == 비지니스 로직 ==//
+    /**
+     * 게시판 수정 (UPDATE)
+     */
+    public void editPost(String title, String contents, String thumbnail) {
+        this.title = title;
+        this.contents = contents;
+        this.thumbnail = thumbnail;
     }
 }

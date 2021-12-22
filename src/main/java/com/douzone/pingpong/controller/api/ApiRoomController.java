@@ -39,8 +39,8 @@ public class ApiRoomController {
             @PathVariable Long teamId,
             @Login Member loginMember
     ) {
-//        Long memberId = loginMember.getId();
-        Long memberId = 1L;
+        Long memberId = loginMember.getId();
+        //Long memberId = 1L;
 
         List<Room> rooms = roomService.findRoomsByTeamId(memberId, teamId);
         List<Room> roomList =rooms.stream().filter(room ->

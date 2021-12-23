@@ -22,10 +22,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -154,6 +151,8 @@ public class ApiTeamController {
     @GetMapping("/list")
     public JsonResult getTeamList(@Login Member loginMember) {
         Long memberId = loginMember.getId();
+//        Long memberId = 1L;
+
 
 
         List<Map<String, Object>> teamList = teamService.getTeamList(memberId);
@@ -196,11 +195,13 @@ public class ApiTeamController {
         if (member.isEmpty()) {
             return JsonResult.success(member);
         }
+
         Member findMember = member.stream().findFirst().get();
 
         List<InviteMemberDto> result = findMember.getTeamMembers().stream()
                 .map(teamMember -> new InviteMemberDto(teamMember))
                 .collect(Collectors.toList());
+        Collections.reverse(result);
         return JsonResult.success(result);
     }
 

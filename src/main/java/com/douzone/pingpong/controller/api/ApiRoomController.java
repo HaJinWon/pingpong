@@ -71,7 +71,7 @@ public class ApiRoomController {
         Long memberId = loginMember.getId();
 //        Long memberId = 1L;
 
-        // 대화 상대방 조회
+        // 대화 상대방 조회e
         Member partner = memberService.findMember(partnerId);
         Member member = memberService.findMember(memberId);
 

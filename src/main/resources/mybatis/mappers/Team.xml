@@ -38,10 +38,12 @@
 
     <select id="getTeamList" resultType="map" parameterType="long">
         <![CDATA[
-            select a.team_id, b.name, b.host
-            from team_member a, team b
+            select a.team_id, b.name, b.host, r.room_id
+            from team_member a, team b, room r
             where a.team_id = b. team_id
             and a.member_id =#{memberId}
+            and r.team_id = b.team_id
+            and r.room_id = (select min(dd.room_id) from room dd where dd.team_id = b.team_id)
             and a.include = 'Y'
 		]]>
     </select>

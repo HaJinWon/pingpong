@@ -43,6 +43,7 @@ public class ChatController {
     public void message(@RequestBody ChatDto chatDto) {
         chatDto.setDate(LocalDateTime.now());
         redisPublisher.publish(redisRoomRepository.getTopic(chatDto.getRoomId()), chatDto);
+        log.info("member::::{}", chatDto.getAvatar());
         chatService.saveChat(chatDto.getRoomId(), chatDto.getSenderId(), chatDto.getMessage());
     }
 

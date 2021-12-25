@@ -25,7 +25,8 @@ public class ChatRepository {
         return em.createQuery("select c from Chat c" +
                                 " join fetch c.room r" +
                                 " join fetch c.member m" +
-                                " where r.id = :roomId")
+                                " where r.id = :roomId " +
+                                " order by c.id")
                 .setParameter("roomId", roomId)
                 .getResultList();
     }

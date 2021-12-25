@@ -41,7 +41,7 @@ public class ChatDto implements Serializable{
         message = chat.getMessage();
         sender = chat.getMember().getName();
         senderId = chat.getMember().getId();
-        date = LocalDateTime.now();
+        date = chat.getDate();
         avatar = chat.getMember().getAvatar();
     }
 }

@@ -64,7 +64,7 @@ public class ApiMemberController {
      * @return 리턴없음
      */
     @PostMapping("/login")
-    public LoginMemberResponse loginMember(
+    public JsonResult loginMember(
             @RequestBody @Valid LoginMemberRequest request,
             BindingResult bindingResult,
             HttpServletRequest httpRequest
@@ -73,13 +73,16 @@ public class ApiMemberController {
         Member loginMember = memberService.login(request.getEmail(), request.getPassword());
 
         if (loginMember == null ){
-            log.info("ddddd");
+//            throw new IllegalStateException("로그인 실패");
+            return JsonResult.fail("Login fail");
         }
 
 
         HttpSession session = httpRequest.getSession();
         session.setAttribute(SessionConstants.LOGIN_MEMBER, loginMember);
-        return new LoginMemberResponse(loginMember);
+
+//        return new LoginMemberResponse(loginMember);
+        return JsonResult.success(new LoginMemberResponse(loginMember));
     }
 
     /**

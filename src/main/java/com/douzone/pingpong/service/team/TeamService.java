@@ -74,4 +74,8 @@ public class TeamService {
     public void rejectTeam(Long memberId, Long teamId) {
         teamRepository.rejectTeam(memberId,teamId);
     }
+
+    public Long findRoom(Long teamId) {
+        return teamRepository.findRoom(teamId);
+    }
 }

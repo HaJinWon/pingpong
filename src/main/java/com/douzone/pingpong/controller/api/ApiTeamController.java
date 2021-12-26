@@ -215,4 +215,16 @@ public class ApiTeamController {
         return JsonResult.success("success");
     }
 
+    /**
+     *  팀 페이지 이동하기 위한 room_id 받아오기
+     */
+
+    @GetMapping("/findRoom/{teamId}")
+    public JsonResult findDefaultRoomId(@PathVariable Long teamId){
+        Long roomId = teamService.findRoom(teamId);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("roomId", roomId);
+        return JsonResult.success(map);
+    }
+
 }

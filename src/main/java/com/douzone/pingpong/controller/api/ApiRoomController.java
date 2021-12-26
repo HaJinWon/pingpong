@@ -37,7 +37,7 @@ public class ApiRoomController {
             @Login Member loginMember
     ) {
         Long memberId = loginMember.getId();
-//        Long memberId = 1L;
+
 
         List<Room> rooms = roomService.findRoomsByTeamId(memberId, teamId);
         List<Room> roomList =rooms.stream().filter(room ->
@@ -71,7 +71,7 @@ public class ApiRoomController {
         Long memberId = loginMember.getId();
 //        Long memberId = 1L;
 
-        // 대화 상대방 조회
+        // 대화 상대방 조회e
         Member partner = memberService.findMember(partnerId);
         Member member = memberService.findMember(memberId);
 

@@ -48,6 +48,15 @@
 		]]>
     </select>
 
+    <select id="findRoom" resultType="long" parameterType="long">
+        <![CDATA[
+            select room_id from room
+            where team_id = #{teamId}
+            order by room_id asc
+            limit 1;
+		]]>
+    </select>
+
     <update id="acceptTeam" parameterType="map">
         <![CDATA[
             update team_member

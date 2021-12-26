@@ -26,6 +26,11 @@ public class RedisConfig {
         return new LettuceConnectionFactory(redisHost, redisPort);
     }
 
+    /**
+     * channel의 메시지를 받는데 사용되는 컨테이너 구현
+     * 컨테이너는 Redis채널로부터 메시지를 받는데 사용하며, 구독자들에게 메시지를 dispatch하는 역할
+     * 즉 메시지를 수신하는데 관련한 비지니스 로직을 작성가능
+     */
     @Bean
     public RedisMessageListenerContainer redisMessageListener(RedisConnectionFactory connectionFactory) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
@@ -42,36 +47,4 @@ public class RedisConfig {
 
         return redisTemplate;
     }
-
-//    @Bean
-//    public RedisTemplate<?, ?> redisTemplate() {
-//        RedisTemplate<byte[], byte[]> redisTemplate = new RedisTemplate<>();
-//        redisTemplate.setConnectionFactory(redisConnectionFactory());
-//        return redisTemplate;
-//    }
-
 }
-
-
-//@Configuration
-//public class RedisConfig {
-//    /**
-//     * redis pub/sub 메시지를 처리하는 Listener 설정
-//     */
-//    @Bean
-//    public RedisMessageListenerContainer redisMessageListener(RedisConnectionFactory connectionFactory) {
-//        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
-//        container.setConnectionFactory(connectionFactory);
-//        return container;
-//    }
-//
-//    @Bean
-//    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
-//        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-//        redisTemplate.setConnectionFactory(connectionFactory);
-//        redisTemplate.setKeySerializer(new StringRedisSerializer());
-//        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(String.class));
-//        return redisTemplate;
-//    }
-//
-//}

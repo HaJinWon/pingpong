@@ -41,22 +41,23 @@ public class ChatController {
 
     @MessageMapping("/chat/message")
     public void message(@RequestBody ChatDto chatDto) {
+        log.info("::: ChatController.message :::");
         chatDto.setDate(LocalDateTime.now());
         redisPublisher.publish(redisRoomRepository.getTopic(chatDto.getRoomId()), chatDto);
-        log.info("member::::{}", chatDto.getAvatar());
         chatService.saveChat(chatDto.getRoomId(), chatDto.getSenderId(), chatDto.getMessage());
     }
 
     @MessageMapping("/chat/enter")
     public void enter(@RequestBody RoomDto roomDto) {
+        log.info("::: ChatController.enter :::");
         redisRoomRepository.enterChatRoom(roomDto.getRoomId());
+
     }
 
     @MessageMapping("/invite/{teamId}")
     public String inviteMembers(@DestinationVariable Long teamId,
                                 @RequestBody RequestInviteTeam request) {
 
-        log.info("들어왔다고~~~~~~~~~~~~~~~~~~");
         request.getMembers().forEach(memberId -> {
             Member member = memberService.findMember(memberId);
             teamService.inviteMember(teamId, memberId);

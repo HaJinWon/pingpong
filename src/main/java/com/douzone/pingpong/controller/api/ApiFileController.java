@@ -43,5 +43,4 @@ public class ApiFileController {
         System.out.println("file:" + fileStore.getFullPath(filename));
         return new UrlResource("file:" + fileStore.getFullPath(filename));
     }
-
 }

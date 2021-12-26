@@ -73,15 +73,11 @@ public class ApiMemberController {
         Member loginMember = memberService.login(request.getEmail(), request.getPassword());
 
         if (loginMember == null ){
-//            throw new IllegalStateException("로그인 실패");
             return JsonResult.fail("Login fail");
         }
-
-
         HttpSession session = httpRequest.getSession();
         session.setAttribute(SessionConstants.LOGIN_MEMBER, loginMember);
 
-//        return new LoginMemberResponse(loginMember);
         return JsonResult.success(new LoginMemberResponse(loginMember));
     }
 

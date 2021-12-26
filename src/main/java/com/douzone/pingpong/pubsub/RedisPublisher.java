@@ -20,7 +20,7 @@ public class RedisPublisher {
     private final RedisTemplate<String, Object> redisTemplate;
 
     public void publish(ChannelTopic topic, ChatDto message) {
-        log.info("publishing:: {} / {}", topic.getTopic(), message.getMessage());
+        log.info("RedisPublisher:: {} / {}", topic.getTopic(), message.getMessage());
         redisTemplate.convertAndSend(topic.getTopic(), message);
     }
 }

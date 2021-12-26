@@ -19,7 +19,7 @@ public class WebSockConfig implements WebSocketMessageBrokerConfigurer {
     /**
      * SockJs란? => 낮은 브라우저에서도 webSocket을 사용할 수 있게끔 하는 라이브러리
      * sockJs 클라이언트가 Websocket 핸드셰이크를 하기 위해 연결할 endpoint를 지정
-     * 클라이언트가 연결되고 http://localhost:8080/pingpong-stomp 으로 웹소켓 통신이 가능한지 확인한 후,
+     * 클라이언트가 연결되고 http://localhost:8080/ws-stomp 으로 웹소켓 통신이 가능한지 확인한 후,
      * 응답이 websocket:true 이면 웹소켓 연결된다.
      */
     @Override

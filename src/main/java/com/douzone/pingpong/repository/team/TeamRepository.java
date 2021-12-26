@@ -69,4 +69,8 @@ public class TeamRepository {
         map.put("teamId",teamId);
         sqlSession.delete("team.rejectTeam",map);
     }
+
+    public Long findRoom(Long teamId) {
+        return sqlSession.selectOne("team.findRoom",teamId);
+    }
 }

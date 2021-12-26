@@ -151,6 +151,8 @@ public class ApiTeamController {
     @GetMapping("/list")
     public JsonResult getTeamList(@Login Member loginMember) {
         Long memberId = loginMember.getId();
+//        Long memberId = 1L;
+
 
 
         List<Map<String, Object>> teamList = teamService.getTeamList(memberId);
@@ -193,12 +195,12 @@ public class ApiTeamController {
         if (member.isEmpty()) {
             return JsonResult.success(member);
         }
+
         Member findMember = member.stream().findFirst().get();
 
         List<InviteMemberDto> result = findMember.getTeamMembers().stream()
                 .map(teamMember -> new InviteMemberDto(teamMember))
                 .collect(Collectors.toList());
-
         Collections.reverse(result);
         return JsonResult.success(result);
     }
@@ -211,6 +213,18 @@ public class ApiTeamController {
     public JsonResult inviteReject(@Login Member loginMember, @PathVariable Long teamId){
         teamService.rejectTeam(loginMember.getId(), teamId);
         return JsonResult.success("success");
+    }
+
+    /**
+     *  팀 페이지 이동하기 위한 room_id 받아오기
+     */
+
+    @GetMapping("/findRoom/{teamId}")
+    public JsonResult findDefaultRoomId(@PathVariable Long teamId){
+        Long roomId = teamService.findRoom(teamId);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("roomId", roomId);
+        return JsonResult.success(map);
     }
 
 }

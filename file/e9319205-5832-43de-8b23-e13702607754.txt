@@ -1,0 +1,7 @@
+        axios({
+            url:'http://localhost:8080/part/list/1',
+            method:'get',
+            
+        }).then((data)=>{
+            console.log(data);
+        })						

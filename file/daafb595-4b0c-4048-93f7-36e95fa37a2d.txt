@@ -1,0 +1,3 @@
+git status - 상태확인
+git checkout ha - 브런치 변경
+git merge - 내 브런치에서 커밋하고 메인에 올리고 싶을 때 머지
